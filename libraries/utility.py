@@ -14,7 +14,7 @@ class NFT:
             is_path: If True, returns WindowsPath-type full path
 
         Returns:
-            list: List of WindowsPath / str
+            res: List of WindowsPath / str
         '''
         
         data = os.listdir(input_path)
@@ -52,27 +52,39 @@ class NFT:
             character_dict[folder_name] = NFT.get_structure(folders[i], True)
             
         return character_dict
-
+    
+    
+    @staticmethod
+    def image_from_list(character_list: list, output_path: WindowsPath, output_name: str):
+        img = Image.open(character_list[0])
+        drv = len(character_list)
+        
+        for i in range(1, drv):
+            layer = Image.open(character_list[i])
+            img.paste(layer, (0, 0), layer)
+            
+        full_path = (output_path / output_name).resolve()
+        img.save(full_path)
+        
 
 class Randomize:
     @staticmethod
-    def accessories(accessories_list: list[WindowsPath], tendency: float) -> list[WindowsPath]:
-        '''Generate a random list of accessories based on the tendency
+    def accessories(accessories_list: list[WindowsPath], max_accessories_amount: int) -> list[WindowsPath]:
+        '''Generate a random list of accessories based on the max amount
 
         Args:
             accessories_list: [description]
-            tendency: Reduce the random number of accessories (Between 1 & 2)
+            max_accessories_amount: Max amount of accessories
 
         Returns:
-            list: [description]
+            res: List of random accessories absolute path
         '''
         
         res = []
         indexes = []
         
         drv = len(accessories_list)
-        rounder = round((drv + 1) / tendency)
-        randomizer = random.randrange(1, rounder)
+        randomizer = random.randrange(0, max_accessories_amount)
         
         while len(res) < randomizer:
             index = random.randrange(0, drv)
@@ -85,16 +97,58 @@ class Randomize:
     
     
     @staticmethod
-    def character(character_dict: dict) -> list[WindowsPath]:
+    def character(
+        character_dict: dict,
+        accessories: str,
+        optional_layers: list,
+        optional_rarity: int,
+        max_accessories_amount: int
+    ) -> list[WindowsPath]:
+        '''Generate a random list of all tha layers for one NFT
+
+        Args:
+            character_dict: Dictionary generated with NFT.get_character_layers()
+            accessories: Ignored accessories folder
+            optional_layers: List of optional layers
+            optional_rarity: Rarity of optional layers
+            max_accessories_amount: Max amount of accessories
+
+        Returns:
+            character_list: List of layers absolute path
+        '''
+        
         keys = list(character_dict.keys())
         drv_list = [len(character_dict[name]) for name in keys]
+        drv_len = len(drv_list)
         
-        print(drv_list)
+        character_list = []
+        
+        # All layers dict
+        for i in range(drv_len):
+            if keys[i] != accessories:
+                curr_list = character_dict[keys[i]]
+                include = True
+                
+                # Rarity System
+                if keys[i] in optional_layers:
+                    rnd_optional = random.randrange(0, optional_rarity)
+                    if rnd_optional != 0:
+                        include = False
+                
+                if include:
+                    rnd = random.randrange(0, drv_list[i])
+                    character_list.append(curr_list[rnd])
+            else:
+                if max_accessories_amount > 0:
+                    character_list += Randomize.accessories(character_dict[keys[i]], max_accessories_amount)
+
+        return character_list
 
 
 class Testing:
     IMG_SIZE = 1024
     SQUARE_SIZE = 64
+    
     
     @staticmethod
     def generate_colored_square(img: Image.Image, size: int):

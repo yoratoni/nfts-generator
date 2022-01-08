@@ -18,5 +18,8 @@ jeff_path = (input_path / 'jeff').resolve()
 richard_path = (input_path / 'richard').resolve()
 
 
-test = NFT.get_character_layers(elon_path)
-Randomize.character(test)
+layers = NFT.get_character_layers(elon_path)
+
+random_character = Randomize.character(layers, settings.accessories_folder, settings.optional_layers, 2, 2)
+
+NFT.image_from_list(random_character, output_path, 'test.png')

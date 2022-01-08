@@ -5,10 +5,23 @@ class settings:
     # Default path to the output directory
     main_output_dir_path = 'output'
 
-    # Accessories tendency
-    tendency = 1.5
-
     # Exceptions handling
     exceptions = [
         
     ]
+    
+    # Optional layers (Accessories is not supported here)
+    optional_layers = [
+        '04_jackets',
+        '07_hats'
+    ]
+    
+    # Rarity of optional layers
+    optional_rarity = 2
+    
+    # Ignored character() accessories folder
+    accessories_folder = '06_accessories'
+    
+    # Max amount of accessories
+    max_accessories_amount = 2
+
