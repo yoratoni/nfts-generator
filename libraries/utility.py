@@ -1,10 +1,11 @@
 from pathlib import WindowsPath
+from pathlib import Path
 from PIL import Image
 import random
 import os
 
 
-class NFT:
+class NFT:    
     @staticmethod
     def get_structure(input_path: WindowsPath, is_path: bool = False) -> list:
         '''Get the file / folder structure of a folder
@@ -40,7 +41,7 @@ class NFT:
             character_path: Absolute path to the character
 
         Returns:
-            character_dict: Keys: layers, values: List of files (absolute path)
+            character_dict: Keys: layers, values: Dictionary of files (absolute path)
         '''
         
         folders = NFT.get_structure(character_path, True)
@@ -55,7 +56,16 @@ class NFT:
     
     
     @staticmethod
-    def image_from_list(character_list: list, output_path: WindowsPath, output_name: str):
+    def character_from_list(character_list: list) -> Image.Image:
+        '''Returns an image containing all the layers from 'character_list'
+
+        Args:
+            character_list: List of absolute path layers
+
+        Returns:
+            img: Final character
+        '''
+        
         img = Image.open(character_list[0])
         drv = len(character_list)
         
@@ -63,8 +73,61 @@ class NFT:
             layer = Image.open(character_list[i])
             img.paste(layer, (0, 0), layer)
             
-        full_path = (output_path / output_name).resolve()
-        img.save(full_path)
+        return img
+    
+    
+    @staticmethod
+    def merge_character_to_background(character_image: Image.Image, background_path: WindowsPath) -> Image.Image:
+        '''Merge the randomly generated character to a background
+
+        Args:
+            character_image: Image of the generated character
+            background_path: Full absolute path of the background
+
+        Returns:
+            bck: Image of the full NFT
+        '''
+        
+        bck = Image.open(background_path)
+        bck.paste(character_image, (0, 0), character_image)
+        return bck
+     
+     
+    @staticmethod
+    def generate_unique_nft(settings, nft_type: int):
+        # Main paths
+        cwd = Path(__file__).parent
+        input_path = (cwd / settings.main_input_dir_path).resolve()
+        output_path = (cwd / settings.main_output_dir_path).resolve()
+        
+        # Path to the background
+        background_path = (input_path / settings.background_folder).resolve()
+        
+        # Path to the character
+        directory = settings.character_folders[nft_type]
+        character_path = (input_path / directory).resolve()
+        
+        # Get all the layers of the character
+        layers = NFT.get_character_layers(character_path)
+        
+        # Generate a random background
+        background = Randomize.background(background_path)
+        
+        # Generate a random character (List of random layers)
+        character = Randomize.character(
+            layers,
+            settings.accessories_folder,
+            settings.optional_layers,
+            settings.optional_rarity,
+            settings.max_accessories_amount
+        )
+        
+        # Generate the image of the character 
+        character_image = NFT.character_from_list(character)
+        
+        # Merge the background and the character image
+        final_nft = NFT.merge_character_to_background(character_image, background)
+        
         
 
 class Randomize:
@@ -145,35 +208,17 @@ class Randomize:
         return character_list
 
 
-class Testing:
-    IMG_SIZE = 1024
-    SQUARE_SIZE = 64
-    
-    
     @staticmethod
-    def generate_colored_square(img: Image.Image, size: int):
-        '''Generate a colored square randomly place on the image'''
-        
-        random_color = tuple([random.randrange(0, 255) for _ in range(3)] + [255])
+    def background(backgrounds_path: list[WindowsPath]) -> WindowsPath:
+        '''Randomize a background and returns a WindowsPath of the background
 
-        rand_x_start = random.randrange(0, Testing.IMG_SIZE - size)
-        rand_y_start = random.randrange(0, Testing.IMG_SIZE - size)
-        rand_x_end = rand_x_start + size
-        rand_y_end = rand_y_start + size
-        
-        for x in range(rand_x_start, rand_x_end):
-            for y in range(rand_y_start, rand_y_end):
-                img.putpixel((x, y), random_color)
-    
+        Args:
+            backgrounds_path: list of all the backgrounds (full absolute path)
 
-    @staticmethod
-    def generate_random_images(relative_path: str, n: int, start_name_index: int = 0):
-        '''Generate an image of 1024x1024 with a colorized square in it'''
+        Returns:
+            bcks[drv]: Random background full absolute path 
+        '''
         
-        for i in range(n):
-            zfilled = str(i + start_name_index).zfill(3)
-            full_path = f'{relative_path}/IMG_{zfilled}.png'
-            
-            img = Image.new('RGBA', (Testing.IMG_SIZE, Testing.IMG_SIZE), 0)
-            Testing.generate_colored_square(img, Testing.SQUARE_SIZE)
-            img.save(full_path, 'PNG')
+        bcks = NFT.get_structure(backgrounds_path, True)
+        drv = random.randrange(0, len(bcks))
+        return bcks[drv]

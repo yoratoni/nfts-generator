@@ -10,6 +10,16 @@ class settings:
         
     ]
     
+    # Background folder
+    background_folder = 'backgrounds'
+    
+    # Character folders list
+    character_folders = [
+        'elon',
+        'jeff',
+        'richard'
+    ]
+    
     # Optional layers (Accessories is not supported here)
     optional_layers = [
         '04_jackets',
@@ -24,4 +34,3 @@ class settings:
     
     # Max amount of accessories
     max_accessories_amount = 2
-
