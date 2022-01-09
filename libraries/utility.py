@@ -276,7 +276,7 @@ class NFT:
         
         # # Save the image
         Printer.pyprint(f'Saved NFT [{output_and_name_path}]', 'DATA', True)
-        # final_nft.save(output_and_name_path)
+        final_nft.save(output_and_name_path)
 
 
     @staticmethod
@@ -288,15 +288,33 @@ class NFT:
         backgrounds_folder_path: WindowsPath,
         output_folder_path: WindowsPath
     ):
+        '''Generate all the NFTs for a character
+
+        Args:
+            number_of_nfts: Total number of NFTs for this character
+            nft_names: Default name (coupled to a number)
+            settings: Link to the settings in parameters.py
+            character_path: Path to the character layers folder
+            backgrounds_folder_path: Path to the backgrounds folder
+            output_folder_path: Path to the output folder
+        '''
+        
+        # Save the time where it starts
         time_start = time.time_ns()
+        
+        # Get the number of zeros for zfill()
         zeros = len(str(number_of_nfts))
+        
+        # Get all the images and the layers
         layers = NFT.get_character_layers(character_path)
         
+        # Generate every NFT with a name based on 'i' and zfill()
         for i in range(number_of_nfts):
             curr_name = f'{nft_names}{str(i).zfill(zeros)}.png'
             nft_path = (output_folder_path / curr_name).resolve()
             NFT.generate_unique_nft(settings, layers, backgrounds_folder_path, nft_path)
         
+        # Print the total time that it took
         Printer.extime(time_start)
         
 
