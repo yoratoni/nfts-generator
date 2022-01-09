@@ -14,9 +14,7 @@ jeff_path = (input_path / 'jeff').resolve()
 richard_path = (input_path / 'richard').resolve()
 backgrounds_path = (input_path / 'backgrounds').resolve()
 
-
-# Name test
-output_full_path = (output_path / 'PUTE.png').resolve()
-
-
-NFT.generate_unique_nft(settings, backgrounds_path, elon_path, output_full_path)
+# TESTING
+for i in range(10):
+    output_full_path = (output_path / f'IMG_{i}.png').resolve()
+    NFT.generate_unique_nft(settings, backgrounds_path, elon_path, output_full_path)

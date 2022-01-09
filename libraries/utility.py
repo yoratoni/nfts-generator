@@ -130,7 +130,7 @@ class NFT:
             if str_hash not in NFT.NFT_COMPARISON_HASHES:
                 NFT.NFT_COMPARISON_HASHES.append(str_hash)
                 break
-            
+
         # Generate the image of the character 
         character_image = NFT.character_from_list(character)
         
@@ -160,11 +160,10 @@ class Randomize:
         drv = len(accessories_list)
         randomizer = random.randrange(0, max_accessories_amount)
         
-        while len(res) < randomizer:
+        while len(indexes) < randomizer:
             index = random.randrange(0, drv)
             if index not in indexes:
                 indexes.append(index)
-        
         indexes.sort()
 
         for i in range(randomizer):
