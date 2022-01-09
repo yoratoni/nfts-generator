@@ -3,11 +3,12 @@ from pathlib import WindowsPath
 from hashlib import sha1
 from PIL import Image
 import random
+import time
 import os
 
 
 class Printer:
-    DEBUG_MODE = False
+    DEBUG_MODE = True
     DEBUG_TYPE = ['INFO', 'DATA', 'WARN', 'ERRO']
 
     @staticmethod
@@ -33,6 +34,31 @@ class Printer:
             
             print(f'{output_title} >>> {output_msg}')
 
+
+    @staticmethod
+    def extime(timer: int):
+        '''Automatic timer format (ns, µs, ms and s units)'''
+
+        timer = (time.time_ns() - timer)
+        units = ['ns', 'µs', 'ms', 's']
+        powers = [10**3, 10**6, 10**9]
+        res = 0
+        i = 0
+        
+        if timer < powers[0]:
+            res = timer
+        elif powers[0] <= timer < powers[1]:
+            res = timer / powers[0]
+            i = 1
+        elif powers[1] <= timer < powers[2]:
+            res = timer / powers[1]
+            i = 2
+        elif powers[2] <= timer:
+            res = timer / powers[2]
+            i = 3
+        
+        Printer.pyprint(f'Execution Time: {res}{units[i]}', 'WARN', True)
+        
 
 class NFT:
     # Save an hash of all the paths of an NFT
@@ -155,6 +181,16 @@ class NFT:
 
     @staticmethod
     def exception_handling(exceptions_list: list, paths: list) -> list:
+        '''Handle multiple exceptions / incompatibilites between layers
+
+        Args:
+            exceptions_list: List of all the exceptions (Check parameters.py)
+            paths: Original character paths list
+
+        Returns:
+            paths: Modified paths list
+        '''
+        
         drv = len(exceptions_list)
         
         for i in range(drv):
@@ -191,22 +227,19 @@ class NFT:
     @staticmethod
     def generate_unique_nft(
         settings,
+        character_layers: dict,
         backgrounds_folder_path: WindowsPath,
-        character_folder_path: WindowsPath,
-        output_full_path: WindowsPath
+        output_and_name_path: WindowsPath
     ):
         '''Generate an unique NFT (compared to others with a SHA1 hash)
 
         Args:
             settings: Settings class
+            character_layers: All the layers of this character using get_character_layers()
             backgrounds_folder_path: Absolute path of the background folder
-            character_folder_path: Absolute path of the choosed character folder
-            output_full_path: Full path (Path + Name + '.png') where to save the NFT
+            output_and_name_path: Full path (Path + Name + '.png') where to save the NFT
         '''
-        
-        # Get all the layers of the character
-        layers = NFT.get_character_layers(character_folder_path)
-        
+
         # Multiple NFTs comparison system
         while True:
             # Generate a random background path
@@ -214,7 +247,7 @@ class NFT:
             
             # Generate a random character (List of random paths)
             character = Randomize.character(
-                layers,
+                character_layers,
                 settings.accessories_folder,
                 settings.optional_layers,
                 settings.optional_rarity,
@@ -236,15 +269,36 @@ class NFT:
             Printer.pyprint(f'Duplicata of an NFT found [{str_hash}]', 'WARN')
 
         # # Generate the image of the character 
-        # character_image = NFT.character_from_list(character)
+        character_image = NFT.character_from_list(character)
         
         # # Merge the background and the character image
-        # final_nft = NFT.merge_character_to_background(character_image, background)
+        final_nft = NFT.merge_character_to_background(character_image, background)
         
         # # Save the image
-        Printer.pyprint(f'Saved NFT [{output_full_path}]', 'DATA', True)
-        # final_nft.save(output_full_path)
+        Printer.pyprint(f'Saved NFT [{output_and_name_path}]', 'DATA', True)
+        # final_nft.save(output_and_name_path)
 
+
+    @staticmethod
+    def generate_nfts(
+        number_of_nfts: int,
+        nft_names: str,
+        settings,
+        character_path: WindowsPath,
+        backgrounds_folder_path: WindowsPath,
+        output_folder_path: WindowsPath
+    ):
+        time_start = time.time_ns()
+        zeros = len(str(number_of_nfts))
+        layers = NFT.get_character_layers(character_path)
+        
+        for i in range(number_of_nfts):
+            curr_name = f'{nft_names}{str(i).zfill(zeros)}.png'
+            nft_path = (output_folder_path / curr_name).resolve()
+            NFT.generate_unique_nft(settings, layers, backgrounds_folder_path, nft_path)
+        
+        Printer.extime(time_start)
+        
 
 class Randomize:
     @staticmethod
