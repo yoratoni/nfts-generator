@@ -1,11 +1,16 @@
 from pathlib import WindowsPath
-from pathlib import Path
+from hashlib import sha1
 from PIL import Image
 import random
 import os
 
 
-class NFT:    
+class NFT:
+    # Save an hash of all the paths of an NFT
+    # Used to compare multiple NFTs
+    NFT_COMPARISON_HASHES = []
+    
+    
     @staticmethod
     def get_structure(input_path: WindowsPath, is_path: bool = False) -> list:
         '''Get the file / folder structure of a folder
@@ -91,37 +96,41 @@ class NFT:
         bck = Image.open(background_path)
         bck.paste(character_image, (0, 0), character_image)
         return bck
-     
-     
+
+
     @staticmethod
-    def generate_unique_nft(settings, nft_type: int, output_name: str):
-        # Main paths
-        cwd = Path(__file__).parent
-        input_path = (cwd / settings.main_input_dir_path).resolve()
-        output_path = (cwd / settings.main_output_dir_path).resolve()
-        
-        # Path to the background
-        background_path = (input_path / settings.background_folder).resolve()
-        
-        # Path to the character
-        directory = settings.character_folders[nft_type]
-        character_path = (input_path / directory).resolve()
-        
+    def generate_unique_nft(
+        settings,
+        backgrounds_path: WindowsPath,
+        character_path: WindowsPath,
+        output_full_path: WindowsPath
+    ):
         # Get all the layers of the character
         layers = NFT.get_character_layers(character_path)
         
-        # Generate a random background
-        background = Randomize.background(background_path)
-        
-        # Generate a random character (List of random layers)
-        character = Randomize.character(
-            layers,
-            settings.accessories_folder,
-            settings.optional_layers,
-            settings.optional_rarity,
-            settings.max_accessories_amount
-        )
-        
+        # Multiple NFTs comparison system
+        while True: 
+            # Generate a random background path
+            background = Randomize.background(backgrounds_path)
+            
+            # Generate a random character (List of random paths)
+            character = Randomize.character(
+                layers,
+                settings.accessories_folder,
+                settings.optional_layers,
+                settings.optional_rarity,
+                settings.max_accessories_amount
+            )
+            
+            # Comparison hash generation
+            bytecode = bytes(f'{background}__{character}', encoding = 'utf-8')
+            str_hash = sha1(bytecode).hexdigest()
+            
+            # If the hash is unique, save it and break
+            if str_hash not in NFT.NFT_COMPARISON_HASHES:
+                NFT.NFT_COMPARISON_HASHES.append(str_hash)
+                break
+            
         # Generate the image of the character 
         character_image = NFT.character_from_list(character)
         
@@ -129,7 +138,6 @@ class NFT:
         final_nft = NFT.merge_character_to_background(character_image, background)
         
         # Save the image
-        output_full_path = (output_path / output_name).resolve()
         final_nft.save(output_full_path)
 
 
@@ -154,10 +162,14 @@ class Randomize:
         
         while len(res) < randomizer:
             index = random.randrange(0, drv)
-            
             if index not in indexes:
-                res.append(accessories_list[index])
                 indexes.append(index)
+        
+        indexes.sort()
+
+        for i in range(randomizer):
+            index = indexes[i]
+            res.append(accessories_list[index])
 
         return res
     
@@ -180,14 +192,14 @@ class Randomize:
             max_accessories_amount: Max amount of accessories
 
         Returns:
-            character_list: List of layers absolute path
+            character_paths: List of layers absolute path
         '''
         
         keys = list(character_dict.keys())
         drv_list = [len(character_dict[name]) for name in keys]
         drv_len = len(drv_list)
         
-        character_list = []
+        character_paths = []
         
         # All layers dict
         for i in range(drv_len):
@@ -203,12 +215,12 @@ class Randomize:
                 
                 if include:
                     rnd = random.randrange(0, drv_list[i])
-                    character_list.append(curr_list[rnd])
+                    character_paths.append(curr_list[rnd])
             else:
                 if max_accessories_amount > 0:
-                    character_list += Randomize.accessories(character_dict[keys[i]], max_accessories_amount)
+                    character_paths += Randomize.accessories(character_dict[keys[i]], max_accessories_amount)
 
-        return character_list
+        return character_paths
 
 
     @staticmethod
