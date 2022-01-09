@@ -94,7 +94,7 @@ class NFT:
      
      
     @staticmethod
-    def generate_unique_nft(settings, nft_type: int):
+    def generate_unique_nft(settings, nft_type: int, output_name: str):
         # Main paths
         cwd = Path(__file__).parent
         input_path = (cwd / settings.main_input_dir_path).resolve()
@@ -128,7 +128,10 @@ class NFT:
         # Merge the background and the character image
         final_nft = NFT.merge_character_to_background(character_image, background)
         
-        
+        # Save the image
+        output_full_path = (output_path / output_name).resolve()
+        final_nft.save(output_full_path)
+
 
 class Randomize:
     @staticmethod
