@@ -5,9 +5,11 @@ class settings:
     # Default path to the output directory
     main_output_dir_path = 'output'
 
-    # Exceptions handling
+    # Exceptions handling:
+    #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before]
+    #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are all used
     exceptions = [
-        
+
     ]
     
     # Background folder
@@ -26,10 +28,11 @@ class settings:
         '07_hats'
     ]
     
-    # Rarity of optional layers
+    # Optional layers rarity
     optional_rarity = 2
     
-    # Ignored character() accessories folder
+    # Accessories folder name
+    # Handled separately from the main character randomize function
     accessories_folder = '06_accessories'
     
     # Max amount of accessories

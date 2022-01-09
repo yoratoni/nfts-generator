@@ -1,8 +1,37 @@
+from colorama import Style, Fore
 from pathlib import WindowsPath
 from hashlib import sha1
 from PIL import Image
 import random
 import os
+
+
+class Printer:
+    DEBUG_MODE = False
+    DEBUG_TYPE = ['INFO', 'DATA', 'WARN', 'ERRO']
+
+    @staticmethod
+    def pyprint(msg: str, title: str, forced: bool = False):
+        '''Debug Mode formatted print statements 
+        Supported colors: 'INFO', 'DATA', 'WARN', 'ERRO'
+        '''
+        
+        if Printer.DEBUG_MODE or forced:
+            color = Fore.WHITE
+            
+            if title == Printer.DEBUG_TYPE[0]:
+                color = Fore.GREEN
+            elif title == Printer.DEBUG_TYPE[1]:
+                color = Fore.LIGHTBLUE_EX
+            elif title == Printer.DEBUG_TYPE[2]:
+                color = Fore.YELLOW
+            elif title == Printer.DEBUG_TYPE[3]:
+                color = Fore.RED
+
+            output_title = f'{color}__{title}__{Style.RESET_ALL}'
+            output_msg = f'{color}{msg}{Style.RESET_ALL}'
+            
+            print(f'{output_title} >>> {output_msg}')
 
 
 class NFT:
@@ -34,7 +63,8 @@ class NFT:
                 curr_name = data[i]
                 
             scanned.append(curr_name)
-            
+        
+        Printer.pyprint(f'Structure scanned [{folder_path}]', 'DATA')
         return scanned
     
     
@@ -56,28 +86,31 @@ class NFT:
         for i in range(drv):
             folder_name = os.path.basename(folders[i])
             character_layers_dict[folder_name] = NFT.get_structure(folders[i], True)
-            
+        
+        Printer.pyprint('Scanned character layers', 'INFO')
         return character_layers_dict
     
     
     @staticmethod
-    def character_from_list(list_of_character_layers: list) -> Image.Image:
-        '''Returns an image containing all the layers from 'list_of_character_layers'
+    def character_from_list(random_character_paths: list) -> Image.Image:
+        '''Returns an image containing all the images from 'random_character_paths'
+        added to the first image of the list
 
         Args:
-            list_of_character_layers: List of absolute path layers
+            random_character_paths: List of absolute path images randomly generated
 
         Returns:
             img: Final character
         '''
         
-        img = Image.open(list_of_character_layers[0])
-        drv = len(list_of_character_layers)
+        img = Image.open(random_character_paths[0])
+        drv = len(random_character_paths)
         
         for i in range(1, drv):
-            layer = Image.open(list_of_character_layers[i])
+            layer = Image.open(random_character_paths[i])
             img.paste(layer, (0, 0), layer)
             
+        Printer.pyprint('Merged images into character', 'INFO')
         return img
     
     
@@ -95,7 +128,64 @@ class NFT:
         
         bck = Image.open(background_path)
         bck.paste(character_image, (0, 0), character_image)
+        
+        Printer.pyprint('Character merged to the background', 'INFO')
         return bck
+
+
+    @staticmethod
+    def get_index_in_paths_from_filename(paths: list, filename: str) -> int:
+        '''Get the index of a filename inside a WindowsPath list
+
+        Args:
+            paths: List of WindowsPath
+            filename: Name of the file to check
+
+        Returns:
+            i: Index of the file in the list or None if not found
+        '''
+        
+        drv = len(paths)
+        
+        for i in range(drv):
+            curr_name = os.path.basename(paths[i])
+            if curr_name == filename:
+                return i
+
+
+    @staticmethod
+    def exception_handling(exceptions_list: list, paths: list) -> list:
+        drv = len(exceptions_list)
+        
+        for i in range(drv):
+            curr_exception = exceptions_list[i]
+            
+            # Change the order between two layers
+            if curr_exception[0] == 'ORDER_CHANGE':
+                first_path_i = NFT.get_index_in_paths_from_filename(paths, curr_exception[1])
+                second_path_i = NFT.get_index_in_paths_from_filename(paths, curr_exception[2])
+                
+                if first_path_i is not None and second_path_i is not None:
+                    saved_path = paths[first_path_i]
+                    paths.pop(first_path_i)
+                    paths.insert(second_path_i, saved_path)
+            
+            # Incompatible layers
+            elif curr_exception[0] == 'INCOMPATIBLE':
+                incomp_list = curr_exception[1:]
+                incomp_number = len(incomp_list)
+                incomp_paths = []
+            
+                for i in range(incomp_number):
+                    curr_path_i = NFT.get_index_in_paths_from_filename(paths, incomp_list[i])
+                    incomp_paths.append(curr_path_i)
+                
+                # Regenerate the NFT is the images are all used
+                if None not in incomp_paths:
+                    return None
+
+        Printer.pyprint('Exceptions handled successfully', 'INFO')
+        return paths
 
 
     @staticmethod
@@ -118,9 +208,9 @@ class NFT:
         layers = NFT.get_character_layers(character_folder_path)
         
         # Multiple NFTs comparison system
-        while True: 
+        while True:
             # Generate a random background path
-            background = Randomize.background(backgrounds_folder_path)
+            background = Randomize.random_path_from_folder(backgrounds_folder_path)
             
             # Generate a random character (List of random paths)
             character = Randomize.character(
@@ -130,24 +220,30 @@ class NFT:
                 settings.optional_rarity,
                 settings.max_accessories_amount
             )
-            
+
+            # Exception Handling
+            character = NFT.exception_handling(settings.exceptions, character)
+
             # Comparison hash generation
             bytecode = bytes(f'{background}__{character}', encoding = 'utf-8')
             str_hash = sha1(bytecode).hexdigest()
             
-            # If the hash is unique, save it and break
-            if str_hash not in NFT.NFT_COMPARISON_HASHES:
+            # If character is valid and the hash is unique, save it and break the while
+            if character is not None and str_hash not in NFT.NFT_COMPARISON_HASHES:
                 NFT.NFT_COMPARISON_HASHES.append(str_hash)
                 break
+            
+            Printer.pyprint(f'Duplicata of an NFT found [{str_hash}]', 'WARN')
 
-        # Generate the image of the character 
-        character_image = NFT.character_from_list(character)
+        # # Generate the image of the character 
+        # character_image = NFT.character_from_list(character)
         
-        # Merge the background and the character image
-        final_nft = NFT.merge_character_to_background(character_image, background)
+        # # Merge the background and the character image
+        # final_nft = NFT.merge_character_to_background(character_image, background)
         
-        # Save the image
-        final_nft.save(output_full_path)
+        # # Save the image
+        Printer.pyprint(f'Saved NFT [{output_full_path}]', 'DATA', True)
+        # final_nft.save(output_full_path)
 
 
 class Randomize:
@@ -184,12 +280,13 @@ class Randomize:
             curr_path = list_of_accessories[added_indexes[i]]
             accessories_paths_list.append(curr_path)
 
+        Printer.pyprint('Random accessories generated', 'INFO')
         return accessories_paths_list
-    
+
     
     @staticmethod
     def character(
-        randomized_character: dict,
+        character_layers: dict,
         accessories_folder: str,
         optional_layers: list,
         optional_rarity: int,
@@ -198,7 +295,7 @@ class Randomize:
         '''Generate a random list of all tha layers for one NFT
 
         Args:
-            randomized_character: Dictionary generated with NFT.get_character_layers()
+            character_layers: Dictionary generated with NFT.get_character_layers()
             accessories_folder: Ignored accessories folder
             optional_layers: List of optional layers
             optional_rarity: Rarity of optional layers
@@ -208,15 +305,15 @@ class Randomize:
             character_paths: List of layers absolute path
         '''
         
-        keys = list(randomized_character.keys())
-        layers_lens = [len(randomized_character[name]) for name in keys]
+        keys = list(character_layers.keys())
+        layers_lens = [len(character_layers[name]) for name in keys]
         number_of_layers = len(layers_lens)
         character_paths_list = []
         
         # All layers dict
         for i in range(number_of_layers):
             if keys[i] != accessories_folder:
-                curr_list = randomized_character[keys[i]]
+                curr_list = character_layers[keys[i]]
                 
                 # Rarity System
                 include = True
@@ -232,22 +329,25 @@ class Randomize:
             else:
                 # Add accessories separately
                 if max_accessories_amount > 0:
-                    character_paths_list += Randomize.accessories(randomized_character[keys[i]], max_accessories_amount)
+                    character_paths_list += Randomize.accessories(character_layers[keys[i]], max_accessories_amount)
 
+        Printer.pyprint('Random character generated', 'INFO')
         return character_paths_list
 
 
     @staticmethod
-    def background(backgrounds_list: list[WindowsPath]) -> WindowsPath:
-        '''Randomize a background and returns a WindowsPath of the background
+    def random_path_from_folder(folder: list[WindowsPath]) -> WindowsPath:
+        '''Returns a random path between all the files found inside the folder
 
         Args:
-            backgrounds_list: list of all the backgrounds (full absolute path)
+            folder: list of all the files (full absolute path)
 
         Returns:
-            backgrounds[drv]: Random background full absolute path 
+            random_file[drv]: Returns a random path
         '''
         
-        backgrounds = NFT.get_structure(backgrounds_list, True)
-        drv = random.randrange(0, len(backgrounds))
-        return backgrounds[drv]
+        random_file = NFT.get_structure(folder, True)
+        drv = random.randrange(0, len(random_file))
+        
+        Printer.pyprint(f'Random path generated [{random_file[drv]}]', 'DATA')
+        return random_file[drv]
