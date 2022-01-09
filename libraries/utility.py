@@ -12,70 +12,70 @@ class NFT:
     
     
     @staticmethod
-    def get_structure(input_path: WindowsPath, is_path: bool = False) -> list:
+    def get_structure(folder_path: WindowsPath, returns_full_path: bool = False) -> list:
         '''Get the file / folder structure of a folder
 
         Args:
-            input_path: Checked folder
-            is_path: If True, returns WindowsPath-type full path
+            folder_path: Absolute path of the folder that needs to be scanned
+            returns_full_path: If True, returns WindowsPath-type absolute path(s)
 
         Returns:
-            res: List of WindowsPath / str
+            scanned: List of WindowsPath / str
         '''
         
-        data = os.listdir(input_path)
+        data = os.listdir(folder_path)
         drv = len(data)
-        res = []
+        scanned = []
         
         for i in range(drv):
-            if is_path:
-                curr_name = (input_path / data[i]).resolve()
+            if returns_full_path:
+                curr_name = (folder_path / data[i]).resolve()
             else:
                 curr_name = data[i]
                 
-            res.append(curr_name)
+            scanned.append(curr_name)
             
-        return res
+        return scanned
     
     
     @staticmethod
-    def get_character_layers(character_path: WindowsPath) -> dict:
+    def get_character_layers(character_main_folder_path: WindowsPath) -> dict:
         '''Returns a dict that contains all the layers of a character
 
         Args:
-            character_path: Absolute path to the character
+            character_main_folder_path: Absolute path to the character
 
         Returns:
-            character_dict: Keys: layers, values: Dictionary of files (absolute path)
+            character_layers_dict: Keys: layers, values: Dictionary of files (absolute path)
         '''
         
-        folders = NFT.get_structure(character_path, True)
+        folders = NFT.get_structure(character_main_folder_path, True)
         drv = len(folders)
-        character_dict = {}
+        character_layers_dict = {}
         
         for i in range(drv):
             folder_name = os.path.basename(folders[i])
-            character_dict[folder_name] = NFT.get_structure(folders[i], True)
+            character_layers_dict[folder_name] = NFT.get_structure(folders[i], True)
             
-        return character_dict
+        return character_layers_dict
     
     
     @staticmethod
-    def character_from_list(character_list: list) -> Image.Image:
-        '''Returns an image containing all the layers from 'character_list'
+    def character_from_list(list_of_character_layers: list) -> Image.Image:
+        '''Returns an image containing all the layers from 'list_of_character_layers'
 
         Args:
-            character_list: List of absolute path layers
+            list_of_character_layers: List of absolute path layers
 
         Returns:
             img: Final character
         '''
         
-        img = Image.open(character_list[0])
-        drv = len(character_list)
+        img = Image.open(list_of_character_layers[0])
+        drv = len(list_of_character_layers)
         
         for i in range(1, drv):
-            layer = Image.open(character_list[i])
+            layer = Image.open(list_of_character_layers[i])
             img.paste(layer, (0, 0), layer)
             
         return img
@@ -101,17 +101,26 @@ class NFT:
     @staticmethod
     def generate_unique_nft(
         settings,
-        backgrounds_path: WindowsPath,
-        character_path: WindowsPath,
+        backgrounds_folder_path: WindowsPath,
+        character_folder_path: WindowsPath,
         output_full_path: WindowsPath
     ):
+        '''Generate an unique NFT (compared to others with a SHA1 hash)
+
+        Args:
+            settings: Settings class
+            backgrounds_folder_path: Absolute path of the background folder
+            character_folder_path: Absolute path of the choosed character folder
+            output_full_path: Full path (Path + Name + '.png') where to save the NFT
+        '''
+        
         # Get all the layers of the character
-        layers = NFT.get_character_layers(character_path)
+        layers = NFT.get_character_layers(character_folder_path)
         
         # Multiple NFTs comparison system
         while True: 
             # Generate a random background path
-            background = Randomize.background(backgrounds_path)
+            background = Randomize.background(backgrounds_folder_path)
             
             # Generate a random character (List of random paths)
             character = Randomize.character(
@@ -143,40 +152,45 @@ class NFT:
 
 class Randomize:
     @staticmethod
-    def accessories(accessories_list: list[WindowsPath], max_accessories_amount: int) -> list[WindowsPath]:
+    def accessories(list_of_accessories: list[WindowsPath], max_accessories_amount: int) -> list[WindowsPath]:
         '''Generate a random list of accessories based on the max amount
 
         Args:
-            accessories_list: [description]
+            list_of_accessories: List of all the accessories
             max_accessories_amount: Max amount of accessories
 
         Returns:
-            res: List of random accessories absolute path
+            accessories_paths_list: List of random accessories absolute path
         '''
         
-        res = []
-        indexes = []
-        
-        drv = len(accessories_list)
+        added_indexes = []
+        accessories_paths_list = []
+        drv = len(list_of_accessories)
         randomizer = random.randrange(0, max_accessories_amount)
         
-        while len(indexes) < randomizer:
-            index = random.randrange(0, drv)
-            if index not in indexes:
-                indexes.append(index)
-        indexes.sort()
+        while len(added_indexes) < randomizer:
+            random_accessory_index = random.randrange(0, drv)
+            
+            # Checked if the index is not already inside of the list
+            if random_accessory_index not in added_indexes:
+                added_indexes.append(random_accessory_index)
+                
+        # For comparison hashing
+        # Every list should be in the same order
+        added_indexes.sort()
 
+        # Add accessories path to the list
         for i in range(randomizer):
-            index = indexes[i]
-            res.append(accessories_list[index])
+            curr_path = list_of_accessories[added_indexes[i]]
+            accessories_paths_list.append(curr_path)
 
-        return res
+        return accessories_paths_list
     
     
     @staticmethod
     def character(
-        character_dict: dict,
-        accessories: str,
+        randomized_character: dict,
+        accessories_folder: str,
         optional_layers: list,
         optional_rarity: int,
         max_accessories_amount: int
@@ -184,8 +198,8 @@ class Randomize:
         '''Generate a random list of all tha layers for one NFT
 
         Args:
-            character_dict: Dictionary generated with NFT.get_character_layers()
-            accessories: Ignored accessories folder
+            randomized_character: Dictionary generated with NFT.get_character_layers()
+            accessories_folder: Ignored accessories folder
             optional_layers: List of optional layers
             optional_rarity: Rarity of optional layers
             max_accessories_amount: Max amount of accessories
@@ -194,45 +208,46 @@ class Randomize:
             character_paths: List of layers absolute path
         '''
         
-        keys = list(character_dict.keys())
-        drv_list = [len(character_dict[name]) for name in keys]
-        drv_len = len(drv_list)
-        
-        character_paths = []
+        keys = list(randomized_character.keys())
+        layers_lens = [len(randomized_character[name]) for name in keys]
+        number_of_layers = len(layers_lens)
+        character_paths_list = []
         
         # All layers dict
-        for i in range(drv_len):
-            if keys[i] != accessories:
-                curr_list = character_dict[keys[i]]
-                include = True
+        for i in range(number_of_layers):
+            if keys[i] != accessories_folder:
+                curr_list = randomized_character[keys[i]]
                 
                 # Rarity System
+                include = True
                 if keys[i] in optional_layers:
                     rnd_optional = random.randrange(0, optional_rarity)
                     if rnd_optional != 0:
                         include = False
                 
+                # Add random image path if included
                 if include:
-                    rnd = random.randrange(0, drv_list[i])
-                    character_paths.append(curr_list[rnd])
+                    rnd = random.randrange(0, layers_lens[i])
+                    character_paths_list.append(curr_list[rnd])
             else:
+                # Add accessories separately
                 if max_accessories_amount > 0:
-                    character_paths += Randomize.accessories(character_dict[keys[i]], max_accessories_amount)
+                    character_paths_list += Randomize.accessories(randomized_character[keys[i]], max_accessories_amount)
 
-        return character_paths
+        return character_paths_list
 
 
     @staticmethod
-    def background(backgrounds_path: list[WindowsPath]) -> WindowsPath:
+    def background(backgrounds_list: list[WindowsPath]) -> WindowsPath:
         '''Randomize a background and returns a WindowsPath of the background
 
         Args:
-            backgrounds_path: list of all the backgrounds (full absolute path)
+            backgrounds_list: list of all the backgrounds (full absolute path)
 
         Returns:
-            bcks[drv]: Random background full absolute path 
+            backgrounds[drv]: Random background full absolute path 
         '''
         
-        bcks = NFT.get_structure(backgrounds_path, True)
-        drv = random.randrange(0, len(bcks))
-        return bcks[drv]
+        backgrounds = NFT.get_structure(backgrounds_list, True)
+        drv = random.randrange(0, len(backgrounds))
+        return backgrounds[drv]
