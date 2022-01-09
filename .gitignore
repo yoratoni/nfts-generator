@@ -2,3 +2,5 @@ __pycache__/
 input/
 output/
 archives/
+*.pyc
+.env
