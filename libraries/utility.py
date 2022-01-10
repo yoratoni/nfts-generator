@@ -27,7 +27,7 @@ class Printer:
             elif title == Printer.DEBUG_TYPE[2]:
                 color = Fore.YELLOW
             elif title == Printer.DEBUG_TYPE[3]:
-                color = Fore.RED
+                color = Fore.LIGHTRED_EX
 
             output_title = f'{color}__{title}__{Style.RESET_ALL}'
             output_msg = f'{color}{msg}{Style.RESET_ALL}'
@@ -180,8 +180,32 @@ class NFT:
 
 
     @staticmethod
+    def get_layers_name_from_paths(paths: list) -> list:
+        '''Get a list of all the layers name used by 'paths'
+
+        Args:
+            paths: List of WindowsPath
+
+        Returns:
+            layers_list: Name of all the layers used in 'paths'
+        '''
+        
+        layers_list = []
+        drv = len(paths)
+        
+        for i in range(drv):
+            curr_layer = os.path.basename(paths[i].parent)
+            if curr_layer not in layers_list:
+                layers_list.append(curr_layer)
+                
+        return layers_list
+
+
+    @staticmethod
     def exception_handling(exceptions_list: list, paths: list) -> list:
-        '''Handle multiple exceptions / incompatibilites between layers
+        '''Handle multiple exceptions / incompatibilites between layers,
+        
+        - 'INCOMPATIBLE' for layers only supports one image and one layer
 
         Args:
             exceptions_list: List of all the exceptions (Check parameters.py)
@@ -192,33 +216,63 @@ class NFT:
         '''
         
         drv = len(exceptions_list)
+        paths_drv = len(paths)
         
         for i in range(drv):
             curr_exception = exceptions_list[i]
-            
+
             # Change the order between two layers
             if curr_exception[0] == 'ORDER_CHANGE':
-                first_path_i = NFT.get_index_in_paths_from_filename(paths, curr_exception[1])
-                second_path_i = NFT.get_index_in_paths_from_filename(paths, curr_exception[2])
+                first_path_ind = NFT.get_index_in_paths_from_filename(paths, curr_exception[1])
+                second_path_ind = NFT.get_index_in_paths_from_filename(paths, curr_exception[2])
                 
-                if first_path_i is not None and second_path_i is not None:
-                    saved_path = paths[first_path_i]
-                    paths.pop(first_path_i)
-                    paths.insert(second_path_i, saved_path)
-            
-            # Incompatible layers
+                # If these two images are detected, then change the order
+                if first_path_ind is not None and second_path_ind is not None:
+                    saved_path = paths[first_path_ind]
+                    paths.pop(first_path_ind)
+                    paths.insert(second_path_ind, saved_path)
+
+            # Incompatibilities handling
             elif curr_exception[0] == 'INCOMPATIBLE':
                 incomp_list = curr_exception[1:]
-                incomp_number = len(incomp_list)
-                incomp_paths = []
-            
-                for i in range(incomp_number):
-                    curr_path_i = NFT.get_index_in_paths_from_filename(paths, incomp_list[i])
-                    incomp_paths.append(curr_path_i)
+                incomp_drv = len(incomp_list)
                 
-                # Regenerate the NFT is the images are all used
-                if None not in incomp_paths:
-                    return None
+                # Check if it is a layer incompatibility
+                is_layer_incomp = False 
+                layers_name = NFT.get_layers_name_from_paths(paths)
+                for j in range(incomp_drv):
+                    if incomp_list[j] in layers_name:
+                        is_layer_incomp = True
+                        break
+                
+                # Handles Incompatibilities between multiple images
+                if not is_layer_incomp:
+                    incomp_paths = []
+                    
+                    # Add all the images index in path to a list
+                    for j in range(incomp_drv):
+                        curr_path_ind = NFT.get_index_in_paths_from_filename(paths, incomp_list[j])
+                        incomp_paths.append(curr_path_ind)
+
+                    # Regenerate the NFT is the images are all found
+                    if None not in incomp_paths:
+                        Printer.pyprint('Incompatible images found', 'WARN')
+                        return None
+
+                # Handles incompatibilities with a whole layer
+                else:
+                    # Check if the image is used (Returns None if not)
+                    path_of_img = NFT.get_index_in_paths_from_filename(paths, incomp_list[0])
+
+                    if path_of_img is not None:
+                        for j in range(paths_drv):
+                            # Get the layer name of every image
+                            curr_layer_of_img = os.path.basename(paths[j].parent)
+                            
+                            # Check if the layer name is the incompatible one
+                            if curr_layer_of_img == incomp_list[1]:
+                                Printer.pyprint('Incompatibility with a layer found', 'WARN')
+                                return None
 
         Printer.pyprint('Exceptions handled successfully', 'INFO')
         return paths
@@ -262,11 +316,13 @@ class NFT:
             str_hash = sha1(bytecode).hexdigest()
             
             # If character is valid and the hash is unique, save it and break the while
-            if character is not None and str_hash not in NFT.NFT_COMPARISON_HASHES:
-                NFT.NFT_COMPARISON_HASHES.append(str_hash)
-                break
-            
-            Printer.pyprint(f'Duplicata of an NFT found [{str_hash}]', 'WARN')
+            if character is not None:
+                if str_hash not in NFT.NFT_COMPARISON_HASHES:
+                    NFT.NFT_COMPARISON_HASHES.append(str_hash)
+                    break
+                Printer.pyprint(f'Duplicata of an NFT found [{str_hash}]', 'WARN')
+            else:
+                Printer.pyprint(f'Invalid character, the NFT will be regenerated..', 'ERRO')
 
         # # Generate the image of the character 
         character_image = NFT.character_from_list(character)
@@ -276,7 +332,7 @@ class NFT:
         
         # # Save the image
         Printer.pyprint(f'Saved NFT [{output_and_name_path}]', 'DATA', True)
-        final_nft.save(output_and_name_path)
+        # final_nft.save(output_and_name_path)
 
 
     @staticmethod
@@ -355,7 +411,7 @@ class Randomize:
         Printer.pyprint('Random accessories generated', 'INFO')
         return accessories_paths_list
 
-    
+
     @staticmethod
     def character(
         character_layers: dict,
@@ -381,19 +437,21 @@ class Randomize:
         layers_lens = [len(character_layers[name]) for name in keys]
         number_of_layers = len(layers_lens)
         character_paths_list = []
-        
+
         # All layers dict
         for i in range(number_of_layers):
             if keys[i] != accessories_folder:
                 curr_list = character_layers[keys[i]]
-                
+
                 # Rarity System
                 include = True
                 if keys[i] in optional_layers:
-                    rnd_optional = random.randrange(0, optional_rarity)
+                    # Handles rarity per layer
+                    ind_of_rarity = optional_layers.index(keys[i])
+                    rnd_optional = random.randrange(0, optional_rarity[ind_of_rarity])
                     if rnd_optional != 0:
                         include = False
-                
+
                 # Add random image path if included
                 if include:
                     rnd = random.randrange(0, layers_lens[i])
