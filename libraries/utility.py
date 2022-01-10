@@ -8,8 +8,14 @@ import os
 
 
 class Printer:
-    DEBUG_MODE = True
-    DEBUG_TYPE = ['INFO', 'DATA', 'WARN', 'ERRO']
+    # Print a lot more data about the NFTs
+    DEBUG_MODE = False
+    
+    # If True, remove all the console messages, even forced ones
+    NO_CONSOLE = False
+    
+    # List of debug messages types
+    DEBUG_TYPES = ['INFO', 'DATA', 'WARN', 'ERRO']
 
     @staticmethod
     def pyprint(msg: str, title: str, forced: bool = False):
@@ -17,22 +23,23 @@ class Printer:
         Supported colors: 'INFO', 'DATA', 'WARN', 'ERRO'
         '''
         
-        if Printer.DEBUG_MODE or forced:
-            color = Fore.WHITE
-            
-            if title == Printer.DEBUG_TYPE[0]:
-                color = Fore.GREEN
-            elif title == Printer.DEBUG_TYPE[1]:
-                color = Fore.LIGHTBLUE_EX
-            elif title == Printer.DEBUG_TYPE[2]:
-                color = Fore.YELLOW
-            elif title == Printer.DEBUG_TYPE[3]:
-                color = Fore.LIGHTRED_EX
+        if not Printer.NO_CONSOLE:
+            if Printer.DEBUG_MODE or forced:
+                color = Fore.WHITE
+                
+                if title == Printer.DEBUG_TYPES[0]:
+                    color = Fore.GREEN
+                elif title == Printer.DEBUG_TYPES[1]:
+                    color = Fore.LIGHTBLUE_EX
+                elif title == Printer.DEBUG_TYPES[2]:
+                    color = Fore.YELLOW
+                elif title == Printer.DEBUG_TYPES[3]:
+                    color = Fore.LIGHTRED_EX
 
-            output_title = f'{color}__{title}__{Style.RESET_ALL}'
-            output_msg = f'{color}{msg}{Style.RESET_ALL}'
-            
-            print(f'{output_title} >>> {output_msg}')
+                output_title = f'{color}__{title}__{Style.RESET_ALL}'
+                output_msg = f'{color}{msg}{Style.RESET_ALL}'
+                
+                print(f'{output_title} >>> {output_msg}')
 
 
     @staticmethod
@@ -324,15 +331,15 @@ class NFT:
             else:
                 Printer.pyprint(f'Invalid character, the NFT will be regenerated..', 'ERRO')
 
-        # # Generate the image of the character 
+        # Generate the image of the character 
         character_image = NFT.character_from_list(character)
         
-        # # Merge the background and the character image
+        # Merge the background and the character image
         final_nft = NFT.merge_character_to_background(character_image, background)
         
-        # # Save the image
+        # Save the image
         Printer.pyprint(f'Saved NFT [{output_and_name_path}]', 'DATA', True)
-        # final_nft.save(output_and_name_path)
+        final_nft.save(output_and_name_path)
 
 
     @staticmethod
@@ -342,7 +349,8 @@ class NFT:
         settings,
         character_path: WindowsPath,
         backgrounds_folder_path: WindowsPath,
-        output_folder_path: WindowsPath
+        output_folder_path: WindowsPath,
+        unique_nft: bool = False
     ):
         '''Generate all the NFTs for a character
 
@@ -353,6 +361,7 @@ class NFT:
             character_path: Path to the character layers folder
             backgrounds_folder_path: Path to the backgrounds folder
             output_folder_path: Path to the output folder
+            unique_nft: (FOR TESTING ONLY) generates only one replaced NFT
         '''
         
         # Save the time where it starts
@@ -366,10 +375,14 @@ class NFT:
         
         # Generate every NFT with a name based on 'i' and zfill()
         for i in range(number_of_nfts):
-            curr_name = f'{nft_names}{str(i).zfill(zeros)}.png'
-            nft_path = (output_folder_path / curr_name).resolve()
+            if not unique_nft:
+                curr_name = f'{nft_names}{str(i).zfill(zeros)}.png'
+                nft_path = (output_folder_path / curr_name).resolve()
+            else:
+                nft_path = (output_folder_path / 'DEBUG_NFT.png').resolve()
+                
             NFT.generate_unique_nft(settings, layers, backgrounds_folder_path, nft_path)
-        
+
         # Print the total time that it took
         Printer.extime(time_start)
         

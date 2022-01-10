@@ -16,4 +16,4 @@ richard_path = (input_folder_path / 'richard').resolve()
 backgrounds_path = (input_folder_path / 'backgrounds').resolve()
 
 
-NFT.generate_nfts(5, 'ASTRO_ELON_', settings, elon_path, backgrounds_path, output_folder_ath)
+NFT.generate_nfts(32768, 'ASTRO_ELON_', settings, elon_path, backgrounds_path, output_folder_ath, True)
