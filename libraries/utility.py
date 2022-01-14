@@ -1,4 +1,4 @@
-from colorama import Style, Fore
+ from colorama import Style, Fore
 from pathlib import WindowsPath
 from hashlib import sha1
 from PIL import Image
