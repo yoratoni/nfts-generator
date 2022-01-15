@@ -1,3 +1,4 @@
+from email.mime import image
 from colorama import Style, Fore
 from pathlib import WindowsPath
 from typing import Callable
@@ -211,10 +212,11 @@ class NFT:
     def exception_handling(exceptions_list: list, paths: list) -> list:
         '''Handle multiple exceptions / incompatibilites between layers,
         
-        - 'INCOMPATIBLE' for layers only supports one image and one layer
+        - 'ORDER_CHANGE' -> Change the order between two layers
+        - 'INCOMPATIBLE' -> NFT is regenerated if the listed images are used
 
         Args:
-            exceptions_list: List of all the exceptions (Check parameters.py)
+            exceptions_list: List of all the exceptions (Check settings.py)
             paths: Original character paths list
 
         Returns:
@@ -279,7 +281,7 @@ class NFT:
                             if curr_layer_of_img == incomp_list[1]:
                                 Printer.pyprint('Incompatibility with a layer found', 'WARN')
                                 return None
-
+                
         Printer.pyprint('Exceptions handled successfully', 'INFO')
         return paths
 
@@ -308,13 +310,7 @@ class NFT:
             background = Randomize.random_path_from_folder(backgrounds_folder_path)
             
             # Generate a random character (List of random paths)
-            character = Randomize.character(
-                character_layers,
-                settings.accessories_folder,
-                settings.optional_layers,
-                settings.optional_rarity,
-                settings.max_accessories_amount
-            )
+            character = Randomize.character(character_layers, settings)
 
             # Exception Handling
             character = NFT.exception_handling(settings.exceptions, character)
@@ -332,16 +328,19 @@ class NFT:
             else:
                 Printer.pyprint(f'Invalid character, the NFT will be regenerated..', 'ERNO')
 
-        # Generate the image of the character 
-        character_image = NFT.character_from_list(character)
-        
-        # Merge the background and the character image
-        final_nft = NFT.merge_character_to_background(character_image, background)
-        
-        # Save the image
-        Printer.pyprint(f'Saved NFT [{output_and_name_path}]', 'DATA', True)
         if is_saving_system_enabled:
+            # Generate the image of the character
+            character_image = NFT.character_from_list(character)
+        
+            # Merge the background and the character image
+            final_nft = NFT.merge_character_to_background(character_image, background)
+        
+            # Save the image
             final_nft.save(output_and_name_path)
+        
+        # Print saved image path
+        Printer.pyprint(f'Saved NFT [{output_and_name_path}]', 'DATA', True)
+
 
 
     @staticmethod
@@ -459,53 +458,81 @@ class Randomize:
 
 
     @staticmethod
+    def duplicator(list_of_images: list, image_rarifier: list) -> list:
+        '''Allows to modify the chances to use a specific image inside a list,
+        it works by duplicating the element from it's filename and insert it multiple times
+        
+        Example:
+            ['path_2_filename.png', 3] -> [path_0, path_1, path_2, path_2, path_2]
+
+        Args:
+            list_of_images: List of all the images inside a folder
+            image_rarifier: List of multiple arrays defined as ['image.png', number_of_duplicata]
+
+        Returns:
+            list_of_images: Modified or not by this function
+        '''
+        
+        drv = len(image_rarifier)
+        
+        for i in range(drv):
+            curr_list = image_rarifier[i]
+            
+            if curr_list[1] > 1:
+                is_in_list = NFT.get_index_in_paths_from_filename(list_of_images, curr_list[0])
+                if is_in_list is not None:
+                    for _ in range(curr_list[1] - 1):
+                        list_of_images.insert(is_in_list, list_of_images[is_in_list])
+
+        return list_of_images
+
+
+    @staticmethod
     def character(
         character_layers: dict,
-        accessories_folder: str,
-        optional_layers: list,
-        optional_rarity: int,
-        max_accessories_amount: int
+        settings
     ) -> list[WindowsPath]:
         '''Generate a random list of all tha layers for one NFT
 
         Args:
             character_layers: Dictionary generated with NFT.get_character_layers()
-            accessories_folder: Ignored accessories folder
-            optional_layers: List of optional layers
-            optional_rarity: Rarity of optional layers
-            max_accessories_amount: Max amount of accessories
+            settings: Link to the settings in parameters.py
 
         Returns:
             character_paths: List of layers absolute path
         '''
         
-        keys = list(character_layers.keys())
-        layers_lens = [len(character_layers[name]) for name in keys]
-        number_of_layers = len(layers_lens)
         character_paths_list = []
-
+        keys = list(character_layers.keys())
+        number_of_layers = len(keys)
+        
         # All layers dict
         for i in range(number_of_layers):
-            if keys[i] != accessories_folder:
-                curr_list = character_layers[keys[i]]
+            if keys[i] != settings.accessories_folder:
+                # Add duplicated image paths to modify chances
+                curr_list = Randomize.duplicator(character_layers[keys[i]], settings.image_rarifier)
+                curr_list_len = len(curr_list)
 
-                # Rarity System
+                # Rarity System: Add a randomizer that includes the optional layer
+                # if the randomizer is equal to 0
                 include = True
-                if keys[i] in optional_layers:
-                    # Handles rarity per layer
-                    ind_of_rarity = optional_layers.index(keys[i])
-                    rnd_optional = random.randrange(0, optional_rarity[ind_of_rarity])
+                if keys[i] in settings.optional_layers:
+                    ind_of_rarity = settings.optional_layers.index(keys[i])
+                    rnd_optional = random.randrange(0, settings.optional_rarity[ind_of_rarity])
                     if rnd_optional != 0:
                         include = False
 
                 # Add random image path if included
                 if include:
-                    rnd = random.randrange(0, layers_lens[i])
+                    rnd = random.randrange(0, curr_list_len)
                     character_paths_list.append(curr_list[rnd])
             else:
                 # Add accessories separately
-                if max_accessories_amount > 0:
-                    character_paths_list += Randomize.accessories(character_layers[keys[i]], max_accessories_amount)
+                if settings.max_accessories_amount > 0:
+                    character_paths_list += Randomize.accessories(
+                        character_layers[keys[i]],
+                        settings.max_accessories_amount
+                    )
 
         Printer.pyprint('Random character generated', 'INFO')
         return character_paths_list
