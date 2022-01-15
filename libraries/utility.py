@@ -38,8 +38,8 @@ class Printer:
                 elif title == Printer.DEBUG_TYPES[3]:
                     color = Fore.LIGHTRED_EX
 
-                output_title = f'{color}__{title}__{Style.RESET_ALL}'
-                output_msg = f'{color}{msg}{Style.RESET_ALL}'
+                output_title = f'{color}__{title}__'
+                output_msg = f'{msg}{Style.RESET_ALL}'
                 
                 print(f'{output_title} >>> {output_msg}')
 
