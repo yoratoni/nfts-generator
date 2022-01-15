@@ -16,4 +16,14 @@ richard_path = (input_folder_path / 'richard').resolve()
 backgrounds_path = (input_folder_path / 'backgrounds').resolve()
 
 
-NFT.generate_nfts(50, 'IMG_', settings, elon_path, backgrounds_path, output_folder_ath, False)
+
+multiproc_args = [
+    []
+]
+
+
+
+test = NFT.multiproc(NFT.generate_nfts, )
+
+
+NFT.generate_nfts(50, 'IMG_', settings, elon_path, backgrounds_path, output_folder_ath, False, False)

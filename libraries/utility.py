@@ -1,7 +1,9 @@
- from colorama import Style, Fore
+from colorama import Style, Fore
 from pathlib import WindowsPath
+from typing import Callable
 from hashlib import sha1
 from PIL import Image
+import concurrent.futures
 import random
 import time
 import os
@@ -65,7 +67,7 @@ class Printer:
             i = 3
         
         Printer.pyprint(f'Execution Time: {res}{units[i]}', 'WARN', True)
-        
+
 
 class NFT:
     # Save an hash of all the paths of an NFT
@@ -290,7 +292,8 @@ class NFT:
         settings,
         character_layers: dict,
         backgrounds_folder_path: WindowsPath,
-        output_and_name_path: WindowsPath
+        output_and_name_path: WindowsPath,
+        is_saving_system_enabled: bool
     ):
         '''Generate an unique NFT (compared to others with a SHA1 hash)
 
@@ -299,6 +302,7 @@ class NFT:
             character_layers: All the layers of this character using get_character_layers()
             backgrounds_folder_path: Absolute path of the background folder
             output_and_name_path: Full path (Path + Name + '.png') where to save the NFT
+            is_saving_system_enabled: (FOR TESTING ONLY) Remove the saving system
         '''
 
         # Multiple NFTs comparison system
@@ -339,54 +343,86 @@ class NFT:
         
         # Save the image
         Printer.pyprint(f'Saved NFT [{output_and_name_path}]', 'DATA', True)
-        final_nft.save(output_and_name_path)
+        if is_saving_system_enabled:
+            final_nft.save(output_and_name_path)
 
 
     @staticmethod
     def generate_nfts(
-        number_of_nfts: int,
+        iterations: int,
         nft_names: str,
         settings,
         character_path: WindowsPath,
         backgrounds_folder_path: WindowsPath,
         output_folder_path: WindowsPath,
-        unique_nft: bool = False
+        is_saving_system_enabled: bool = True,
+        is_unique_nft: bool = False
     ):
-        '''Generate all the NFTs for a character
+        '''Generate a number of unique NFTs for a specified character
 
         Args:
-            number_of_nfts: Total number of NFTs for this character
+            iterations: Total number of NFTs for this character
             nft_names: Default name (coupled to a number)
             settings: Link to the settings in parameters.py
             character_path: Path to the character layers folder
             backgrounds_folder_path: Path to the backgrounds folder
             output_folder_path: Path to the output folder
-            unique_nft: (FOR TESTING ONLY) generates only one replaced NFT
+            is_saving_system_enabled: (FOR TESTING ONLY) Remove the saving system
+            is_unique_nft: (FOR TESTING ONLY) Generates only one replaced NFT
         '''
         
         # Save the time where it starts
         time_start = time.time_ns()
         
         # Get the number of zeros for zfill()
-        zeros = len(str(number_of_nfts))
+        zeros = len(str(iterations))
         
         # Get all the images and the layers
         layers = NFT.get_character_layers(character_path)
         
         # Generate every NFT with a name based on 'i' and zfill()
-        for i in range(number_of_nfts):
-            if not unique_nft:
+        for i in range(iterations):
+            if not is_unique_nft:
                 curr_name = f'{nft_names}{str(i).zfill(zeros)}.png'
                 nft_path = (output_folder_path / curr_name).resolve()
             else:
+                # (FOR TESTING ONLY) Erase the previous NFT by saving with the same name
                 nft_path = (output_folder_path / 'DEBUG_NFT.png').resolve()
                 
-            NFT.generate_unique_nft(settings, layers, backgrounds_folder_path, nft_path)
+            NFT.generate_unique_nft(settings, layers, backgrounds_folder_path, nft_path, is_saving_system_enabled)
 
         # Print the total time that it took
         Printer.extime(time_start)
         
+        # Returns True for multiprocessing purposes only
+        return True
+        
+    
+    @staticmethod
+    def multiproc(function: Callable, args_list: list):
+        '''Used to create multiple processes of an NFT generator
 
+        Args:
+            function: Called function in the process
+            args_list: List of all the args for the function (**args_list is a list of an arguments list per function)
+
+        **: Every object of the main args_list list is an array of arguments that will be called
+        in the order of every function, example: [[function_1_args], [function_2_args], ...]
+
+        Returns:
+            process_result: Returns a list of all the results
+        '''
+        
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            process_result = []
+            submit = [executor.submit(function, *args) for args in args_list]
+            
+            for process in concurrent.futures.as_completed(submit):
+                process_result.append(process.result())
+                
+            return process_result
+
+        
 class Randomize:
     @staticmethod
     def accessories(list_of_accessories: list[WindowsPath], max_accessories_amount: int) -> list[WindowsPath]:
