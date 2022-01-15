@@ -17,12 +17,12 @@ class Printer:
     NO_CONSOLE = False
     
     # List of debug message types
-    DEBUG_TYPES = ['INFO', 'DATA', 'WARN', 'ERRO']
+    DEBUG_TYPES = ['INFO', 'DATA', 'WARN', 'ERNO']
 
     @staticmethod
     def pyprint(msg: str, title: str, forced: bool = False):
         '''Debug Mode formatted print statements 
-        Supported colors: 'INFO', 'DATA', 'WARN', 'ERRO'
+        Supported colors: 'INFO', 'DATA', 'WARN', 'ERNO'
         '''
         
         if not Printer.NO_CONSOLE:
@@ -333,7 +333,7 @@ class NFT:
                     break
                 Printer.pyprint(f'Duplicata of an NFT found [{str_hash}]', 'WARN')
             else:
-                Printer.pyprint(f'Invalid character, the NFT will be regenerated..', 'ERRO')
+                Printer.pyprint(f'Invalid character, the NFT will be regenerated..', 'ERNO')
 
         # Generate the image of the character 
         character_image = NFT.character_from_list(character)
