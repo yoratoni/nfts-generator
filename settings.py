@@ -1,4 +1,4 @@
-class settings:
+class Param:
     # Default path to the main layers directory
     main_input_dir_path = 'input'
     

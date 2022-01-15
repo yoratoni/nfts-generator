@@ -16,7 +16,7 @@ class Printer:
     # If True, remove all the console messages, even forced ones
     NO_CONSOLE = False
     
-    # List of debug messages types
+    # List of debug message types
     DEBUG_TYPES = ['INFO', 'DATA', 'WARN', 'ERRO']
 
     @staticmethod

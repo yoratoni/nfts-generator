@@ -1,12 +1,12 @@
 from libraries.utility import *
-from parameters import *
+from settings import *
 from pathlib import Path
 
 
 # Main paths
 cwd = Path(__file__).parent
-input_folder_path = (cwd / settings.main_input_dir_path).resolve()
-output_folder_ath = (cwd / settings.main_output_dir_path).resolve()
+input_folder_path = (cwd / Param.main_input_dir_path).resolve()
+output_folder_ath = (cwd / Param.main_output_dir_path).resolve()
 
 
 # Resources Path
@@ -26,4 +26,4 @@ multiproc_args = [
 test = NFT.multiproc(NFT.generate_nfts, )
 
 
-NFT.generate_nfts(50, 'IMG_', settings, elon_path, backgrounds_path, output_folder_ath, False, False)
+NFT.generate_nfts(50, 'IMG_', Param, elon_path, backgrounds_path, output_folder_ath, False, False)
