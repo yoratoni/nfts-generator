@@ -342,7 +342,6 @@ class NFT:
         Printer.pyprint(f'Saved NFT [{output_and_name_path}]', 'DATA', True)
 
 
-
     @staticmethod
     def generate_nfts(
         iterations: int,

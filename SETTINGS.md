@@ -6,6 +6,12 @@ class Param:
     # Default path to the output directory
     main_output_dir_path = 'output'
 
+    # Background folder
+    background_folder = 'backgrounds'
+    
+    # Character folders list
+    character_folders = ['elon', 'jeff', 'richard']
+    
     # Exceptions handling:
     #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
     #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
@@ -28,23 +34,9 @@ class Param:
         ['ORDER_CHANGE', 'lunettes soleil grosse.png', 'bandana mask.png'],
         ['ORDER_CHANGE', 'lunettes vu.png', 'bandana mask.png']
     ]
-
-    # Background folder
-    background_folder = 'backgrounds'
-    
-    # Character folders list
-    character_folders = [
-        'elon',
-        'jeff',
-        'richard'
-    ]
     
     # Optional layers (Accessories is not supported here)
-    optional_layers = [
-        '05_jackets',
-        '07_hats',
-        '09_glasses'
-    ]
+    optional_layers = ['05_jackets', '07_hats', '09_glasses']
     
     # Optional layers rarity (List of rarity per layer)
     optional_rarity = [3, 4, 6]
@@ -60,9 +52,6 @@ class Param:
         ['visage.png', 2],
         ['visage coupe court.png', 2]
     ]
-    
-    # Max amount of accessories
-    max_accessories_amount = 2
 
 
 # RICHARD BRANSON
@@ -72,6 +61,15 @@ class Param:
     
     # Default path to the output directory
     main_output_dir_path = 'output'
+
+    # Background folder
+    background_folder = 'backgrounds'
+    
+    # Character folders list
+    character_folders = ['elon', 'jeff', 'richard']
+    
+    # Max amount of accessories
+    max_accessories_amount = 2
 
     # Exceptions handling:
     #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
@@ -117,21 +115,8 @@ class Param:
         ['ORDER CHANGE', 'tenue sport haut.png', 'tenue sport bas.png']
     ]
 
-    # Background folder
-    background_folder = 'backgrounds'
-    
-    # Character folders list
-    character_folders = [
-        'elon',
-        'jeff',
-        'richard'
-    ]
-    
     # Optional layers (Accessories is not supported here)
-    optional_layers = [
-        '05_jackets',
-        '08_glasses'
-    ]
+    optional_layers = ['05_jackets', '08_glasses']
     
     # Optional layers rarity (List of rarity per layer)
     optional_rarity = [3, 5]
@@ -146,6 +131,3 @@ class Param:
     image_rarifier = [
         ['visage.png', 4]
     ]
-    
-    # Max amount of accessories
-    max_accessories_amount = 2
