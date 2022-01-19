@@ -16,4 +16,4 @@ richard_path = (input_folder_path / 'richard').resolve()
 backgrounds_path = (input_folder_path / 'backgrounds').resolve()
 
 
-NFT.generate_nfts(10_000_000, 'IMG_', Param, richard_path, backgrounds_path, output_folder_path, False, False)
+NFT.generate_nfts(500, 'RICHARD_', Param, richard_path, backgrounds_path, output_folder_path, True, True)

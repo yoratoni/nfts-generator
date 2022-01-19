@@ -11,9 +11,6 @@ class Param:
     # Character folders list
     character_folders = ['elon', 'jeff', 'richard']
     
-    # Max amount of accessories
-    max_accessories_amount = 2
-
     # Exceptions handling:
     #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
     #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
@@ -55,6 +52,7 @@ class Param:
         ['ORDER CHANGE', 'chaussures hotesse.png', 'pantalon costume noir.png'],
         ['ORDER CHANGE', 'chaussures hotesse.png', 'pantalon costume txeed nude.png'],
         ['ORDER CHANGE', 'chaussures hotesse.png', 'pantalon costume tweed rayé.png'],
+        ['ORDER CHANGE', 'chaussures hotesse.png', 'combi space entier.png'],
         ['ORDER CHANGE', 'tenue sport haut.png', 'tenue sport bas.png']
     ]
 
@@ -68,6 +66,12 @@ class Param:
     # Handled separately from the main character randomize function
     accessories_folder = '07_accessories'
     
+    # Max amount of accessories
+    max_accessories_amount = 2
+
+    # Accessories rarity
+    accessories_rarity = 3
+
     # Increases the chances to use a specific image
     # As an example, if one image is specified: ['image.png', XX]
     # This image will appears XX times inside the list of images

@@ -12,7 +12,7 @@ import os
 
 class Printer:
     # Print a lot more data about the NFTs
-    DEBUG_MODE = False
+    DEBUG_MODE = True
     
     # If True, remove all the console messages, even forced ones
     NO_CONSOLE = False
@@ -317,6 +317,7 @@ class NFT:
 
             # Comparison hash generation
             bytecode = bytes(f'{background}__{character}', encoding = 'utf-8')
+            # bytecode = bytes(f'__{character}', encoding = 'utf-8')
             str_hash = sha1(bytecode).hexdigest()
             
             # If character is valid and the hash is unique, save it and break the while
@@ -336,6 +337,7 @@ class NFT:
             final_nft = NFT.merge_character_to_background(character_image, background)
         
             # Save the image
+            # character_image.save(output_and_name_path)
             final_nft.save(output_and_name_path)
         
         # Print saved image path
@@ -420,12 +422,12 @@ class NFT:
         
 class Randomize:
     @staticmethod
-    def accessories(list_of_accessories: list[WindowsPath], max_accessories_amount: int) -> list[WindowsPath]:
+    def accessories(list_of_accessories: list[WindowsPath], settings) -> list[WindowsPath]:
         '''Generate a random list of accessories based on the max amount
 
         Args:
             list_of_accessories: List of all the accessories
-            max_accessories_amount: Max amount of accessories
+            settings: Link to the settings in parameters.py
 
         Returns:
             accessories_paths_list: List of random accessories absolute path
@@ -434,25 +436,30 @@ class Randomize:
         added_indexes = []
         accessories_paths_list = []
         drv = len(list_of_accessories)
-        randomizer = random.randrange(0, max_accessories_amount)
         
-        while len(added_indexes) < randomizer:
-            random_accessory_index = random.randrange(0, drv)
+        accessories_rarity = random.randrange(0, settings.accessories_rarity)
+        
+        if accessories_rarity == 0:
+            randomizer = random.randrange(0, settings.max_accessories_amount)
             
-            # Checked if the index is not already inside of the list
-            if random_accessory_index not in added_indexes:
-                added_indexes.append(random_accessory_index)
+            while len(added_indexes) < randomizer:
+                random_accessory_index = random.randrange(0, drv)
                 
-        # For comparison hashing
-        # Every list should be in the same order
-        added_indexes.sort()
+                # Checked if the index is not already inside of the list
+                if random_accessory_index not in added_indexes:
+                    added_indexes.append(random_accessory_index)
+                    
+            # For comparison hashing
+            # Every list should be in the same order
+            added_indexes.sort()
 
-        # Add accessories path to the list
-        for i in range(randomizer):
-            curr_path = list_of_accessories[added_indexes[i]]
-            accessories_paths_list.append(curr_path)
+            # Add accessories path to the list
+            for i in range(randomizer):
+                curr_path = list_of_accessories[added_indexes[i]]
+                accessories_paths_list.append(curr_path)
 
-        Printer.pyprint('Random accessories generated', 'INFO')
+            Printer.pyprint('Random accessories generated', 'INFO')
+            
         return accessories_paths_list
 
 
@@ -530,7 +537,7 @@ class Randomize:
                 if settings.max_accessories_amount > 0:
                     character_paths_list += Randomize.accessories(
                         character_layers[keys[i]],
-                        settings.max_accessories_amount
+                        settings
                     )
 
         Printer.pyprint('Random character generated', 'INFO')
