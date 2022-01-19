@@ -353,7 +353,6 @@ class NFT:
         backgrounds_folder_path: WindowsPath,
         output_folder_path: WindowsPath,
         is_saving_system_enabled: bool = True,
-        is_unique_nft: bool = False
     ):
         '''Generate a number of unique NFTs for a specified character
 
@@ -365,7 +364,6 @@ class NFT:
             backgrounds_folder_path: Path to the backgrounds folder
             output_folder_path: Path to the output folder
             is_saving_system_enabled: (FOR TESTING ONLY) Remove the saving system
-            is_unique_nft: (FOR TESTING ONLY) Generates only one replaced NFT
         '''
         
         # Save the time where it starts
@@ -379,7 +377,7 @@ class NFT:
         
         # Generate every NFT with a name based on 'i' and zfill()
         for i in range(iterations):
-            if not is_unique_nft:
+            if nft_names != '':
                 curr_name = f'{nft_names}{str(i).zfill(zeros)}.png'
                 nft_path = (output_folder_path / curr_name).resolve()
             else:
