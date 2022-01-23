@@ -136,12 +136,12 @@ class NFT:
             img: Final character
         '''
         
-        img = Image.open(random_character_paths[0])
+        img = Image.open(random_character_paths[0]).convert('RGBA')
         drv = len(random_character_paths)
         
         for i in range(1, drv):
-            layer = Image.open(random_character_paths[i])
-            img.paste(layer, (0, 0), layer)
+            layer = Image.open(random_character_paths[i]).convert('RGBA')
+            img = Image.alpha_composite(img, layer)
             
         Printer.pyprint('Merged images into character', 'INFO')
         return img
@@ -159,8 +159,8 @@ class NFT:
             bck: Image of the full NFT
         '''
         
-        bck = Image.open(background_path)
-        bck.paste(character_image, (0, 0), character_image)
+        bck = Image.open(background_path).convert('RGBA')
+        bck = Image.alpha_composite(bck, character_image)
         
         Printer.pyprint('Character merged to the background', 'INFO')
         return bck
@@ -290,7 +290,6 @@ class NFT:
     def generate_unique_nft(
         settings,
         character_layers: dict,
-        backgrounds_folder_path: WindowsPath,
         output_and_name_path: WindowsPath,
         is_saving_system_enabled: bool
     ):
@@ -299,7 +298,6 @@ class NFT:
         Args:
             settings: Settings class
             character_layers: All the layers of this character using get_character_layers()
-            backgrounds_folder_path: Absolute path of the background folder
             output_and_name_path: Full path (Path + Name + '.png') where to save the NFT
             is_saving_system_enabled: (FOR TESTING ONLY) Remove the saving system
         '''
@@ -307,7 +305,7 @@ class NFT:
         # Multiple NFTs comparison system
         while True:
             # Generate a random background path
-            background = Randomize.random_path_from_folder(backgrounds_folder_path)
+            background = Randomize.random_path_from_layer(character_layers, settings.backgrounds_folder)
             
             # Generate a random character (List of random paths)
             character = Randomize.character(character_layers, settings)
@@ -316,7 +314,7 @@ class NFT:
             character = NFT.exception_handling(settings.exceptions, character)
 
             # Comparison hash generation
-            bytecode = bytes(f'{background}__{character}', encoding = 'utf-8')
+            bytecode = bytes(f'__{background}__{character}__', encoding = 'utf-8')
             # bytecode = bytes(f'__{character}', encoding = 'utf-8')
             str_hash = sha1(bytecode).hexdigest()
             
@@ -350,7 +348,6 @@ class NFT:
         nft_names: str,
         settings,
         character_path: WindowsPath,
-        backgrounds_folder_path: WindowsPath,
         output_folder_path: WindowsPath,
         is_saving_system_enabled: bool = True,
     ):
@@ -361,7 +358,6 @@ class NFT:
             nft_names: Default name (coupled to a number)
             settings: Link to the settings in parameters.py
             character_path: Path to the character layers folder
-            backgrounds_folder_path: Path to the backgrounds folder
             output_folder_path: Path to the output folder
             is_saving_system_enabled: (FOR TESTING ONLY) Remove the saving system
         '''
@@ -384,7 +380,7 @@ class NFT:
                 # (FOR TESTING ONLY) Erase the previous NFT by saving with the same name
                 nft_path = (output_folder_path / 'DEBUG_NFT.png').resolve()
                 
-            NFT.generate_unique_nft(settings, layers, backgrounds_folder_path, nft_path, is_saving_system_enabled)
+            NFT.generate_unique_nft(settings, layers, nft_path, is_saving_system_enabled)
 
         # Print the total time that it took
         Printer.extime(time_start)
@@ -512,49 +508,52 @@ class Randomize:
         
         # All layers dict
         for i in range(number_of_layers):
-            if keys[i] != settings.accessories_folder:
-                # Add duplicated image paths to modify chances
-                curr_list = Randomize.duplicator(character_layers[keys[i]], settings.image_rarifier)
-                curr_list_len = len(curr_list)
+            
+            if keys[i] != settings.backgrounds_folder:
+                if keys[i] != settings.accessories_folder:
+                    # Add duplicated image paths to modify chances
+                    curr_list = Randomize.duplicator(character_layers[keys[i]], settings.image_rarifier)
+                    curr_list_len = len(curr_list)
 
-                # Rarity System: Add a randomizer that includes the optional layer
-                # if the randomizer is equal to 0
-                include = True
-                if keys[i] in settings.optional_layers:
-                    ind_of_rarity = settings.optional_layers.index(keys[i])
-                    rnd_optional = random.randrange(0, settings.optional_rarity[ind_of_rarity])
-                    if rnd_optional != 0:
-                        include = False
+                    # Rarity System: Add a randomizer that includes the optional layer
+                    # if the randomizer is equal to 0
+                    include = True
+                    if keys[i] in settings.optional_layers:
+                        ind_of_rarity = settings.optional_layers.index(keys[i])
+                        rnd_optional = random.randrange(0, settings.optional_rarity[ind_of_rarity])
+                        if rnd_optional != 0:
+                            include = False
 
-                # Add random image path if included
-                if include:
-                    rnd = random.randrange(0, curr_list_len)
-                    character_paths_list.append(curr_list[rnd])
-            else:
-                # Add accessories separately
-                if settings.max_accessories_amount > 0:
-                    character_paths_list += Randomize.accessories(
-                        character_layers[keys[i]],
-                        settings
-                    )
+                    # Add random image path if included
+                    if include:
+                        rnd = random.randrange(0, curr_list_len)
+                        character_paths_list.append(curr_list[rnd])
+                else:
+                    # Add accessories separately
+                    if settings.max_accessories_amount > 0:
+                        character_paths_list += Randomize.accessories(
+                            character_layers[keys[i]],
+                            settings
+                        )
 
         Printer.pyprint('Random character generated', 'INFO')
         return character_paths_list
 
 
     @staticmethod
-    def random_path_from_folder(folder: list[WindowsPath]) -> WindowsPath:
-        '''Returns a random path between all the files found inside the folder
+    def random_path_from_layer(character_layers: dict, layer_name: str) -> WindowsPath:
+        '''Returns a random path between all the files found inside one layer
 
         Args:
-            folder: list of all the files (full absolute path)
+            character_layers: All the layers of this character using get_character_layers()
+            layer_naùe: Name of one of the character layers where to get a random path
 
         Returns:
             random_file[drv]: Returns a random path
         '''
         
-        random_file = NFT.get_structure(folder, True)
-        drv = random.randrange(0, len(random_file))
+        paths_list = character_layers[layer_name]
+        drv = random.randrange(0, len(paths_list))
         
-        Printer.pyprint(f'Random path generated [{random_file[drv]}]', 'DATA')
-        return random_file[drv]
+        Printer.pyprint(f'Random path generated [{paths_list[drv]}]', 'DATA')
+        return paths_list[drv]

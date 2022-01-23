@@ -1,12 +1,9 @@
 class Global_Param:
     # Default path to the main layers directory
-    main_input_dir_path = 'input'
+    main_input_dir = 'input'
     
     # Default path to the output directory
-    main_output_dir_path = 'output'
-    
-    # Background folder
-    background_folder = 'backgrounds'
+    main_output_dir = 'output'
     
     # Character folders list
     character_folders = ['elon', 'jeff', 'richard']
@@ -37,6 +34,9 @@ class Elon_Param:
     
     # Optional layers rarity (List of rarity per layer)
     optional_rarity = [4, 6, 5]
+    
+    # Background folder
+    backgrounds_folder = '00_backgrounds'
     
     # Accessories folder name
     # Handled separately from the main character randomize function
@@ -146,7 +146,10 @@ class Jeff_Param:
     
     # Optional layers rarity (List of rarity per layer)
     optional_rarity = [6, 4, 7, 6]
-    
+
+    # Background folder
+    backgrounds_folder = '00_backgrounds'
+
     # Accessories folder name
     # Handled separately from the main character randomize function
     accessories_folder = '08_accessories'
@@ -216,6 +219,9 @@ class Richard_Param:
     
     # Optional layers rarity (List of rarity per layer)
     optional_rarity = [3, 5]
+    
+    # Background folder
+    backgrounds_folder = '00_backgrounds'
     
     # Accessories folder name
     # Handled separately from the main character randomize function
