@@ -1,4 +1,3 @@
-from email.mime import image
 from colorama import Style, Fore
 from pathlib import WindowsPath
 from typing import Callable
