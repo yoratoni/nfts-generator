@@ -9,41 +9,53 @@ import time
 import os
 
 
-class Printer:
+class Logger:
     # Print a lot more data about the NFTs
-    DEBUG_MODE = True
+    __debug_mode = True
     
     # If True, remove all the console messages, even forced ones
-    NO_CONSOLE = False
+    __dist_mode = False
     
     # List of debug message types
-    DEBUG_TYPES = ['INFO', 'DATA', 'WARN', 'ERNO']
+    __debug_types = ['INFO', 'DATA', 'WARN', 'ERNO']
 
     @staticmethod
-    def pyprint(msg: str, title: str, forced: bool = False):
-        '''Debug Mode formatted print statements 
-        Supported colors: 'INFO', 'DATA', 'WARN', 'ERNO'
+    def pyprint(log: str, log_type: str, forced_log: bool = False):
+        '''Debug Mode formatted print statements.
+        
+        Supported message types:
+        - INFO -> Green
+        - DATA -> Light blue
+        - WARNING -> Yellow
+        - ERROR -> Light red
+
+        Args:
+            log (str): Printed log message.
+            log_type (str): Type of the log (Unsupported title returns white colored log).
+            include_path (bool, optional): Include the path in the log. Defaults to False.
+            forced_log (bool, optional): Force even if not in debug mode. Defaults to False.
         '''
         
-        if not Printer.NO_CONSOLE:
-            if Printer.DEBUG_MODE or forced:
+        if not Logger.__dist_mode:
+            if Logger.__debug_mode or forced_log:
                 color = Fore.WHITE
                 
-                if title == Printer.DEBUG_TYPES[0]:
+                if log_type == Logger.__debug_types[0]:
                     color = Fore.GREEN
-                elif title == Printer.DEBUG_TYPES[1]:
+                elif log_type == Logger.__debug_types[1]:
                     color = Fore.LIGHTBLUE_EX
-                elif title == Printer.DEBUG_TYPES[2]:
+                elif log_type == Logger.__debug_types[2]:
                     color = Fore.YELLOW
-                elif title == Printer.DEBUG_TYPES[3]:
+                elif log_type == Logger.__debug_types[3]:
                     color = Fore.LIGHTRED_EX
-                
-                print(f'{color}__{title}__ >>> {msg}{Style.RESET_ALL}')
+
+                print(f'{color}__{log_type}__ >>> {log}{Style.RESET_ALL}')
 
 
     @staticmethod
     def extime(timer: int):
-        '''Automatic timer format (ns, µs, ms and s units)'''
+        '''Automatic timer format (ns, µs, ms and s units).
+        '''
 
         timer = (time.time_ns() - timer)
         units = ['ns', 'µs', 'ms', 's']
@@ -63,7 +75,7 @@ class Printer:
             res = timer / powers[2]
             i = 3
         
-        Printer.pyprint(f'Execution Time: {res}{units[i]}', 'WARN', True)
+        Logger.pyprint(f'Execution Time: {res}{units[i]}', 'WARN', True)
 
 
 class NFT:
@@ -74,14 +86,14 @@ class NFT:
     
     @staticmethod
     def get_structure(folder_path: WindowsPath, returns_full_path: bool = False) -> list:
-        '''Get the file / folder structure of a folder
+        '''Get the file / folder structure of a folder.
 
         Args:
-            folder_path: Absolute path of the folder that needs to be scanned
-            returns_full_path: If True, returns WindowsPath-type absolute path(s)
+            folder_path: Absolute path of the folder that needs to be scanned.
+            returns_full_path: If True, returns WindowsPath-type absolute path(s).
 
         Returns:
-            scanned: List of WindowsPath / str
+            scanned: List of WindowsPath / str.
         '''
         
         data = os.listdir(folder_path)
@@ -96,19 +108,19 @@ class NFT:
                 
             scanned.append(curr_name)
         
-        Printer.pyprint(f'Structure scanned [{folder_path}]', 'DATA')
+        Logger.pyprint(f'Structure scanned [{folder_path}]', 'DATA')
         return scanned
     
     
     @staticmethod
     def get_character_layers(character_main_folder_path: WindowsPath) -> dict:
-        '''Returns a dict that contains all the layers of a character
+        '''Returns a dict that contains all the layers of a character.
 
         Args:
-            character_main_folder_path: Absolute path to the character
+            character_main_folder_path: Absolute path to the character.
 
         Returns:
-            character_layers_dict: Keys: layers, values: Dictionary of files (absolute path)
+            character_layers_dict: Keys: layers, values: Dictionary of files (absolute path).
         '''
         
         folders = NFT.get_structure(character_main_folder_path, True)
@@ -119,20 +131,20 @@ class NFT:
             folder_name = os.path.basename(folders[i])
             character_layers_dict[folder_name] = NFT.get_structure(folders[i], True)
         
-        Printer.pyprint('Scanned character layers', 'INFO')
+        Logger.pyprint('Scanned character layers', 'INFO')
         return character_layers_dict
     
     
     @staticmethod
     def character_from_list(random_character_paths: list) -> Image.Image:
         '''Returns an image containing all the images from 'random_character_paths'
-        added to the first image of the list
+        added to the first image of the list.
 
         Args:
-            random_character_paths: List of absolute path images randomly generated
+            random_character_paths: List of absolute path images randomly generated.
 
         Returns:
-            img: Final character
+            img: Final character.
         '''
         
         img = Image.open(random_character_paths[0]).convert('RGBA')
@@ -142,39 +154,39 @@ class NFT:
             layer = Image.open(random_character_paths[i]).convert('RGBA')
             img = Image.alpha_composite(img, layer)
             
-        Printer.pyprint('Merged images into character', 'INFO')
+        Logger.pyprint('Merged images into character', 'INFO')
         return img
     
     
     @staticmethod
     def merge_character_to_background(character_image: Image.Image, background_path: WindowsPath) -> Image.Image:
-        '''Merge the randomly generated character to a background
+        '''Merge the randomly generated character to a background.
 
         Args:
-            character_image: Image of the generated character
-            background_path: Full absolute path of the background
+            character_image: Image of the generated character.
+            background_path: Full absolute path of the background.
 
         Returns:
-            bck: Image of the full NFT
+            bck: Image of the full NFT.
         '''
         
         bck = Image.open(background_path).convert('RGBA')
         bck = Image.alpha_composite(bck, character_image)
         
-        Printer.pyprint('Character merged to the background', 'INFO')
+        Logger.pyprint('Character merged to the background', 'INFO')
         return bck
 
 
     @staticmethod
     def get_index_in_paths_from_filename(paths: list, filename: str) -> int:
-        '''Get the index of a filename inside a WindowsPath list
+        '''Get the index of a filename inside a WindowsPath list.
 
         Args:
-            paths: List of WindowsPath
-            filename: Name of the file to check
-
+            paths: List of WindowsPath.
+            filename: Name of the file to check.
+            
         Returns:
-            i: Index of the file in the list or None if not found
+            i: Index of the file in the list or None if not found.
         '''
         
         drv = len(paths)
@@ -187,39 +199,63 @@ class NFT:
 
     @staticmethod
     def get_layers_name_from_paths(paths: list) -> list:
-        '''Get a list of all the layers name used by 'paths'
+        '''Get a list of all the layers name used by 'paths'.
 
         Args:
-            paths: List of WindowsPath
+            paths: List of WindowsPath.
 
         Returns:
-            layers_list: Name of all the layers used in 'paths'
+            layers: Name of all the layers used in 'paths'.
         '''
         
-        layers_list = []
+        layers = []
         drv = len(paths)
         
         for i in range(drv):
             curr_layer = os.path.basename(paths[i].parent)
-            if curr_layer not in layers_list:
-                layers_list.append(curr_layer)
+            if curr_layer not in layers:
+                layers.append(curr_layer)
                 
-        return layers_list
+        return layers
+    
+    
+    @staticmethod
+    def get_paths_in_paths_list_from_layer_name(paths: list, layer: str) -> list:
+        '''Get a path in a paths list from a layer name.
+        it returns a list of all paths in a specific layer.
+
+        Args:
+            paths: List of WindowsPath.
+            layer: Name of the layer that is used to search paths.
+
+        Returns:
+            paths_in_paths_list: Every path used in the paths list that is inside the layer.
+        '''
+        
+        paths_in_paths_list = []
+        drv = len(paths)
+        
+        for i in range(drv):
+            curr_path_layer_name = os.path.basename(paths[i].parent)
+            if curr_path_layer_name == layer:
+                paths_in_paths_list.append(paths[i])
+                
+        return paths_in_paths_list
 
 
     @staticmethod
     def exception_handling(exceptions_list: list, paths: list) -> list:
-        '''Handle multiple exceptions / incompatibilites between layers,
+        '''Handle multiple exceptions / incompatibilites between layers.
         
-        - 'ORDER_CHANGE' -> Change the order between two layers
-        - 'INCOMPATIBLE' -> NFT is regenerated if the listed images are used
+        - 'ORDER_CHANGE' -> Change the order between two layers.
+        - 'INCOMPATIBLE' -> NFT is regenerated if the listed images are used.
 
         Args:
-            exceptions_list: List of all the exceptions (Check settings.py)
-            paths: Original character paths list
+            exceptions_list: List of all the exceptions (Check settings.py).
+            paths: Original character paths list.
 
         Returns:
-            paths: Modified paths list
+            paths: Modified paths list.
         '''
         
         drv = len(exceptions_list)
@@ -228,17 +264,47 @@ class NFT:
         for i in range(drv):
             curr_exception = exceptions_list[i]
 
-            # Change the order between two layers
+            # Order changes handling
             if curr_exception[0] == 'ORDER_CHANGE':
-                first_path_ind = NFT.get_index_in_paths_from_filename(paths, curr_exception[1])
-                second_path_ind = NFT.get_index_in_paths_from_filename(paths, curr_exception[2])
+                layers_name = NFT.get_layers_name_from_paths(paths)
+                log = False
                 
-                # If these two images are detected, then change the order
-                if first_path_ind is not None and second_path_ind is not None:
-                    saved_path = paths[first_path_ind]
-                    paths.pop(first_path_ind)
-                    paths.insert(second_path_ind, saved_path)
+                # Check if it is a layer order change
+                if curr_exception[2] in layers_name:
+                    is_layer_order_change = True
+                else:
+                    is_layer_order_change = False
 
+                # Change order between two images
+                if not is_layer_order_change:
+                    first_path_ind = NFT.get_index_in_paths_from_filename(paths, curr_exception[1])
+                    second_path_ind = NFT.get_index_in_paths_from_filename(paths, curr_exception[2])
+                    
+                    # If these two images are detected, then change the order
+                    if first_path_ind is not None and second_path_ind is not None:
+                        saved_path = paths[first_path_ind]
+                        paths.pop(first_path_ind)
+                        paths.insert(second_path_ind, saved_path)
+                        log = True
+                        
+                # Change order between an image and a layer (Uses curr_exception[2] as the layer name)
+                # Note that it supports only one path, as the paths list is sorted,
+                # It will use the first path in the list.
+                else:
+                    image_path_ind = NFT.get_index_in_paths_from_filename(paths, curr_exception[1])
+                    paths_from_layer = NFT.get_paths_in_paths_list_from_layer_name(paths, curr_exception[2])
+                    order_change_path_ind = paths.index(paths_from_layer[0])  # Index of the path
+                    
+                    # If the image is detected, then change the order
+                    if image_path_ind is not None:
+                        saved_path = paths[image_path_ind]
+                        paths.pop(image_path_ind)
+                        paths.insert(order_change_path_ind, saved_path)
+                        log = True
+                        
+                if log:
+                    Logger.pyprint(f'Order changed between "{curr_exception[1]}" & "{curr_exception[2]}"', 'DATA')
+                    
             # Incompatibilities handling
             elif curr_exception[0] == 'INCOMPATIBLE':
                 incomp_list = curr_exception[1:]
@@ -263,7 +329,7 @@ class NFT:
 
                     # Regenerate the NFT is the images are all found
                     if None not in incomp_paths:
-                        Printer.pyprint('Incompatible images found', 'WARN')
+                        Logger.pyprint('Incompatible images found', 'WARN')
                         return None
 
                 # Handles incompatibilities with a whole layer
@@ -278,10 +344,10 @@ class NFT:
                             
                             # Check if the layer name is the incompatible one
                             if curr_layer_of_img == incomp_list[1]:
-                                Printer.pyprint('Incompatibility with a layer found', 'WARN')
+                                Logger.pyprint('Incompatibility with a layer found', 'WARN')
                                 return None
                 
-        Printer.pyprint('Exceptions handled successfully', 'INFO')
+        Logger.pyprint('Exceptions handled successfully', 'INFO')
         return paths
 
 
@@ -292,13 +358,13 @@ class NFT:
         output_and_name_path: WindowsPath,
         is_saving_system_enabled: bool
     ):
-        '''Generate an unique NFT (compared to others with a SHA1 hash)
+        '''Generate an unique NFT (compared to others with a SHA1 hash).
 
         Args:
             settings: Settings class
-            character_layers: All the layers of this character using get_character_layers()
-            output_and_name_path: Full path (Path + Name + '.png') where to save the NFT
-            is_saving_system_enabled: (FOR TESTING ONLY) Remove the saving system
+            character_layers: All the layers of this character using get_character_layers().
+            output_and_name_path: Full path (Path + Name + '.png') where to save the NFT.
+            is_saving_system_enabled: (FOR TESTING ONLY) Remove the saving system.
         '''
 
         # Multiple NFTs comparison system
@@ -322,9 +388,9 @@ class NFT:
                 if str_hash not in NFT.NFT_COMPARISON_HASHES:
                     NFT.NFT_COMPARISON_HASHES.append(str_hash)
                     break
-                Printer.pyprint(f'Duplicata of an NFT found [{str_hash}]', 'WARN')
+                Logger.pyprint(f'Duplicata of an NFT found [{str_hash}]', 'WARN')
             else:
-                Printer.pyprint(f'Invalid character, the NFT will be regenerated..', 'ERNO')
+                Logger.pyprint(f'Invalid character, the NFT will be regenerated..', 'ERNO')
 
         if is_saving_system_enabled:
             # Generate the image of the character
@@ -338,7 +404,7 @@ class NFT:
             final_nft.save(output_and_name_path)
         
         # Print saved image path
-        Printer.pyprint(f'Saved NFT [{output_and_name_path}]', 'DATA', True)
+        Logger.pyprint(f'Saved NFT [{output_and_name_path}]', 'DATA', True)
 
 
     @staticmethod
@@ -350,15 +416,15 @@ class NFT:
         output_folder_path: WindowsPath,
         is_saving_system_enabled: bool = True,
     ):
-        '''Generate a number of unique NFTs for a specified character
+        '''Generate a number of unique NFTs for a specified character.
 
         Args:
-            iterations: Total number of NFTs for this character
-            nft_names: Default name (coupled to a number)
-            settings: Link to the settings in parameters.py
-            character_path: Path to the character layers folder
-            output_folder_path: Path to the output folder
-            is_saving_system_enabled: (FOR TESTING ONLY) Remove the saving system
+            iterations: Total number of NFTs for this character.
+            nft_names: Default name (coupled to a number).
+            settings: Link to the settings in parameters.py.
+            character_path: Path to the character layers folder.
+            output_folder_path: Path to the output folder.
+            is_saving_system_enabled: (FOR TESTING ONLY) Remove the saving system.
         '''
         
         # Save the time where it starts
@@ -382,7 +448,7 @@ class NFT:
             NFT.generate_unique_nft(settings, layers, nft_path, is_saving_system_enabled)
 
         # Print the total time that it took
-        Printer.extime(time_start)
+        Logger.extime(time_start)
         
         # Returns True for multiprocessing purposes only
         return True
@@ -390,17 +456,18 @@ class NFT:
     
     @staticmethod
     def multiproc(function: Callable, args_list: list):
-        '''Used to create multiple processes of an NFT generator
+        '''Used to create multiple processes of an NFT generator.
 
         Args:
-            function: Called function in the process
-            args_list: List of all the args for the function (**args_list is a list of an arguments list per function)
+            function: Called function in the process.
+            args_list: List of all the args for the function
+            (**args_list is a list of an arguments list per function).
 
-        **: Every object of the main args_list list is an array of arguments that will be called
-        in the order of every function, example: [[function_1_args], [function_2_args], ...]
+        **: Every object of the main args_list list is an array of arguments that will be called.
+        in the order of every function, example: [[function_1_args], [function_2_args], ...].
 
         Returns:
-            process_result: Returns a list of all the results
+            process_result: Returns a list of all the results.
         '''
         
         with concurrent.futures.ProcessPoolExecutor() as executor:
@@ -416,14 +483,14 @@ class NFT:
 class Randomize:
     @staticmethod
     def accessories(list_of_accessories: list[WindowsPath], settings) -> list[WindowsPath]:
-        '''Generate a random list of accessories based on the max amount
+        '''Generate a random list of accessories based on the max amount.
 
         Args:
-            list_of_accessories: List of all the accessories
-            settings: Link to the settings in parameters.py
+            list_of_accessories: List of all the accessories.
+            settings: Link to the settings in parameters.py.
 
         Returns:
-            accessories_paths_list: List of random accessories absolute path
+            accessories_paths_list: List of random accessories absolute path.
         '''
         
         added_indexes = []
@@ -451,7 +518,7 @@ class Randomize:
                 curr_path = list_of_accessories[added_indexes[i]]
                 accessories_paths_list.append(curr_path)
 
-            Printer.pyprint('Random accessories generated', 'INFO')
+            Logger.pyprint('Random accessories generated', 'INFO')
             
         return accessories_paths_list
 
@@ -459,17 +526,17 @@ class Randomize:
     @staticmethod
     def duplicator(list_of_images: list, image_rarifier: list) -> list:
         '''Allows to modify the chances to use a specific image inside a list,
-        it works by duplicating the element from it's filename and insert it multiple times
+        it works by duplicating the element from it's filename and insert it multiple times.
         
         Example:
-            ['path_2_filename.png', 3] -> [path_0, path_1, path_2, path_2, path_2]
+            ['path_2_filename.png', 3] -> [path_0, path_1, path_2, path_2, path_2].
 
         Args:
-            list_of_images: List of all the images inside a folder
-            image_rarifier: List of multiple arrays defined as ['image.png', number_of_duplicata]
+            list_of_images: List of all the images inside a folder.
+            image_rarifier: List of multiple arrays defined as ['image.png', number_of_duplicata].
 
         Returns:
-            list_of_images: Modified or not by this function
+            list_of_images: Modified or not by this function.
         '''
         
         drv = len(image_rarifier)
@@ -491,14 +558,14 @@ class Randomize:
         character_layers: dict,
         settings
     ) -> list[WindowsPath]:
-        '''Generate a random list of all tha layers for one NFT
+        '''Generate a random list of all tha layers for one NFT.
 
         Args:
-            character_layers: Dictionary generated with NFT.get_character_layers()
-            settings: Link to the settings in parameters.py
+            character_layers: Dictionary generated with NFT.get_character_layers().
+            settings: Link to the settings in parameters.py.
 
         Returns:
-            character_paths: List of layers absolute path
+            character_paths: List of layers absolute path.
         '''
         
         character_paths_list = []
@@ -535,24 +602,24 @@ class Randomize:
                             settings
                         )
 
-        Printer.pyprint('Random character generated', 'INFO')
+        Logger.pyprint('Random character generated', 'INFO')
         return character_paths_list
 
 
     @staticmethod
     def random_path_from_layer(character_layers: dict, layer_name: str) -> WindowsPath:
-        '''Returns a random path between all the files found inside one layer
+        '''Returns a random path between all the files found inside one layer.
 
         Args:
-            character_layers: All the layers of this character using get_character_layers()
-            layer_naùe: Name of one of the character layers where to get a random path
+            character_layers: All the layers of this character using get_character_layers().
+            layer_naùe: Name of one of the character layers where to get a random path.
 
         Returns:
-            random_file[drv]: Returns a random path
+            random_file[drv]: Returns a random path.
         '''
         
-        paths_list = character_layers[layer_name]
-        drv = random.randrange(0, len(paths_list))
+        paths = character_layers[layer_name]
+        drv = random.randrange(0, len(paths))
         
-        Printer.pyprint(f'Random path generated [{paths_list[drv]}]', 'DATA')
-        return paths_list[drv]
+        Logger.pyprint(f'Random path generated [{paths[drv]}]', 'DATA')
+        return paths[drv]

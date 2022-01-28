@@ -30,10 +30,10 @@ class Elon_Param:
     ]
     
     # Optional layers (Accessories is not supported here)
-    optional_layers = ['05_jackets', '07_glasses', '08_hats']
+    optional_layers = ['04_jackets', '07_glasses', '08_hats']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [4, 6, 5]
+    optional_rarity = [5, 6, 5]
     
     # Background folder
     backgrounds_folder = '00_backgrounds'
@@ -53,7 +53,8 @@ class Elon_Param:
     # This image will appears XX times inside the list of images
     image_rarifier = [
         ['visage.png', 2],
-        ['visage coupe court.png', 2]
+        ['visage coupe court.png', 2],
+        ['mains.png', 3],
     ]
 
 
@@ -136,16 +137,16 @@ class Jeff_Param:
         ['INCOMPATIBLE', 'combi haut.png', '03_belts'],
         ['INCOMPATIBLE', 'combi bas.png', '03_belts'],
         
-        ['ORDER CHANGE', 'chaussures costume.png', '02_trousers'],
-        ['ORDER CHANGE', 'bottes combi.png', '02_trousers'],
-        ['ORDER CHANGE', 'mocassins.png', '02_trousers']
+        ['ORDER_CHANGE', 'chaussures costume.png', '02_trousers'],
+        ['ORDER_CHANGE', 'bottes combi.png', '02_trousers'],
+        ['ORDER_CHANGE', 'mocassins.png', '02_trousers']
     ]
     
     # Optional layers (Accessories is not supported here)
     optional_layers = ['06_jackets', '09_wrist', '10_glasses', '11_hats']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [6, 4, 7, 6]
+    optional_rarity = [5, 4, 7, 5]
 
     # Background folder
     backgrounds_folder = '00_backgrounds'
@@ -155,7 +156,7 @@ class Jeff_Param:
     accessories_folder = '08_accessories'
     
     # Max amount of accessories
-    max_accessories_amount = 2
+    max_accessories_amount = 2 
     
     # Accessories rarity
     accessories_rarity = 3
@@ -170,9 +171,10 @@ class Jeff_Param:
 
 class Richard_Param:
     # Exceptions handling:
-    #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
+    #   'ORDER_CHANGE' -> Change the order between two images: [ORDER_CHANGE, name, put_before_this_image]
+    #       or the order between an image and a whole layer [ORDER_CHANGE, name, put_before_this_layer]
     #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
-    #       or if one of the images are inside a layer (Supports only one image and one layer)
+    #       or if one of the images are inside a layer (Supports only one image and one layer as arg_1 and arg_2)
     exceptions = [
         # Watches
         ['INCOMPATIBLE', 'montre bleu.png', '05_jackets'],
@@ -193,25 +195,21 @@ class Richard_Param:
         ['INCOMPATIBLE', 'montre rouge.png', 'tenue sport haut.png'],
 
         # Combi space
-        ['INCOMPATIBLE', 'combi space entier.png', '05_jackets'],
-        ['INCOMPATIBLE', 'combi space entier.png' '03_trousers'],
-        ['INCOMPATIBLE', 'combi space entier.png' 'chaussures hotesse.png'],
+        # ['INCOMPATIBLE', 'combi space entier.png', '05_jackets'],
+        # ['INCOMPATIBLE', 'combi space entier.png' '03_trousers'],
+        # ['INCOMPATIBLE', 'combi space entier.png' 'chaussures hotesse.png'],
 
         # Other incompatibilities
         ['INCOMPATIBLE', 'tenue sport haut.png', '05_jackets'],
+        ['INCOMPATIBLE', 'tenue sport haut.png', 'jupe hotesse.png'],
         ['INCOMPATIBLE', 'chemise cirque.png', '05_jackets'],
+        ['INCOMPATIBLE', 'chemise et veste hotess.png', '05_jackets'],
         ['INCOMPATIBLE', 'chaussures hotesse.png', 'combi space bas.png'],
-        
+        ['INCOMPATIBLE', 'combi space bas.png', '05_jackets'],
+
         # Order Change
-        ['ORDER CHANGE', 'chaussures hotesse.png', 'jean bleu.png'],
-        ['ORDER CHANGE', 'chaussures hotesse.png', 'jean noir.png'],
-        ['ORDER CHANGE', 'chaussures hotesse.png', 'pantalon costume gis.png'],
-        ['ORDER CHANGE', 'chaussures hotesse.png', 'pantalon costume noir rayé.png'],
-        ['ORDER CHANGE', 'chaussures hotesse.png', 'pantalon costume noir.png'],
-        ['ORDER CHANGE', 'chaussures hotesse.png', 'pantalon costume txeed nude.png'],
-        ['ORDER CHANGE', 'chaussures hotesse.png', 'pantalon costume tweed rayé.png'],
-        ['ORDER CHANGE', 'chaussures hotesse.png', 'combi space entier.png'],
-        ['ORDER CHANGE', 'tenue sport haut.png', 'tenue sport bas.png']
+        ['ORDER_CHANGE', 'chaussures hotesse.png', '03_trousers'],
+        ['ORDER_CHANGE', 'tenue sport haut.png', '03_trousers']
     ]
 
     # Optional layers (Accessories is not supported here)

@@ -6,7 +6,7 @@ from pathlib import Path
 
 # NFTs parameters
 number_of_nfts = 10  # The number of generated NFTs
-character_generated = 'richard'  # Name of the character folder
+character_generated = 'elon'  # Name of the character folder
 is_saving_system_enabled = True  # If the NFTs are saved to the output folder
 
 
