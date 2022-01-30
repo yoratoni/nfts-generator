@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 # NFTs parameters
-number_of_nfts = 10  # The number of generated NFTs
+number_of_nfts = 3000  # The number of generated NFTs
 character_generated = 'elon'  # Name of the character folder
 is_saving_system_enabled = True  # If the NFTs are saved to the output folder
 
@@ -17,8 +17,9 @@ output_folder_path = (cwd / Global_Param.main_output_dir / character_generated).
 character_path = (input_folder_path / character_generated).resolve()
 
 
-# Auto parameters
-# Name of the NFTs (plus a number after it) (Generates a unique NFT if empty)
+# Name of the NFTs (plus a number after it)
+# Generates a unique NFT if 'nft_names == DEBUG:66'
+# where for example, 66 is the delay in ms between two NFTs
 nft_names = f'{character_generated.upper()}_'
 
 

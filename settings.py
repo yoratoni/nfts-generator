@@ -19,10 +19,12 @@ class Elon_Param:
         ['INCOMPATIBLE', 'visage et casquette rose.png', '08_hats'],
         ['INCOMPATIBLE', 'visage et casquette noir.png', '08_hats'],
         ['INCOMPATIBLE', 'clope.png', '08_hats'],
-        ['INCOMPATIBLE', 'bandana mask.png', 'casque space transparence.png'],
         
+        ['INCOMPATIBLE', 'casque space transparence.png', 'bandana mask.png'],
         ['INCOMPATIBLE', 'casque space transparence.png', '07_glasses'],
-
+        ['INCOMPATIBLE', 'casque space transparence.png', '04_jackets'],
+        ['INCOMPATIBLE', 'combinaison haut.png', '04_jackets'],
+        
         ['ORDER_CHANGE', 'bottes combinaison.png', 'jean tesla bleu.png'],
         ['ORDER_CHANGE', 'bottes combinaison.png', 'pantalon costume.png'],
         ['ORDER_CHANGE', 'chaussures costume.png', 'pantalon costume.png'],
@@ -176,7 +178,7 @@ class Richard_Param:
     #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
     #       or if one of the images are inside a layer (Supports only one image and one layer as arg_1 and arg_2)
     exceptions = [
-        # Watches
+        # Watches incompatibilities
         ['INCOMPATIBLE', 'montre bleu.png', '05_jackets'],
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise blanc anglais.png'],
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise blanc.png'],
@@ -194,18 +196,39 @@ class Richard_Param:
         ['INCOMPATIBLE', 'montre rouge.png', 'combi space entier.png'],
         ['INCOMPATIBLE', 'montre rouge.png', 'tenue sport haut.png'],
 
-        # Combi space
-        # ['INCOMPATIBLE', 'combi space entier.png', '05_jackets'],
-        # ['INCOMPATIBLE', 'combi space entier.png' '03_trousers'],
-        # ['INCOMPATIBLE', 'combi space entier.png' 'chaussures hotesse.png'],
-
         # Other incompatibilities
         ['INCOMPATIBLE', 'tenue sport haut.png', '05_jackets'],
-        ['INCOMPATIBLE', 'tenue sport haut.png', 'jupe hotesse.png'],
         ['INCOMPATIBLE', 'chemise cirque.png', '05_jackets'],
         ['INCOMPATIBLE', 'chemise et veste hotess.png', '05_jackets'],
-        ['INCOMPATIBLE', 'chaussures hotesse.png', 'combi space bas.png'],
         ['INCOMPATIBLE', 'combi space bas.png', '05_jackets'],
+        
+        ['INCOMPATIBLE', 'tenue sport haut.png', 'jupe hotesse.png'],
+        ['INCOMPATIBLE', 'chaussures hotesse.png', 'combi space bas.png'],
+        
+        # Pockets incompatibilities
+        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise blanc anglais.png'],
+        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise blanc court.png'],
+        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise blanc.png'],
+        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise gris court.png'],
+        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise gris foncé court.png'],
+        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise gris foncé.png'],
+        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise gris.png'],
+        ###
+        ['INCOMPATIBLE', 'combi space bas.png', 'chemise blanc anglais.png'],
+        ['INCOMPATIBLE', 'combi space bas.png', 'chemise blanc court.png'],
+        ['INCOMPATIBLE', 'combi space bas.png', 'chemise blanc.png'],
+        ['INCOMPATIBLE', 'combi space bas.png', 'chemise gris court.png'],
+        ['INCOMPATIBLE', 'combi space bas.png', 'chemise gris foncé court.png'],
+        ['INCOMPATIBLE', 'combi space bas.png', 'chemise gris foncé.png'],
+        ['INCOMPATIBLE', 'combi space bas.png', 'chemise gris.png'],
+        ###
+        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise blanc anglais.png'],
+        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise blanc court.png'],
+        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise blanc.png'],
+        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise gris court.png'],
+        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise gris foncé court.png'],
+        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise gris foncé.png'],
+        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise gris.png'],
 
         # Order Change
         ['ORDER_CHANGE', 'chaussures hotesse.png', '03_trousers'],

@@ -3,6 +3,7 @@ from pathlib import WindowsPath
 from typing import Callable
 from hashlib import sha1
 from PIL import Image
+
 import concurrent.futures
 import random
 import time
@@ -436,14 +437,24 @@ class NFT:
         # Get all the images and the layers
         layers = NFT.get_character_layers(character_path)
         
+        
+        # Debug mode parsing
+        if nft_names[0:5] == 'DEBUG':
+            debug_mode = True
+            debug_sleep = int(nft_names[6:]) / 1000  # Converts into ms
+        else:
+            debug_mode = False
+            debug_sleep = 0
+
         # Generate every NFT with a name based on 'i' and zfill()
         for i in range(iterations):
-            if nft_names != '':
+            if not debug_mode:
                 curr_name = f'{nft_names}{str(i).zfill(zeros)}.png'
                 nft_path = (output_folder_path / curr_name).resolve()
             else:
                 # (FOR TESTING ONLY) Erase the previous NFT by saving with the same name
                 nft_path = (output_folder_path / 'DEBUG_NFT.png').resolve()
+                time.sleep(debug_sleep)
                 
             NFT.generate_unique_nft(settings, layers, nft_path, is_saving_system_enabled)
 
