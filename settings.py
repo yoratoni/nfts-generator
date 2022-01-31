@@ -1,4 +1,4 @@
-class Global_Param:
+class GlobalParam:
     # Default path to the main layers directory
     main_input_dir = 'input'
     
@@ -9,13 +9,12 @@ class Global_Param:
     character_folders = ['elon', 'jeff', 'richard']
     
 
-class Elon_Param:
+class ElonParam:
     # Exceptions handling:
     #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
     #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
     #       or if one of the images are inside a layer (Supports only one image and one layer)
     exceptions = [
-        # Incompatibilities
         ['INCOMPATIBLE', 'visage et casquette rose.png', '08_hats'],
         ['INCOMPATIBLE', 'visage et casquette noir.png', '08_hats'],
         ['INCOMPATIBLE', 'clope.png', '08_hats'],
@@ -29,6 +28,7 @@ class Elon_Param:
         ['ORDER_CHANGE', 'bottes combinaison.png', 'pantalon costume.png'],
         ['ORDER_CHANGE', 'chaussures costume.png', 'pantalon costume.png'],
         ['ORDER_CHANGE', 'chaussures costume.png', 'jean tesla bleu.png'],
+        ['ORDER_CHANGE', 'pieds nus.png', '02_trousers'],
     ]
     
     # Optional layers (Accessories is not supported here)
@@ -52,7 +52,8 @@ class Elon_Param:
     
     # Increases the chances to use a specific image
     # As an example, if one image is specified: ['image.png', XX]
-    # This image will appears XX times inside the list of images
+    # This image will appears XX times inside the list of images,
+    # Reducing the chances for other images to be used
     image_rarifier = [
         ['visage.png', 2],
         ['visage coupe court.png', 2],
@@ -60,13 +61,12 @@ class Elon_Param:
     ]
 
 
-class Jeff_Param:
+class JeffParam:
     # Exceptions handling:
     #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
     #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
     #       or if one of the images are inside a layer (Supports only one image and one layer)
     exceptions = [
-        # Incompatibilities
         ['INCOMPATIBLE', 'combi haut.png', '06_jackets'],
         
         ['INCOMPATIBLE', 'montre.png', 'veste fermée beige effets.png'],
@@ -171,14 +171,13 @@ class Jeff_Param:
     ]
 
 
-class Richard_Param:
+class RichardParam:
     # Exceptions handling:
     #   'ORDER_CHANGE' -> Change the order between two images: [ORDER_CHANGE, name, put_before_this_image]
     #       or the order between an image and a whole layer [ORDER_CHANGE, name, put_before_this_layer]
     #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
     #       or if one of the images are inside a layer (Supports only one image and one layer as arg_1 and arg_2)
     exceptions = [
-        # Watches incompatibilities
         ['INCOMPATIBLE', 'montre bleu.png', '05_jackets'],
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise blanc anglais.png'],
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise blanc.png'],
