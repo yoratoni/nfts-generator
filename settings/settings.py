@@ -9,7 +9,12 @@ class GlobalSettings:
     character_folders = ['elon', 'jeff', 'richard']
     
     # List of all the available exceptions
-    exceptions_list = ['ORDER_CHANGE', 'INCOMPATIBLE']
+    exceptions_list = ['ORDER_CHANGE', 'INCOMPATIBLE', 'DELETE']
+    
+    # Debugging
+    dist_mode = False  # If True, remove all the console messages, even forced ones
+    verbose_debugging = True  # Print a lot more data about the NFTs
+    debug_types = ['INFO', 'DATA', 'WARN', 'ERRO']  # List of debug message types
     
     
 class CharacterSettings:
@@ -249,7 +254,6 @@ class RichardSettings:
     #   (Supports only one image and one layer):
     #       - ["INCOMPATIBLE", "image.png", "layer"]
     exceptions = [
-        ['INCOMPATIBLE', 'montre bleu.png', '05_jackets'],
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise blanc anglais.png'],
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise blanc.png'],
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise cirque.png'],
@@ -257,7 +261,6 @@ class RichardSettings:
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise gris.png'],
         ['INCOMPATIBLE', 'montre bleu.png', 'combi space entier.png'],
         ['INCOMPATIBLE', 'montre bleu.png', 'tenue sport haut.png'],
-        ['INCOMPATIBLE', 'montre rouge.png', '05_jackets'],
         ['INCOMPATIBLE', 'montre rouge.png', 'chemise blanc anglais.png'],
         ['INCOMPATIBLE', 'montre rouge.png', 'chemise blanc.png'],
         ['INCOMPATIBLE', 'montre rouge.png', 'chemise cirque.png'],
@@ -266,14 +269,28 @@ class RichardSettings:
         ['INCOMPATIBLE', 'montre rouge.png', 'combi space entier.png'],
         ['INCOMPATIBLE', 'montre rouge.png', 'tenue sport haut.png'],
 
-        # Other incompatibilities
+        # Jackets incompatibilities
+        ['INCOMPATIBLE', 'montre bleu.png', '05_jackets'],
+        ['INCOMPATIBLE', 'montre rouge.png', '05_jackets'],
         ['INCOMPATIBLE', 'tenue sport haut.png', '05_jackets'],
+        ['INCOMPATIBLE', 'combi space bas.png', '05_jackets'],
         ['INCOMPATIBLE', 'chemise cirque.png', '05_jackets'],
         ['INCOMPATIBLE', 'chemise et veste hotess.png', '05_jackets'],
-        ['INCOMPATIBLE', 'combi space bas.png', '05_jackets'],
+        
+        ['INCOMPATIBLE', 'chaussures hotesse.png', 'combi space bas.png'],
+
+        # Bottes combi space
+        ['INCOMPATIBLE', 'bottes combi space.png', 'tenue sport bas.png'],
+        ['INCOMPATIBLE', 'bottes combi space.png', 'pantalon costume tweed nude.png'],
+        ['INCOMPATIBLE', 'bottes combi space.png', 'pantalon costume tweed rayé.png'],
+        ['INCOMPATIBLE', 'bottes combi space.png', 'pantalon costume noir.png'],
+        ['INCOMPATIBLE', 'bottes combi space.png', 'pantalon costume noir rayé.png'],
+        ['INCOMPATIBLE', 'bottes combi space.png', 'pantalon costume gis.png'],
+        ['INCOMPATIBLE', 'bottes combi space.png', 'jupe hotesse.png'],
+        ['INCOMPATIBLE', 'bottes combi space.png', 'jean noir.png'],
+        ['INCOMPATIBLE', 'bottes combi space.png', 'jean bleu.png'],
         
         ['INCOMPATIBLE', 'tenue sport haut.png', 'jupe hotesse.png'],
-        ['INCOMPATIBLE', 'chaussures hotesse.png', 'combi space bas.png'],
         
         # Pockets incompatibilities
         ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise blanc anglais.png'],
@@ -299,6 +316,19 @@ class RichardSettings:
         ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise gris foncé court.png'],
         ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise gris foncé.png'],
         ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise gris.png'],
+        ###
+        ['INCOMPATIBLE', 'maquillage.png', 'chemise blanc anglais.png'],
+        ['INCOMPATIBLE', 'maquillage.png', 'chemise blanc court.png'],
+        ['INCOMPATIBLE', 'maquillage.png', 'chemise blanc.png'],
+        ['INCOMPATIBLE', 'maquillage.png', 'chemise cirque.png'],
+        ['INCOMPATIBLE', 'maquillage.png', 'chemise gris court.png'],
+        ['INCOMPATIBLE', 'maquillage.png', 'chemise gris foncé court.png'],
+        ['INCOMPATIBLE', 'maquillage.png', 'chemise gris foncé.png'],
+        ['INCOMPATIBLE', 'maquillage.png', 'chemise gris.png'],
+        ['INCOMPATIBLE', 'maquillage.png', 'tenue sport haut.png'],
+        ['INCOMPATIBLE', 'maquillage.png', 'mask.png'],
+        ['INCOMPATIBLE', 'maquillage.png', 'mask rouge.png'],
+        ['INCOMPATIBLE', 'maquillage.png', '09_glasses'],
 
         # Order Change
         ['ORDER_CHANGE', 'chaussures hotesse.png', '03_trousers'],
@@ -306,17 +336,17 @@ class RichardSettings:
     ]
 
     # Optional layers (Accessories is not supported here)
-    optional_layers = ['05_jackets', '08_glasses']
+    optional_layers = ['05_jackets', '09_glasses', '07_makeup']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [3, 5]
+    optional_rarity = [5, 6, 6]
     
     # Background folder
     backgrounds_folder = '00_backgrounds'
     
     # Accessories folder name
     # Handled separately from the main character randomize function
-    accessories_folder = '07_accessories'
+    accessories_folder = '08_accessories'
     
     # Max amount of accessories
     max_accessories_amount = 2
@@ -328,5 +358,13 @@ class RichardSettings:
     # As an example, if one image is specified: ['image.png', XX]
     # This image will appears XX times inside the list of images
     image_rarifier = [
-        ['visage.png', 4]
+        ['visage.png', 4],
+        ['chemise blanc anglais.png', 2],
+        ['chemise blanc court.png', 2],
+        ['chemise blanc.png', 2],
+        ['chemise gris court.png', 2],
+        ['chemise gris foncé.png', 2],
+        ['chemise gris foncé court.png', 2],
+        ['chemise gris foncé.png', 2],
+        ['chemise gris.png', 2]
     ]

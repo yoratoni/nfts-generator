@@ -1,5 +1,6 @@
-from libs.character_paths_handling import CharacterPathsHandling
-from libs.character_randomization import CharacterRandomization
+from libs.utils.debug import Logger
+
+from libs.paths_handling import PathsHandling
+from libs.randomization import Randomization
 from libs.exceptions_handling import ExceptionsHandling
 from libs.generator import Generator
-from libs.utils.debug import Logger

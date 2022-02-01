@@ -1,24 +1,24 @@
-from libs import CharacterPathsHandling, Logger
+from libs import PathsHandling, Logger
 from settings import CharacterSettings
-from pathlib import WindowsPath
+from pathlib import Path
 
 import random
 
 
-class CharacterRandomization:
+class Randomization:
     '''All the necessary functions used for the randomization of the paths.
     '''
     
     @staticmethod
-    def random_path_from_layer_name(character_layers: dict, layer_name: str) -> WindowsPath:
+    def random_path_from_layer_name(character_layers: dict, layer_name: str) -> Path:
         '''Returns a random path between all the files found inside one layer.
 
         Args:
-            character_layers: Dictionary that contains all the paths inside the character folder.
-            layer_name: Name of one of the character layers where to get a random path.
+            character_layers (dict): Dictionary that contains all the paths inside the character folder.
+            layer_name (str): Name of one of the character layers where to get a random path.
 
         Returns:
-            WindowsPath: Returns a random path from the list of paths inside one layer.
+            Path: Returns a random path from the list of paths inside one layer.
         '''
         
         paths = character_layers[layer_name]
@@ -29,15 +29,15 @@ class CharacterRandomization:
         
     
     @staticmethod
-    def accessories(accessories: list[WindowsPath], settings: CharacterSettings) -> list[WindowsPath]:
+    def accessories(accessories: list[Path], settings: CharacterSettings) -> list[Path]:
         '''Generate a random list of accessories based on the max amount.
 
         Args:
-            accessories: List of all the accessories path.
-            settings: Link to the settings (Character settings).
+            accessories (list[Path]): List of all the accessories path.
+            settings (CharacterSettings): Link to the settings.
 
         Returns:
-            list[WindowsPath]: List of random accessories absolute path.
+            list[Path]: List of random accessories absolute path.
         '''
 
         indexes = []
@@ -69,7 +69,7 @@ class CharacterRandomization:
 
 
     @staticmethod
-    def duplicate(layer_images: list[WindowsPath], settings: CharacterSettings) -> list[WindowsPath]:
+    def duplicate(layer_images: list[Path], settings: CharacterSettings) -> list[Path]:
         '''Allows to modify the chances to use a specific image inside a list,
         it works by duplicating the element from it's filename and insert it multiple times.
         
@@ -77,11 +77,11 @@ class CharacterRandomization:
             ['path_2_filename.png', 3] -> [path_0, path_1, path_2, path_2, path_2].
 
         Args:
-            layer_images: List of all the images path for one layer.
-            settings: Link to the settings (Character settings).
+            layer_images (list[Path]): List of all the images path for one layer.
+            settings (CharacterSettings): Link to the settings.
 
         Returns:
-            list[WindowsPath]: Modified or not by this function.
+            list[Path]: Modified or not by this function.
         '''
         
         rarifier_driver = len(settings.image_rarifier)
@@ -92,7 +92,7 @@ class CharacterRandomization:
             # If the image is duplicated more than once
             # image_rarifier is the final amount of images
             if current_instruction[1] > 1:
-                index = CharacterPathsHandling.get_index_in_paths_list_from_filename(
+                index = PathsHandling.get_index_in_paths_list_from_filename(
                             layer_images,
                             current_instruction[0]
                         )
@@ -106,15 +106,15 @@ class CharacterRandomization:
     
     
     @staticmethod
-    def character(character_layers: dict,  settings: CharacterSettings) -> list[WindowsPath]:
-        '''Generate a random list of all tha layers for one NFT.
+    def character(character_layers: dict,  settings: CharacterSettings) -> list[Path]:
+        '''Generate a random list of all the layers for one NFT.
 
         Args:
-            character_layers: Dictionary that contains all the paths inside the character folder.
-            settings: Link to the settings (Character settings).
+            character_layers (dict): Dictionary that contains all the paths inside the character folder.
+            settings (CharacterSettings): Link to the settings.
 
         Returns:
-            list[WindowsPath]: List of layers absolute path.
+            list[Path]: List of layers absolute path.
         '''
 
         keys = list(character_layers.keys())
@@ -127,7 +127,7 @@ class CharacterRandomization:
                     raw_list = character_layers[keys[i]]
                     
                     # Add duplicated image paths to modify the chances to use one specific image
-                    current_list = CharacterRandomization.duplicate(raw_list, settings)
+                    current_list = Randomization.duplicate(raw_list, settings)
 
                     # Rarity System: Add a randomization
                     # If the randomizer is equal to 0, include the optional layer
@@ -136,8 +136,8 @@ class CharacterRandomization:
                         index_of_rarity = settings.optional_layers.index(keys[i])
                         random_zero_driver = random.randrange(0, settings.optional_rarity[index_of_rarity])
                         
-                        # Handles the randomization by checking is it's equal to 0
-                        if random_zero_driver == 0:
+                        # Handles the randomization by checking is it's not equal to 0
+                        if random_zero_driver != 0:
                             include_optional_layer = False
                     
                     # If included, add the optional image
@@ -147,7 +147,7 @@ class CharacterRandomization:
                 else:
                     # Handles accessories separately inside the accessories() method
                     if settings.max_accessories_amount > 0:
-                        character_paths += CharacterRandomization.accessories(character_layers[keys[i]], settings)
+                        character_paths += Randomization.accessories(character_layers[keys[i]], settings)
                     
         Logger.pyprint('Random character list generated', 'INFO')
         return character_paths

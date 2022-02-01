@@ -1,23 +1,23 @@
-from pathlib import WindowsPath
+from pathlib import Path
 from libs import Logger
 
 import os
 
 
-class CharacterPathsHandling:
+class PathsHandling:
     '''Handles all the path operations for the NFTs.
     '''
     
     @staticmethod
-    def get_structure(main_dir_path: WindowsPath, returns_full_path: bool = False) -> list:
+    def get_structure(main_dir_path: Path, returns_full_path: bool = False) -> list:
         '''Get the files / sub-directories structure of a main directory.
 
         Args:
-            main_dir_path: Absolute path of the main directory that needs to be scanned.
-            returns_full_path: If True, returns WindowsPath-type absolute path(s).
+            main_dir_path (Path): Absolute path of the main directory that needs to be scanned.
+            returns_full_path (bool, optional): If True, returns Path-type absolute path(s).
 
         Returns:
-            list: List of WindowsPath / str.
+            list: List of Path / str.
         '''
         
         data = os.listdir(main_dir_path)
@@ -37,35 +37,35 @@ class CharacterPathsHandling:
         
         
     @staticmethod
-    def get_character_layers(character_dir_path: WindowsPath) -> dict:
+    def get_character_layers(character_dir_path: Path) -> dict:
         '''Returns a dict that contains all the layers of a character.
 
         Args:
-            character_dir_path: Absolute path to the character directory.
+            character_dir_path (Path): Absolute path to the character directory.
 
         Returns:
             dict: (Keys: layers) values: Dictionary of files (absolute path).
         '''
         
-        directories = CharacterPathsHandling.get_structure(character_dir_path, True)
+        directories = PathsHandling.get_structure(character_dir_path, True)
         layers_dict = {}
         driver = len(directories)
         
         for i in range(driver):
             dir_name = os.path.basename(directories[i])
-            layers_dict[dir_name] = CharacterPathsHandling(directories[i], True)
+            layers_dict[dir_name] = PathsHandling.get_structure(directories[i], True)
             
         Logger.pyprint('Character layers scanned', 'INFO')
         return layers_dict
         
         
     @staticmethod
-    def get_index_in_paths_list_from_filename(paths: list[WindowsPath], filename: str) -> int:
-        '''Get the index of a filename inside a WindowsPath list.
+    def get_index_in_paths_list_from_filename(paths: list[Path], filename: str) -> int:
+        '''Get the index of a filename inside a Path list.
 
         Args:
-            paths: List of WindowsPath.
-            filename: Name of the file to check.
+            paths (list[Path]): List of Path.
+            filename (str): Name of the file to check.
             
         Returns:
             int: Index of the file in the list or None if not found.
@@ -80,11 +80,11 @@ class CharacterPathsHandling:
             
             
     @staticmethod
-    def get_layer_names_from_paths(paths: list[WindowsPath]) -> list[str]:
+    def get_layer_names_from_paths(paths: list[Path]) -> list[str]:
         '''Get a list of all the layers name used by 'paths'.
 
         Args:
-            paths: List of WindowsPath.
+            paths (list[Path]): List of Path.
 
         Returns:
             list[str]: Name of all the layers used in 'paths'.
@@ -102,16 +102,16 @@ class CharacterPathsHandling:
 
 
     @staticmethod
-    def get_paths_from_layer_name(paths: list[WindowsPath], layer_name: str) -> list[WindowsPath]:
+    def get_paths_from_layer_name(paths: list[Path], layer_name: str) -> list[Path]:
         '''Get a list of all the paths that are in specific layer
         from the list of all the character paths.
 
         Args:
-            paths: List of WindowsPath.
-            layer_name: Name of one of the character layers.
+            paths (list[Path]): List of Path.
+            layer_name (str): Name of one of the character layers.
 
         Returns:
-            list[WindowsPath]: Every path used in the paths list that is inside the layer.
+            list[Path]: Every path used in the paths list that is inside the layer.
         '''
         
         layer_paths = []

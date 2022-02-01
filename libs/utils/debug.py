@@ -1,17 +1,10 @@
+from settings import GlobalSettings
 from colorama import Style, Fore
+
 import time
 
 
 class Logger:
-    # Print a lot more data about the NFTs
-    __debug_mode = True
-    
-    # If True, remove all the console messages, even forced ones
-    __dist_mode = False
-    
-    # List of debug message types
-    __debug_types = ['INFO', 'DATA', 'WARN', 'ERRO']
-
     @staticmethod
     def pyprint(log: str, log_type: str, forced_log: bool = False):
         '''Debug Mode formatted print statements.
@@ -29,16 +22,16 @@ class Logger:
             forced_log (bool, optional): Force even if not in debug mode. Defaults to False.
         '''
         
-        if not Logger.__dist_mode and (Logger.__debug_mode or forced_log):
+        if not GlobalSettings.dist_mode and (GlobalSettings.verbose_debugging or forced_log):
                 color = Fore.WHITE
                 
-                if log_type == Logger.__debug_types[0]:
+                if log_type == GlobalSettings.debug_types[0]:
                     color = Fore.GREEN
-                elif log_type == Logger.__debug_types[1]:
+                elif log_type == GlobalSettings.debug_types[1]:
                     color = Fore.LIGHTBLUE_EX
-                elif log_type == Logger.__debug_types[2]:
+                elif log_type == GlobalSettings.debug_types[2]:
                     color = Fore.YELLOW
-                elif log_type == Logger.__debug_types[3]:
+                elif log_type == GlobalSettings.debug_types[3]:
                     color = Fore.LIGHTRED_EX
 
                 print(f'{color}__{log_type}__ >>> {log}{Style.RESET_ALL}')
@@ -50,7 +43,7 @@ class Logger:
         '''
 
         timer = (time.time_ns() - timer)
-        units = ['ns', 'µs', 'ms', 's', ' min(s)']
+        units = ['ns', 'µs', 'ms', 's', ' mins']
         powers = [10**3, 10**6, 10**9]
         res = 0
         i = 0
@@ -67,8 +60,9 @@ class Logger:
             res = timer / powers[2]
             i = 3
             
-        if res > 60:
-            res = round(res / 60)
-            i = 4
+            # Using minutes instead
+            if res > 120:
+                res = round(res / 60)
+                i = 4
         
         Logger.pyprint(f'Execution Time: {res}{units[i]}', 'WARN', True)
