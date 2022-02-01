@@ -13,7 +13,7 @@ On the technical side, this generator integrates a comparative hashing system al
   - Debug mode that allows to verify an NFT (overwritten every x seconds)
   - Optimized system, it takes approximately 500ms to generate and save an NFT (1080x1080, 13 layers)
   - Custom logs system (pyprint & extime)
-  - Optional layer & optional rarity
+  - Optional layers & optional layers rarity
   - Image rarifier that virtually duplicates images into the paths list
   - Accessories handling (Allows multiple accessories)
   - Exceptions handling ('ORDER_CHANGE', 'INCOMPATIBLE' and 'DELETE')
