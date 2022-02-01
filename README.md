@@ -13,17 +13,17 @@ This generator also integrates exceptions handling, optional layers, optional ra
 ### Handled exceptions:
   - `'ORDER_CHANGE'`:
       - Allows you to put an image before another image if used OR another layer (directory).
-      - Change the order between two images: \
+      - Change the order between two images:
         ```py
         ["ORDER_CHANGE", "name_1", "name_2"]
         ```
-      - Change the order between one image and one layer: \
+      - Change the order between one image and one layer:
         ```py
         ["ORDER_CHANGE", "name", "layer"]
         ```
         
   - `'INCOMPATIBLE'`:
-      - NFT is regenerated if all the listed images are used: \
+      - NFT is regenerated if all the listed images are used:
       ```py
       ["INCOMPATIBLE", "image_1", "image_2", ...]
       ```
@@ -35,7 +35,7 @@ This generator also integrates exceptions handling, optional layers, optional ra
   - `'DELETE'`:
       - Deletes all the images of specific layers if the specified image is used
       - It can be used for overriding layers such as a space suit where all the jackets needs to be deleted
-      - In this example, if 'space suit.png' is detected, all the images of these layers will be deleted: \
+      - In this example, if 'space suit.png' is detected, all the images of these layers will be deleted:
       ```py
       ['DELETE', 'space suit.png', '05_jackets', '03_trousers']
       ```
