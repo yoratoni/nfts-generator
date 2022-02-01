@@ -4,7 +4,7 @@ This tool is made by [Yoratoni](https://github.com/yoratoni) for the [AstroDream
 
 As we want our NFTs to show the whole body of the characters, we have more than 11 layers per character so we needed to create our own NFTs generator.
 
-On the technical side, this generator integrates a comparative hashing system allowing duplicates detection and random regeneration as it is a lot more performant to detect exceptions before generating the images.
+On the technical side, this generator integrates a comparative hashing system allowing duplicates detection and random paths regeneration as it is a lot more performant to detect exceptions and to regenerate only the paths list before generating / merging the images.
 
 ---
 
