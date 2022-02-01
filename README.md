@@ -21,7 +21,7 @@ On the technical side, this generator integrates a comparative hashing system al
   - Type hints, static method classes and full docstring for every method
 
 ### The main function:
-Every setting can be modified inside the `Generator.generate_nfts()` function, ElonSettings for example concerns the first character settings of our NFTs, this class, based on the CharacterSettings class allows to define exceptions for multiple character, the main function can be later called with only two arguments.
+Every setting can be modified inside the `Generator.generate_nfts()` function, ElonSettings for example concerns the first character settings of our NFTs, this class, based on the CharacterSettings class allows to define custom parameters for multiple character, the main function can be later called with only two arguments.
 
 ```py
 # Character parameters obtained from the name
