@@ -1,4 +1,4 @@
-# NFTs Advanced Generator
+# Advanced NFTs Generator
 
 This tool is made by [Yoratoni](https://github.com/yoratoni) for the [AstroDreamerz](https://astrodreamerz.io/) project.
 
