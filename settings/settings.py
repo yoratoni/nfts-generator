@@ -333,6 +333,7 @@ class RichardSettings:
 
         # Order Change
         ['ORDER_CHANGE', 'chaussures hotesse.png', '03_trousers'],
+        ['ORDER_CHANGE', 'chaussures hotesse.png', 'combi space entier.png'],
         ['ORDER_CHANGE', 'tenue sport haut.png', '03_trousers']
     ]
 
@@ -340,7 +341,7 @@ class RichardSettings:
     optional_layers = ['05_jackets', '09_glasses', '07_makeup']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [5, 6, 6]
+    optional_rarity = [4, 5, 5]
     
     # Background folder
     backgrounds_folder = '00_backgrounds'
@@ -359,7 +360,7 @@ class RichardSettings:
     # As an example, if one image is specified: ['image.png', XX]
     # This image will appears XX times inside the list of images
     image_rarifier = [
-        ['visage.png', 4],
+        ['visage.png', 3],
         ['chemise blanc anglais.png', 2],
         ['chemise blanc court.png', 2],
         ['chemise blanc.png', 2],

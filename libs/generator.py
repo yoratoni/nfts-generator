@@ -128,6 +128,7 @@ class Generator:
             
         # Print saved NFT path
         Logger.pyprint(f'Saved NFT [{output_path_and_name}]', 'DATA', True)
+        print('')
         
     
     @staticmethod
@@ -139,16 +140,10 @@ class Generator:
     ):
         '''Generate a number of unique NFTs for a specified character.
 
-        "nft_name_pattern" parameter allows a debug sleeping mode.
-        
-        Example:
-            nft_name_pattern == "DEBUG:66" generates a unique "DEBUG_NFT"
-            image with a sleeping time of 66ms.
-
         Args:
             iterations (int): Total number of NFTs for this character.
             character_name (str): Current generated character name. 
-            debug_mode_latency (int): If == 0, debug mode is disabled (Value exprimed in seconds).
+            debug_mode_latency (int): If == 0, debug mode is disabled (Value exprimed in milliseconds).
             is_saving_system_enabled (bool, optional): (FOR TESTING ONLY) Remove the saving system.
         '''
         
