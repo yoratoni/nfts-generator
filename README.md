@@ -1,6 +1,6 @@
 # NFTs Advanced Generator
 
-This tool is made by Yoratoni for the AstroDreamerz project.
+This tool is made by [Yoratoni](https://github.com/yoratoni) for the AstroDreamerz project.
 
 As we wanted our NFTs to show the whole body of the characters, we had more than 11 layers so we needed to create our own NFTs generator.
 
