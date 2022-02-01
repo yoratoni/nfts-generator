@@ -34,10 +34,8 @@ This generator also integrates exceptions handling, optional layers, optional ra
 Pyprint is a simple custom logging system made to get a lot of formatted data about the generation of the NFTs,
 this class also integrated the extime method that prints the formatted execution time.
 
-This class uses [Colorama](https://github.com/tartley/colorama) to print colored terminal text. 
-
 Here's an example of a `pyprint()` log:
 ![Alt text](docs/pyprint.png "Pyprint logs example")
 
-      
+This class uses [Colorama](https://github.com/tartley/colorama) to print colored terminal text. 
       
