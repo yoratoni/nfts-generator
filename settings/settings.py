@@ -1,4 +1,4 @@
-class GlobalParam:
+class GlobalSettings:
     # Default path to the main layers directory
     main_input_dir = 'input'
     
@@ -8,8 +8,50 @@ class GlobalParam:
     # Character folders list
     character_folders = ['elon', 'jeff', 'richard']
     
+    # List of all the available exceptions
+    exceptions_list = ['ORDER_CHANGE', 'INCOMPATIBLE']
+    
+    
+class CharacterSettings:
+    '''Used for copy/pasting to create a new character settings class.
+    Can also be used for typing.
+    
+    The class name should be defined like this by convention: NameSettings.
+    '''
+    
+    # Exceptions handling:
+    #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
+    #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
+    #       or if one of the images are inside a layer (Supports only one image and one layer)
+    exceptions = []
+    
+    # Optional layers (Accessories is not supported here)
+    optional_layers = []
+    
+    # Optional layers rarity (List of rarity per layer)
+    optional_rarity = []
+    
+    # Background folder
+    backgrounds_folder = ''
+    
+    # Accessories folder name
+    # Handled separately from the main character randomizer function
+    accessories_folder = ''
 
-class ElonParam:
+    # Max amount of accessories
+    max_accessories_amount = 0
+
+    # Accessories rarity
+    accessories_rarity = 0
+    
+    # Increases the chances to use a specific image
+    # As an example, if one image is specified: ['image.png', XX]
+    # This image will appears XX times inside the list of images,
+    # Reducing the chances for other images to be used
+    image_rarifier = []
+
+
+class ElonSettings:
     # Exceptions handling:
     #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
     #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
@@ -17,18 +59,20 @@ class ElonParam:
     exceptions = [
         ['INCOMPATIBLE', 'visage et casquette rose.png', '08_hats'],
         ['INCOMPATIBLE', 'visage et casquette noir.png', '08_hats'],
-        ['INCOMPATIBLE', 'clope.png', '08_hats'],
-        
+        ['INCOMPATIBLE', 'casque space transparence.png', 'clope.png'],
         ['INCOMPATIBLE', 'casque space transparence.png', 'bandana mask.png'],
         ['INCOMPATIBLE', 'casque space transparence.png', '07_glasses'],
         ['INCOMPATIBLE', 'casque space transparence.png', '04_jackets'],
         ['INCOMPATIBLE', 'combinaison haut.png', '04_jackets'],
+        ['INCOMPATIBLE', 'pantalon costume.png', 'bottes moto.png'],
         
         ['ORDER_CHANGE', 'bottes combinaison.png', 'jean tesla bleu.png'],
         ['ORDER_CHANGE', 'bottes combinaison.png', 'pantalon costume.png'],
-        ['ORDER_CHANGE', 'chaussures costume.png', 'pantalon costume.png'],
+        
         ['ORDER_CHANGE', 'chaussures costume.png', 'jean tesla bleu.png'],
-        ['ORDER_CHANGE', 'pieds nus.png', '02_trousers'],
+        ['ORDER_CHANGE', 'chaussures costume.png', 'pantalon costume.png'],
+        
+        ['ORDER_CHANGE', 'pieds nus.png', '02_trousers']
     ]
     
     # Optional layers (Accessories is not supported here)
@@ -45,10 +89,10 @@ class ElonParam:
     accessories_folder = '06_accessories'
 
     # Max amount of accessories
-    max_accessories_amount = 2
+    max_accessories_amount = 1
 
     # Accessories rarity
-    accessories_rarity = 3
+    accessories_rarity = 4
     
     # Increases the chances to use a specific image
     # As an example, if one image is specified: ['image.png', XX]
@@ -57,11 +101,11 @@ class ElonParam:
     image_rarifier = [
         ['visage.png', 2],
         ['visage coupe court.png', 2],
-        ['mains.png', 3],
+        ['mains.png', 3]
     ]
 
 
-class JeffParam:
+class JeffSettings:
     # Exceptions handling:
     #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
     #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
@@ -171,7 +215,7 @@ class JeffParam:
     ]
 
 
-class RichardParam:
+class RichardSettings:
     # Exceptions handling:
     #   'ORDER_CHANGE' -> Change the order between two images: [ORDER_CHANGE, name, put_before_this_image]
     #       or the order between an image and a whole layer [ORDER_CHANGE, name, put_before_this_layer]

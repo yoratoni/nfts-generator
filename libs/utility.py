@@ -1,4 +1,3 @@
-from colorama import Style, Fore
 from pathlib import WindowsPath
 from typing import Any, Callable
 from hashlib import sha1
@@ -10,129 +9,61 @@ import time
 import os
 
 
-class Logger:
-    # Print a lot more data about the NFTs
-    __debug_mode = True
-    
-    # If True, remove all the console messages, even forced ones
-    __dist_mode = False
-    
-    # List of debug message types
-    __debug_types = ['INFO', 'DATA', 'WARN', 'ERRO']
-
-    @staticmethod
-    def pyprint(log: str, log_type: str, forced_log: bool = False):
-        '''Debug Mode formatted print statements.
-        
-        Supported message types:
-        - INFO -> Green
-        - DATA -> Light blue
-        - WARNING -> Yellow
-        - ERROR -> Light red
-
-        Args:
-            log (str): Printed log message.
-            log_type (str): Type of the log (Unsupported title returns white colored log).
-            include_path (bool, optional): Include the path in the log. Defaults to False.
-            forced_log (bool, optional): Force even if not in debug mode. Defaults to False.
-        '''
-        
-        if not Logger.__dist_mode and (Logger.__debug_mode or forced_log):
-                color = Fore.WHITE
-                
-                if log_type == Logger.__debug_types[0]:
-                    color = Fore.GREEN
-                elif log_type == Logger.__debug_types[1]:
-                    color = Fore.LIGHTBLUE_EX
-                elif log_type == Logger.__debug_types[2]:
-                    color = Fore.YELLOW
-                elif log_type == Logger.__debug_types[3]:
-                    color = Fore.LIGHTRED_EX
-
-                print(f'{color}__{log_type}__ >>> {log}{Style.RESET_ALL}')
-
-
-    @staticmethod
-    def extime(timer: int):
-        '''Automatic timer format (ns, µs, ms and s units).
-        '''
-
-        timer = (time.time_ns() - timer)
-        units = ['ns', 'µs', 'ms', 's']
-        powers = [10**3, 10**6, 10**9]
-        res = 0
-        i = 0
-        
-        if timer < powers[0]:
-            res = timer
-        elif powers[0] <= timer < powers[1]:
-            res = timer / powers[0]
-            i = 1
-        elif powers[1] <= timer < powers[2]:
-            res = timer / powers[1]
-            i = 2
-        elif powers[2] <= timer:
-            res = timer / powers[2]
-            i = 3
-        
-        Logger.pyprint(f'Execution Time: {res}{units[i]}', 'WARN', True)
-
-
 class NFT:
     # Save an hash of all the paths of an NFT
     # Used to compare multiple NFTs
     NFT_COMPARISON_HASHES = []
     
     
-    @staticmethod
-    def __get_structure(folder_path: WindowsPath, returns_full_path: bool = False) -> list:
-        '''Get the file / folder structure of a folder.
+    # @staticmethod
+    # def __get_structure(folder_path: WindowsPath, returns_full_path: bool = False) -> list:
+    #     '''Get the file / folder structure of a folder.
 
-        Args:
-            folder_path: Absolute path of the folder that needs to be scanned.
-            returns_full_path: If True, returns WindowsPath-type absolute path(s).
+    #     Args:
+    #         folder_path: Absolute path of the folder that needs to be scanned.
+    #         returns_full_path: If True, returns WindowsPath-type absolute path(s).
 
-        Returns:
-            scanned: List of WindowsPath / str.
-        '''
+    #     Returns:
+    #         scanned: List of WindowsPath / str.
+    #     '''
         
-        data = os.listdir(folder_path)
-        drv = len(data)
-        scanned = []
+    #     data = os.listdir(folder_path)
+    #     drv = len(data)
+    #     scanned = []
         
-        for i in range(drv):
-            if returns_full_path:
-                current_name = (folder_path / data[i]).resolve()
-            else:
-                current_name = data[i]
+    #     for i in range(drv):
+    #         if returns_full_path:
+    #             current_name = (folder_path / data[i]).resolve()
+    #         else:
+    #             current_name = data[i]
                 
-            scanned.append(current_name)
+    #         scanned.append(current_name)
         
-        Logger.pyprint(f'Structure scanned [{folder_path}]', 'DATA')
-        return scanned
+    #     Logger.pyprint(f'Structure scanned [{folder_path}]', 'DATA')
+    #     return scanned
     
     
-    @staticmethod
-    def __get_character_layers(character_main_folder_path: WindowsPath) -> dict:
-        '''Returns a dict that contains all the layers of a character.
+    # @staticmethod
+    # def __get_character_layers(character_main_folder_path: WindowsPath) -> dict:
+    #     '''Returns a dict that contains all the layers of a character.
 
-        Args:
-            character_main_folder_path: Absolute path to the character.
+    #     Args:
+    #         character_main_folder_path: Absolute path to the character.
 
-        Returns:
-            character_layers_dict: Keys: layers, values: Dictionary of files (absolute path).
-        '''
+    #     Returns:
+    #         character_layers_dict: Keys: layers, values: Dictionary of files (absolute path).
+    #     '''
         
-        folders = NFT.__get_structure(character_main_folder_path, True)
-        drv = len(folders)
-        character_layers_dict = {}
+    #     folders = NFT.__get_structure(character_main_folder_path, True)
+    #     drv = len(folders)
+    #     character_layers_dict = {}
         
-        for i in range(drv):
-            folder_name = os.path.basename(folders[i])
-            character_layers_dict[folder_name] = NFT.__get_structure(folders[i], True)
+    #     for i in range(drv):
+    #         folder_name = os.path.basename(folders[i])
+    #         character_layers_dict[folder_name] = NFT.__get_structure(folders[i], True)
         
-        Logger.pyprint('Scanned character layers', 'INFO')
-        return character_layers_dict
+    #     Logger.pyprint('Scanned character layers', 'INFO')
+    #     return character_layers_dict
     
     
     @staticmethod
@@ -152,7 +83,13 @@ class NFT:
         
         for i in range(1, drv):
             layer = Image.open(random_character_paths[i]).convert('RGBA')
-            img = Image.alpha_composite(img, layer)
+            
+            try:
+                img = Image.alpha_composite(img, layer)
+            except ValueError as err:
+                Logger.pyprint(f'Alpha Composite error: {err}', 'ERRO')
+                Logger.pyprint(f'Between [{random_character_paths[0]}] and [{random_character_paths[i]}] ', 'ERRO')
+                
             
         Logger.pyprint('Merged images into character', 'INFO')
         return img
@@ -174,76 +111,81 @@ class NFT:
         '''
         
         bck = Image.open(background_path).convert('RGBA')
-        bck = Image.alpha_composite(bck, character_image)
+        
+        try:
+            bck = Image.alpha_composite(bck, character_image)
+        except ValueError as err:
+            Logger.pyprint(f'Alpha Composite error: {err}', 'ERRO')
+            Logger.pyprint(f'Between [{bck}] and [{character_image}] ', 'ERRO')
         
         Logger.pyprint('Character merged to the background', 'INFO')
         return bck
 
 
-    @staticmethod
-    def get_index_in_paths_from_filename(paths: list, filename: str) -> int:
-        '''Get the index of a filename inside a WindowsPath list.
+    # @staticmethod
+    # def get_index_in_paths_from_filename(paths: list, filename: str) -> int:
+    #     '''Get the index of a filename inside a WindowsPath list.
 
-        Args:
-            paths: List of WindowsPath.
-            filename: Name of the file to check.
+    #     Args:
+    #         paths: List of WindowsPath.
+    #         filename: Name of the file to check.
             
-        Returns:
-            i: Index of the file in the list or None if not found.
-        '''
+    #     Returns:
+    #         i: Index of the file in the list or None if not found.
+    #     '''
         
-        drv = len(paths)
+    #     drv = len(paths)
         
-        for i in range(drv):
-            current_name = os.path.basename(paths[i])
-            if current_name == filename:
-                return i
+    #     for i in range(drv):
+    #         current_name = os.path.basename(paths[i])
+    #         if current_name == filename:
+    #             return i
 
 
-    @staticmethod
-    def __get_layers_name_from_paths(paths: list) -> list:
-        '''Get a list of all the layers name used by 'paths'.
+    # @staticmethod
+    # def __get_layers_name_from_paths(paths: list) -> list:
+    #     '''Get a list of all the layers name used by 'paths'.
 
-        Args:
-            paths: List of WindowsPath.
+    #     Args:
+    #         paths: List of WindowsPath.
 
-        Returns:
-            layers: Name of all the layers used in 'paths'.
-        '''
+    #     Returns:
+    #         layers: Name of all the layers used in 'paths'.
+    #     '''
         
-        layers = []
-        drv = len(paths)
+    #     layers = []
+    #     drv = len(paths)
         
-        for i in range(drv):
-            current_layer = os.path.basename(paths[i].parent)
-            if current_layer not in layers:
-                layers.append(current_layer)
+    #     for i in range(drv):
+    #         current_layer = os.path.basename(paths[i].parent)
+    #         if current_layer not in layers:
+    #             layers.append(current_layer)
                 
-        return layers
+    #     return layers
     
     
-    @staticmethod
-    def get_paths_in_paths_list_from_layer_name(paths: list, layer: str) -> list:
-        '''Get a path in a paths list from a layer name.
-        it returns a list of all paths in a specific layer.
+    # @staticmethod
+    # def get_paths_in_paths_list_from_layer_name(paths: list, layer: str) -> list:
+    #     '''Get a path in a paths list from a layer name.
+    #     it returns a list of all paths in a specific layer.
 
-        Args:
-            paths: List of WindowsPath.
-            layer: Name of the layer that is used to search paths.
+    #     Args:
+    #         paths: List of WindowsPath.
+    #         layer: Name of the layer that is used to search paths.
 
-        Returns:
-            paths_in_paths_list: Every path used in the paths list that is inside the layer.
-        '''
+    #     Returns:
+    #         paths_in_paths_list: Every path used in the paths list that is inside the layer.
+    #     '''
         
-        paths_in_paths_list = []
-        drv = len(paths)
+    #     paths_in_paths_list = []
+    #     drv = len(paths)
         
-        for i in range(drv):
-            current_path_layer_name = os.path.basename(paths[i].parent)
-            if current_path_layer_name == layer:
-                paths_in_paths_list.append(paths[i])
+    #     for i in range(drv):
+    #         current_path_layer_name = os.path.basename(paths[i].parent)
+    #         if current_path_layer_name == layer:
+    #             paths_in_paths_list.append(paths[i])
                 
-        return paths_in_paths_list
+    #     return paths_in_paths_list
 
 
     @staticmethod
