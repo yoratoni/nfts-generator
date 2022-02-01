@@ -1,3 +1,42 @@
+# Exceptions handling:
+#   'ORDER_CHANGE' -> Change the order between two layers:
+#       - ["ORDER_CHANGE", "name", "put_before_this_layer"]
+#   'ORDER_CHANGE' -> Change the order between one image and one layer:
+#       - ["ORDER_CHANGE", "name", "put_before_this_image"]
+#
+#   'INCOMPATIBLE' -> NFT is regenerated if all the listed images are used:
+#       - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
+#   'INCOMPATIBLE' -> NFT is regenerated if one of the images are inside a layer
+#   (Supports only one image and one layer):
+#       - ["INCOMPATIBLE", "image.png", "layer"]
+
+
+'''
+EXCEPTIONS SYSTEM:
+    'ORDER_CHANGE':
+        - Change the order between two layers: 
+            -> ["ORDER_CHANGE", "name", "put_before_this_layer"]
+        - Change the order between one image and one layer:
+            -> ["ORDER_CHANGE", "name", "put_before_this_image"]
+            
+    'INCOMPATIBLE':
+        - NFT is regenerated if all the listed images are used:
+            -> ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
+        - NFT is regenerated if one of the images is inside a layer (Only one image and one layer):
+            -> ["INCOMPATIBLE", "image.png", "layer"]
+            
+    'DELETE':
+        - Deletes all the images of specific layers if the specified image is used:
+            -> ['DELETE', 'space suit.png', '05_jackets', '03_trousers']
+            
+        Note:
+            - 'DELETE' exceptions should be place first to increase performances.
+        
+            - if 'space suit.png' is used,
+              then all the images inside '05_jackets' and '03_trousers' will be deleted.
+'''
+
+
 class GlobalSettings:
     # Default path to the main layers directory
     main_input_dir = 'input'
@@ -15,7 +54,7 @@ class GlobalSettings:
     dist_mode = False  # If True, remove all the console messages, even forced ones
     verbose_debugging = True  # Print a lot more data about the NFTs
     debug_types = ['INFO', 'DATA', 'WARN', 'ERRO']  # List of debug message types
-    
+
     
 class CharacterSettings:
     '''Used for copy/pasting to create a new character settings class.
@@ -24,17 +63,7 @@ class CharacterSettings:
     The class name should be defined like this by convention: NameSettings.
     '''
     
-    # Exceptions handling:
-    #   'ORDER_CHANGE' -> Change the order between two layers:
-    #       - ["ORDER_CHANGE", "name", "put_before_this_layer"]
-    #   'ORDER_CHANGE' -> Change the order between one image and one layer:
-    #       - ["ORDER_CHANGE", "name", "put_before_this_image"]
-    #
-    #   'INCOMPATIBLE' -> NFT is regenerated if all the listed images are used:
-    #       - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
-    #   'INCOMPATIBLE' -> NFT is regenerated if one of the images are inside a layer
-    #   (Supports only one image and one layer):
-    #       - ["INCOMPATIBLE", "image.png", "layer"]
+    # Exceptions Handling
     exceptions = []
     
     # Optional layers (Accessories is not supported here)
@@ -64,17 +93,7 @@ class CharacterSettings:
 
 
 class ElonSettings:
-    # Exceptions handling:
-    #   'ORDER_CHANGE' -> Change the order between two layers:
-    #       - ["ORDER_CHANGE", "name", "put_before_this_layer"]
-    #   'ORDER_CHANGE' -> Change the order between one image and one layer:
-    #       - ["ORDER_CHANGE", "name", "put_before_this_image"]
-    #
-    #   'INCOMPATIBLE' -> NFT is regenerated if all the listed images are used:
-    #       - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
-    #   'INCOMPATIBLE' -> NFT is regenerated if one of the images are inside a layer
-    #   (Supports only one image and one layer):
-    #       - ["INCOMPATIBLE", "image.png", "layer"]
+    # Exceptions handling
     exceptions = [
         ['INCOMPATIBLE', 'visage et casquette rose.png', '08_hats'],
         ['INCOMPATIBLE', 'visage et casquette noir.png', '08_hats'],
@@ -125,17 +144,7 @@ class ElonSettings:
 
 
 class JeffSettings:
-    # Exceptions handling:
-    #   'ORDER_CHANGE' -> Change the order between two layers:
-    #       - ["ORDER_CHANGE", "name", "put_before_this_layer"]
-    #   'ORDER_CHANGE' -> Change the order between one image and one layer:
-    #       - ["ORDER_CHANGE", "name", "put_before_this_image"]
-    #
-    #   'INCOMPATIBLE' -> NFT is regenerated if all the listed images are used:
-    #       - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
-    #   'INCOMPATIBLE' -> NFT is regenerated if one of the images are inside a layer
-    #   (Supports only one image and one layer):
-    #       - ["INCOMPATIBLE", "image.png", "layer"]
+    # Exceptions handling
     exceptions = [
         ['INCOMPATIBLE', 'combi haut.png', '06_jackets'],
         
@@ -242,18 +251,10 @@ class JeffSettings:
 
 
 class RichardSettings:
-    # Exceptions handling:
-    #   'ORDER_CHANGE' -> Change the order between two layers:
-    #       - ["ORDER_CHANGE", "name", "put_before_this_layer"]
-    #   'ORDER_CHANGE' -> Change the order between one image and one layer:
-    #       - ["ORDER_CHANGE", "name", "put_before_this_image"]
-    #
-    #   'INCOMPATIBLE' -> NFT is regenerated if all the listed images are used:
-    #       - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
-    #   'INCOMPATIBLE' -> NFT is regenerated if one of the images are inside a layer
-    #   (Supports only one image and one layer):
-    #       - ["INCOMPATIBLE", "image.png", "layer"]
+    # Exceptions handling
     exceptions = [
+        ['DELETE', 'combi space entier.png', '03_trousers', '05_jackets'],
+        
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise blanc anglais.png'],
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise blanc.png'],
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise cirque.png'],

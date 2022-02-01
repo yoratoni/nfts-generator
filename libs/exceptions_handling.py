@@ -150,6 +150,18 @@ class ExceptionsHandling:
         Returns:
             list[Path]: Modified list of paths.
         '''
+        
+        image_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[1])
+        
+        if image_path_index is not None:
+            layers_to_delete = current_exception[2:]
+            driver = len(layers_to_delete)
+            
+            for i in range(driver):
+                paths = PathsHandling.delete_paths_from_layer_name(paths, layers_to_delete[i])
+        
+        return paths
+            
 
 
     @staticmethod
