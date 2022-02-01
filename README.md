@@ -9,9 +9,9 @@ On the technical side, this generator integrates a comparative hashing system al
 ---
 
 ### Technical information:
-  - Comparative hashing system to find potential duplicates based on [xxHash](https://github.com/Cyan4973/xxHash)
-  - Debug mode, allows you to verify an NFT (overwritten every x seconds)
-  - Optimized layers system, it takes approximately 500ms to save an NFT (1080x1080)
+  - Comparative hashes system to find duplicates based on the 128bits [xxHash](https://github.com/Cyan4973/xxHash) algorithm.
+  - Debug mode that allows to verify an NFT (overwritten every x seconds)
+  - Optimized system, it takes approximately 500ms to generate and save an NFT (1080x1080, 13 layers)
   - Custom logs system (pyprint & extime)
   - Optional layer & optional rarity
   - Image rarifier that virtually duplicates images into the paths list
@@ -21,7 +21,7 @@ On the technical side, this generator integrates a comparative hashing system al
   - Type hints, static method classes and full docstring for every method
 
 ### The main function:
-Every setting can be modified inside the `Generator.generate_nfts()` function, ElonSettings for example concerns the first character of our NFTs, this class, based on the CharacterSettings class allows to define exceptions for multiple character, the main function can be later called with only two arguments.
+Every setting can be modified inside the `Generator.generate_nfts()` function, ElonSettings for example concerns the first character settings of our NFTs, this class, based on the CharacterSettings class allows to define exceptions for multiple character, the main function can be later called with only two arguments.
 
 ```py
 # Character parameters obtained from the name
