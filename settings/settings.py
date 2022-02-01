@@ -14,8 +14,8 @@
 '''
 EXCEPTIONS SYSTEM:
     'ORDER_CHANGE':
-        - Change the order between two layers: 
-            -> ["ORDER_CHANGE", "name", "put_before_this_layer"]
+        - Change the order between two images: 
+            -> ["ORDER_CHANGE", "name_1", "name_2"]
         - Change the order between one image and one layer:
             -> ["ORDER_CHANGE", "name", "put_before_this_image"]
             
