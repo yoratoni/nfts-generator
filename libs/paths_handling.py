@@ -124,3 +124,26 @@ class PathsHandling:
                 layer_paths.append(paths[i])
                 
         return layer_paths
+    
+    
+    @staticmethod
+    def delete_paths_from_layer_name(paths: list[Path], layer_name: str) -> list[Path]:
+        '''Deletes all the paths of a specific layer inside the paths list.
+
+        Args:
+            paths (list[Path]): List of Path.
+            layer_name (str): Name of one of the character layers.
+
+        Returns:
+            list[Path]: Original paths list without all the paths of the specific layer.
+        '''
+        
+        layer_paths = PathsHandling.get_paths_from_layer_name(paths, layer_name)
+        driver = len(layer_paths)
+        
+        for i in range(driver):
+            if layer_paths[i] in paths:
+                path_index = paths.index(layer_paths[i])
+                paths.pop(path_index)
+
+        return paths
