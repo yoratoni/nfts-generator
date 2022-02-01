@@ -109,6 +109,7 @@ class Generator:
             
             # If the character exception handling is valid, break the while loop
             if character is not None:
+                Logger.pyprint('Exceptions handled successfully', 'INFO')
                 if final_hash not in Generator.nft_comparator_hashlib:
                     Generator.nft_comparator_hashlib.append(final_hash)
                     break
@@ -116,6 +117,7 @@ class Generator:
                 Logger.pyprint(f'Duplicata of an NFT found [{final_hash}]', 'WARN', True)
             else:
                 Logger.pyprint(f'Invalid character, the NFT will be regenerated..', 'ERRO', True)
+                print('')
                 
         if is_saving_system_enabled:
             # Generate the image of the character

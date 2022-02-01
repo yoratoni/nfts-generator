@@ -205,5 +205,4 @@ class ExceptionsHandling:
             else:
                 Logger.pyprint(f'Invalid exception name at {current_exception}', 'ERRO', True)
         
-        Logger.pyprint('Exceptions handled successfully', 'INFO')
         return paths
