@@ -4,11 +4,40 @@ This tool is made by Yoratoni for the AstroDreamerz project.
 
 As we wanted our NFTs to show the whole body of the characters, we had more than 11 layers so we needed to create our own NFTs generator.
 
-On the technical side, this generator integrates a comparative hashing system based on the [xxHash](https://github.com/Cyan4973/xxHash) non-cryptographic hashing algorithm allowing duplicates detection and random regeneration as it is a lot performant to detect exceptions before generating the images.
-
-This generator also integrates exceptions handling, optional layers, optional rarity and an image rarifier.
+On the technical side, this generator integrates a comparative hashing system allowing duplicates detection and random regeneration as it is a lot more performant to detect exceptions before generating the images.
 
 ---
+
+### Technical information:
+  - Comparative hashing system to find potential duplicates based on [xxHash](https://github.com/Cyan4973/xxHash)
+  - Debug mode, allows you to verify an NFT (overwritten every x seconds)
+  - Optimized layers system, it takes approximately 500ms to save an NFT (1080x1080)
+  - Custom logs system (pyprint & extime)
+  - Optional layer & optional rarity
+  - Image rarifier that virtually duplicates images into the paths list
+  - Accessories handling (Allows multiple accessories)
+  - Exceptions handling ('ORDER_CHANGE', 'INCOMPATIBLE' and 'DELETE')
+  - [settings.py](settings/settings.py) to edit the settings for every character
+  - Type hints, static method classes and full docstring for every method
+
+### The main function:
+Every setting can be modified inside the `Generator.generate_nfts()` function, ElonSettings for example concerns the first character of our NFTs, this class, based on the CharacterSettings class allows to define exceptions for multiple character, the main function can be later called with only two arguments.
+
+```py
+# Character parameters obtained from the name
+if character_name == GlobalSettings.character_folders[0]:
+    settings = ElonSettings
+elif character_name == GlobalSettings.character_folders[1]:
+    settings = JeffSettings
+elif character_name == GlobalSettings.character_folders[2]:
+    settings = RichardSettings
+```
+
+The `debug_mode_latency` argument is set to 0 by default, if modified, the generator will be in debug mode,
+in this mode, only one NFT is generated, using the name `DEBUG_NFT.png` to check if everything works perfectly fine.
+
+The value defined in this parameter is the number of sleeping milliseconds between two generated NFTs,
+I'm generally using 2500ms, it's enough to check a whole NFT.
 
 ### Handled exceptions:
   - `'ORDER_CHANGE'`:
@@ -32,10 +61,18 @@ This generator also integrates exceptions handling, optional layers, optional ra
       
 ### Logger class:
 Pyprint is a simple custom logging system made to get a lot of formatted data about the generation of the NFTs,
-this class also integrated the extime method that prints the formatted execution time.
+this class also integrated the extime method that prints the formatted execution time. Verbose debugging can be turned off inside the `GlobalSettings` class to reduce the amount of printed data.
 
 Here's an example of a `pyprint()` log:
+
 ![Alt text](docs/pyprint.png "Pyprint logs example")
 
 This class uses [Colorama](https://github.com/tartley/colorama) to print colored terminal text. 
-      
+
+
+
+
+
+
+
+
