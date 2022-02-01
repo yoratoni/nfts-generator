@@ -2,7 +2,7 @@
 
 This tool is made by [Yoratoni](https://github.com/yoratoni) for the [AstroDreamerz](https://astrodreamerz.io/) project.
 
-As we wanted our NFTs to show the whole body of the characters, we had more than 11 layers so we needed to create our own NFTs generator.
+As we want our NFTs to show the whole body of the characters, we have more than 11 layers per character so we needed to create our own NFTs generator.
 
 On the technical side, this generator integrates a comparative hashing system allowing duplicates detection and random regeneration as it is a lot more performant to detect exceptions before generating the images.
 
