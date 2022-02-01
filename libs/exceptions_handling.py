@@ -2,10 +2,26 @@ from libs import CharacterPathsHandling, Logger
 from settings import GlobalSettings, CharacterSettings
 from pathlib import WindowsPath
 
+import os
+
 
 class ExceptionsHandling:
     @staticmethod
     def order_change(paths: list[WindowsPath], current_exception: list[str]) -> list[WindowsPath]:
+        '''Change the order between two images or one image and layers.
+        
+        Examples:
+            - ["ORDER_CHANGE", "name", "put_before_this_layer"]
+            - ["ORDER_CHANGE", "name", "put_before_this_image"]
+
+        Args:
+            paths (list[WindowsPath]): List of all the paths used for one NFT.
+            current_exception (list[str]): Current exception handled in the loop.
+
+        Returns:
+            list[WindowsPath]: Modified list of paths.
+        '''
+        
         layers_list = CharacterPathsHandling.get_layer_names_from_paths(paths)
         logger_message = False
         
@@ -54,9 +70,72 @@ class ExceptionsHandling:
 
     
     @staticmethod
-    def incompatibilities():
-        pass
-    
+    def incompatibilities(paths: list[WindowsPath], current_exception: list[str]):
+        '''Check incompatibilities with one image and one layer or multiple images.
+        
+        Examples:
+            - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
+            - ["INCOMPATIBLE", "image.png", "layer"]
+
+        Args:
+            paths (list[WindowsPath]): List of all the paths used for one NFT.
+            current_exception (list[str]): Current exception handled in the loop.
+
+        Returns:
+            list[WindowsPath] OR None: Valid list of path or None if an incompatibility is found.
+        '''
+        
+        paths_driver = len(paths)
+        incompatibles = current_exception[1:]
+        incompatibility_driver = len(incompatibles)
+        
+        # Check if it's a layer incompatibility
+        is_layer_incompatibility = False
+        layers_list = CharacterPathsHandling.get_layer_names_from_paths(paths)
+        for i in range(incompatibility_driver):
+            if incompatibles[i] in layers_list:
+                is_layer_incompatibility = True
+                break
+        
+        # Handles Incompatibilities between multiple images
+        if not is_layer_incompatibility:
+            incompatible_paths = []
+            
+            # Add all the images index in path to a list
+            for i in range(incompatibility_driver):
+                current_path_index = CharacterPathsHandling.get_index_in_paths_list_from_filename(
+                                        paths,
+                                        incompatibles[i]
+                                     )
+                incompatible_paths.append(current_path_index)
+            
+            # Regenerate the NFT is the images are all found
+            if None not in incompatible_paths:
+                Logger.pyprint('Incompatible images found', 'WARN')
+                return None  # Regenerate the NFT
+        
+        # Handles incompatibilities with a whole layer
+        else:
+            if incompatibility_driver > 2:
+                Logger.pyprint('Incompatibility in layer mode only supports one image and one layer', 'WARN')
+                
+            # Check if the image is used (Returns None if not)
+            image_path = CharacterPathsHandling.get_index_in_paths_list_from_filename(paths, incompatibles[0])
+            
+            # If the image is used, check the incompatibility
+            if image_path is not None:
+                for i in range(paths_driver):
+                    # Get the layer name of every image
+                    current_layer = os.path.basename(paths[i].parent)
+                    
+                    # Check if the layer name is the incompatible one
+                    if current_layer == incompatibles[1]:
+                        Logger.pyprint('Incompatibility with a layer found', 'WARN')
+                        return None  # Regenerate the NFT
+
+        Logger.pyprint('Exceptions handled successfully', 'INFO')
+        return paths
+
 
     @staticmethod
     def exceptions_handling(paths: list[WindowsPath], settings: CharacterSettings):
@@ -85,7 +164,7 @@ class ExceptionsHandling:
                 
             # Incompatibility exception (Returns None to regenerate the NFT)
             elif current_exception[0] == GlobalSettings.exceptions_list[1]:
-                paths = ExceptionsHandling.incompatibilities()
+                paths = ExceptionsHandling.incompatibilities(paths, current_exception)
                 
                 # If it's incompatible, it's not necessary to continue the exceptions handling
                 if paths is None:
@@ -93,7 +172,7 @@ class ExceptionsHandling:
                 
             # Error
             else:
-                Logger.pyprint(f'Invalid exception name at {current_exception}', 'ERRO')
+                Logger.pyprint(f'Invalid exception instruction at {current_exception}', 'ERRO')
         
         Logger.pyprint('Exceptions handled successfully', 'INFO')
         return paths

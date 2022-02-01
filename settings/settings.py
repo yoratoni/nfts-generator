@@ -20,9 +20,16 @@ class CharacterSettings:
     '''
     
     # Exceptions handling:
-    #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
-    #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
-    #       or if one of the images are inside a layer (Supports only one image and one layer)
+    #   'ORDER_CHANGE' -> Change the order between two layers:
+    #       - ["ORDER_CHANGE", "name", "put_before_this_layer"]
+    #   'ORDER_CHANGE' -> Change the order between one image and one layer:
+    #       - ["ORDER_CHANGE", "name", "put_before_this_image"]
+    #
+    #   'INCOMPATIBLE' -> NFT is regenerated if all the listed images are used:
+    #       - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
+    #   'INCOMPATIBLE' -> NFT is regenerated if one of the images are inside a layer
+    #   (Supports only one image and one layer):
+    #       - ["INCOMPATIBLE", "image.png", "layer"]
     exceptions = []
     
     # Optional layers (Accessories is not supported here)
@@ -53,9 +60,16 @@ class CharacterSettings:
 
 class ElonSettings:
     # Exceptions handling:
-    #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
-    #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
-    #       or if one of the images are inside a layer (Supports only one image and one layer)
+    #   'ORDER_CHANGE' -> Change the order between two layers:
+    #       - ["ORDER_CHANGE", "name", "put_before_this_layer"]
+    #   'ORDER_CHANGE' -> Change the order between one image and one layer:
+    #       - ["ORDER_CHANGE", "name", "put_before_this_image"]
+    #
+    #   'INCOMPATIBLE' -> NFT is regenerated if all the listed images are used:
+    #       - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
+    #   'INCOMPATIBLE' -> NFT is regenerated if one of the images are inside a layer
+    #   (Supports only one image and one layer):
+    #       - ["INCOMPATIBLE", "image.png", "layer"]
     exceptions = [
         ['INCOMPATIBLE', 'visage et casquette rose.png', '08_hats'],
         ['INCOMPATIBLE', 'visage et casquette noir.png', '08_hats'],
@@ -107,9 +121,16 @@ class ElonSettings:
 
 class JeffSettings:
     # Exceptions handling:
-    #   'ORDER_CHANGE' -> Change the order between two layers: [ORDER_CHANGE, name, put_before_this_layer]
-    #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
-    #       or if one of the images are inside a layer (Supports only one image and one layer)
+    #   'ORDER_CHANGE' -> Change the order between two layers:
+    #       - ["ORDER_CHANGE", "name", "put_before_this_layer"]
+    #   'ORDER_CHANGE' -> Change the order between one image and one layer:
+    #       - ["ORDER_CHANGE", "name", "put_before_this_image"]
+    #
+    #   'INCOMPATIBLE' -> NFT is regenerated if all the listed images are used:
+    #       - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
+    #   'INCOMPATIBLE' -> NFT is regenerated if one of the images are inside a layer
+    #   (Supports only one image and one layer):
+    #       - ["INCOMPATIBLE", "image.png", "layer"]
     exceptions = [
         ['INCOMPATIBLE', 'combi haut.png', '06_jackets'],
         
@@ -217,10 +238,16 @@ class JeffSettings:
 
 class RichardSettings:
     # Exceptions handling:
-    #   'ORDER_CHANGE' -> Change the order between two images: [ORDER_CHANGE, name, put_before_this_image]
-    #       or the order between an image and a whole layer [ORDER_CHANGE, name, put_before_this_layer]
-    #   'INCOMPATIBLE' -> NFT is regenerated if the listed images are used,
-    #       or if one of the images are inside a layer (Supports only one image and one layer as arg_1 and arg_2)
+    #   'ORDER_CHANGE' -> Change the order between two layers:
+    #       - ["ORDER_CHANGE", "name", "put_before_this_layer"]
+    #   'ORDER_CHANGE' -> Change the order between one image and one layer:
+    #       - ["ORDER_CHANGE", "name", "put_before_this_image"]
+    #
+    #   'INCOMPATIBLE' -> NFT is regenerated if all the listed images are used:
+    #       - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
+    #   'INCOMPATIBLE' -> NFT is regenerated if one of the images are inside a layer
+    #   (Supports only one image and one layer):
+    #       - ["INCOMPATIBLE", "image.png", "layer"]
     exceptions = [
         ['INCOMPATIBLE', 'montre bleu.png', '05_jackets'],
         ['INCOMPATIBLE', 'montre bleu.png', 'chemise blanc anglais.png'],
