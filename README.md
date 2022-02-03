@@ -49,7 +49,7 @@ something like `character_directories = ['elon', 'jeff', 'richard']`
 
 
 ### The main function:
-Every setting can be modified for the `Generator.generate_nfts()` function (check the [settings.py](settings/settings.py) file) ElonSettings for example concerns the first character settings of our NFTs, this class, based on the CharacterSettings class allows to define custom parameters for multiple character, the main function can be later called with only two arguments.
+Every setting can be modified for the `Generator.generate_nfts()` function (check the [settings.py](settings/settings.py) file). ElonSettings for example concerns the first character settings of our NFTs, this class, based on the CharacterSettings class allows to define custom parameters for multiple character, the main function can be later called with only two arguments.
 
 ```py
 # Character parameters obtained from the name
