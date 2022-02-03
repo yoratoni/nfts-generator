@@ -50,7 +50,7 @@ This function also integrates an estimated time system, it generates a single NF
         `["ORDER_CHANGE", "image", "put_before_this_layer"]`
       - Change the order between a layer and one image: <br />
         `["ORDER_CHANGE", "layer", "put_before_this_image"]`
-      - Change the order between a layer and another layer: <br />
+      - **[NOT YET IMPLEMENTED]** Change the order between a layer and another layer: <br />
         `["ORDER_CHANGE", "layer", "put_before_this_layer"]`
         
   - `'INCOMPATIBLE'`:
