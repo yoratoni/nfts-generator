@@ -24,7 +24,7 @@ class Randomization:
         paths = character_layers[layer_name]
         random_path = paths[random.randrange(0, len(paths))]
         
-        Logger.pyprint(f'Random path generated [{random_path}]', 'DATA')
+        Logger.pyprint(f'Random paths generated', 'DATA')
         return random_path
         
     

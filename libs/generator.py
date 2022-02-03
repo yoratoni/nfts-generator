@@ -32,7 +32,7 @@ class Generator:
     
 
     @staticmethod
-    def final_character_from_paths(paths: list[Path]) -> Image.Image:
+    def final_nft_from_paths(paths: list[Path], background_path: Path) -> Image.Image:
         '''Returns an image containing all the layers in the paths list.
         
         Note:
@@ -45,10 +45,10 @@ class Generator:
             Image.Image: Final character.
         '''
         
-        img = Image.open(paths[0]).convert('RGBA')
+        img = Image.open(background_path).convert('RGBA')
         paths_driver = len(paths)
         
-        for i in range(1, paths_driver):
+        for i in range(paths_driver):
             layer = Image.open(paths[i]).convert('RGBA')
             
             try:
@@ -57,36 +57,9 @@ class Generator:
                 Logger.pyprint(f'Alpha Composite error: {err}', 'ERRO', True)
                 Logger.pyprint(f'Between [{paths[0]}] and [{paths[i]}]', 'ERRO', True)
                 
-        Logger.pyprint('Merged character images', 'INFO')
+        Logger.pyprint('Merged background and character images', 'INFO')
         return img
-    
-    
-    @staticmethod
-    def merge_character_to_background(
-        character_image: Image.Image,
-        background_path: Path
-    ) -> Image.Image:
-        '''Merge the randomly generated character to a background.
 
-        Args:
-            character_image (Image.Image): Image of the generated character.
-            background_path (Path): Path of the background image.
-
-        Returns:
-            Image.Image: Image of the final NFT.
-        '''
-        
-        background = Image.open(background_path).convert('RGBA')
-        
-        try:
-            background = Image.alpha_composite(background, character_image)
-        except ValueError as err:
-            Logger.pyprint(f'Alpha Composite error: {err}', 'ERRO', True)
-            Logger.pyprint(f'Between [{background}] and [{character_image}]', 'ERRO', True)
-        
-        Logger.pyprint('Character image merged to the background', 'INFO')
-        return background
-    
     
     @staticmethod
     def generate_unique_nft(
@@ -134,17 +107,13 @@ class Generator:
                 Logger.pyprint(f'Invalid character, the NFT will be regenerated..', 'ERRO', True)
                 
         if is_saving_system_enabled:
-            # Generate the image of the character
-            character_image = Generator.final_character_from_paths(character)
-
-            # Merge the background and the character image
-            final_nft = Generator.merge_character_to_background(character_image, background)
-            
-            final_nft.save(output_path_and_name)
+            # Generate the image of the character from the list (merged to the background)
+            generated_nft = Generator.final_nft_from_paths(character, background)
+            generated_nft.save(output_path_and_name)
             
         # Print saved NFT path
+        Logger.pyprint(f'Saved NFT [{output_path_and_name}]', 'SUCCESS', True)
         print('')
-        Logger.pyprint(f'Saved NFT [{output_path_and_name}]', 'DATA', True)
         
     
     @staticmethod

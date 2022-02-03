@@ -6,8 +6,6 @@ import os
 
 
 class ExceptionsHandling:
-    modes = ['IMAGE BEFORE IMAGE', 'LAYER BEFORE IMAGE', 'IMAGE BEFORE LAYER', 'LAYER BEFORE LAYER']
-    
     @staticmethod
     def order_change_mode(current_exception: list[str], layers_list: list[str]) -> str:
         '''Returns the mode of the order change.
@@ -20,17 +18,20 @@ class ExceptionsHandling:
             str: The mode of the order change.
         '''
         
-        order_change_mode = ExceptionsHandling.modes[0]
+        order_change_mode = GlobalSettings.order_change_modes[0]
     
         # Layer before image check
         if current_exception[1] in layers_list:
-            order_change_mode = ExceptionsHandling.modes[1]
+            order_change_mode = GlobalSettings.order_change_modes[1]
         # Image before layer check
         if current_exception[2] in layers_list:
-            order_change_mode = ExceptionsHandling.modes[2]
+            order_change_mode = GlobalSettings.order_change_modes[2]
         # Layer before layer check
-        if current_exception[1] in layers_list and order_change_mode == ExceptionsHandling.modes[2]:
-            order_change_mode = ExceptionsHandling.modes[3]
+        if current_exception[1] in layers_list and order_change_mode == GlobalSettings.order_change_modes[2]:
+            order_change_mode = GlobalSettings.order_change_modes[3]
+            
+        if order_change_mode != GlobalSettings.order_change_modes[0] and len(current_exception) > 3:
+            Logger.pyprint('In this mode, "ORDER CHANGE" only supports two images / layers', 'WARN', True)
             
         return order_change_mode
     
@@ -57,7 +58,7 @@ class ExceptionsHandling:
         order_change_mode = ExceptionsHandling.order_change_mode(current_exception, layers_list)
 
         # IMAGE BEFORE IMAGE
-        if order_change_mode == ExceptionsHandling.modes[0]:
+        if order_change_mode == GlobalSettings.order_change_modes[0]:
             first_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[1])
             second_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[2])
 
@@ -69,7 +70,7 @@ class ExceptionsHandling:
 
 
         # LAYER BEFORE IMAGE
-        elif order_change_mode == ExceptionsHandling.modes[1]:
+        elif order_change_mode == GlobalSettings.order_change_modes[1]:
             paths_from_layer = PathsHandling.get_paths_from_layer_name(paths, current_exception[1])
             image_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[2])
             
@@ -85,7 +86,7 @@ class ExceptionsHandling:
 
 
         # IMAGE BEFORE LAYER
-        elif order_change_mode == ExceptionsHandling.modes[2]:
+        elif order_change_mode == GlobalSettings.order_change_modes[2]:
             image_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[1])
             paths_from_layer = PathsHandling.get_paths_from_layer_name(paths, current_exception[2])
             
@@ -103,11 +104,10 @@ class ExceptionsHandling:
 
 
         # LAYER BEFORE LAYER
-        elif order_change_mode == ExceptionsHandling.modes[3]:
+        elif order_change_mode == GlobalSettings.order_change_modes[3]:
             '''
             '''
-
-        Logger.pyprint(f'Order changed: [{current_exception[1]}] is now before [{current_exception[2]}]', 'DATA')
+            
         return paths
 
     
@@ -246,6 +246,6 @@ class ExceptionsHandling:
                 
             # Error
             else:
-                Logger.pyprint(f'Invalid exception name at {current_exception}', 'ERRO', True)
+                Logger.pyprint(f'Invalid exception name in {current_exception}', 'ERRO', True)
         
         return paths

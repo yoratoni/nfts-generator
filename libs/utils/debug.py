@@ -12,10 +12,11 @@ class Logger:
         '''Debug Mode formatted print statements.
         
         Supported message types:
-        - INFO -> Green
-        - DATA -> Light blue
+        - INFO -> Light blue
+        - DATA -> Cyan
         - WARN -> Yellow
         - ERRO -> Light red
+        - SUCCESS -> Light green
 
         Args:
             log (str): Printed log message.

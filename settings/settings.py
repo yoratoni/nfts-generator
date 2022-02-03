@@ -46,6 +46,14 @@ class GlobalSettings:
     verbose_debugging = True  # Print a lot more data about the NFTs
     debug_types = ['INFO', 'DATA', 'WARN', 'ERRO', 'SUCCESS']  # List of debug message types
 
+    # Exception handling
+    order_change_modes = [
+        'IMAGE BEFORE IMAGE',
+        'LAYER BEFORE IMAGE',
+        'IMAGE BEFORE LAYER',
+        'LAYER BEFORE LAYER'
+    ]
+
     
 class CharacterSettings:
     '''Used for copy/pasting to create a new character settings class.
@@ -222,8 +230,7 @@ class JeffSettings:
     # This image will appears XX times inside the list of images
     image_rarifier = [
         ['cravate.png', 2],
-        ['mask.png', 2],
-        ['combi bas.png', 500]
+        ['mask.png', 2]
     ]
 
 
