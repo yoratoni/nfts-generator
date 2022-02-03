@@ -168,8 +168,8 @@ class Generator:
         character_path = Path(os.path.join(cwd, os.pardir, 'libs', 'demo', 'LATENCY_CHECK_NFT.png'))
         
         # Block any call to the print function
-        # with contextlib.redirect_stdout(io.StringIO()):
-        Generator.generate_unique_nft(settings, character_layers, character_path, True)
+        with contextlib.redirect_stdout(io.StringIO()):
+            Generator.generate_unique_nft(settings, character_layers, character_path, True)
         
         timer_name = f'Estimated generation time for {iterations} NFTs of "{character_name}"'
         
