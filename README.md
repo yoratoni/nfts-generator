@@ -43,9 +43,11 @@ I'm generally using 2500ms, it's enough to check a whole NFT.
   - `'ORDER_CHANGE'`:
       - Allows you to put an image before another image if used OR another layer (directory).
       - Change the order between two images: <br />
-        `["ORDER_CHANGE", "name_1", "name_2"]`
+        `["ORDER_CHANGE", "image", "put_before_this_image"]`
       - Change the order between one image and one layer: <br />
-        `["ORDER_CHANGE", "name", "layer"]`
+        `["ORDER_CHANGE", "image", "put_before_this_layer"]`
+      - Change the order between a layer and one image: <br />
+        `["ORDER_CHANGE", "layer", "put_before_this_image"]`
       - Change the order between a layer and another layer: <br />
         `["ORDER_CHANGE", "layer", "put_before_this_layer"]`
         
