@@ -1,33 +1,3 @@
-'''
-EXCEPTIONS SYSTEM:
-    'ORDER_CHANGE':
-        - Change the order between two images: 
-            -> ["ORDER_CHANGE", "image", "put_before_this_image"]
-        - Change the order between one image and one layer:
-            -> ["ORDER_CHANGE", "image", "put_before_this_layer"]
-        - Change the order between a layer and one image:
-            -> ["ORDER_CHANGE", "layer", "put_before_this_image"]
-        - Change the order between a layer and another layer:
-            -> ["ORDER_CHANGE", "layer", "put_before_this_layer"]
-            
-    'INCOMPATIBLE':
-        - NFT is regenerated if all the listed images are used:
-            -> ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
-        - NFT is regenerated if one of the images is inside a layer (Only one image and one layer):
-            -> ["INCOMPATIBLE", "image.png", "layer"]
-            
-    'DELETE':
-        - Deletes all the images of specific layers if the specified image is used:
-            -> ['DELETE', 'space suit.png', '05_jackets', '03_trousers']
-            
-        Note:
-            - 'DELETE' exceptions should be place first to increase performances.
-        
-            - if 'space suit.png' is used,
-              then all the images inside '05_jackets' and '03_trousers' will be deleted.
-'''
-
-
 class GlobalSettings:
     # Default path to the main layers directory
     main_input_dir = 'input'
