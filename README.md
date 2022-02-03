@@ -39,7 +39,7 @@ in this mode, only one NFT is generated, using the name `DEBUG_NFT.png` to check
 The value defined in this parameter is the number of sleeping milliseconds between two generated NFTs,
 I'm generally using 2500ms, it's enough to check a whole NFT.
 
-This function also integrates an estimated time system, it generates a single NFT and multiply the timer by the final number of NFTs, this method is not really accurate because of the complexity caused by the incompatibilities, but it gives at least an estimation.
+This function also integrates an estimated time system, it generates a single NFT and multiply the timer value by the final number of NFTs, this method is not really accurate because of the complexity caused by the incompatibilities, but it gives at least an estimation.
 
 ![](docs/estimated_time.png "Estimated time log example")
 
