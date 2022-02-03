@@ -2,9 +2,13 @@
 EXCEPTIONS SYSTEM:
     'ORDER_CHANGE':
         - Change the order between two images: 
-            -> ["ORDER_CHANGE", "name_1", "name_2"]
+            -> ["ORDER_CHANGE", "image", "put_before_this_image"]
         - Change the order between one image and one layer:
-            -> ["ORDER_CHANGE", "name", "put_before_this_image"]
+            -> ["ORDER_CHANGE", "image", "put_before_this_layer"]
+        - Change the order between a layer and one image:
+            -> ["ORDER_CHANGE", "layer", "put_before_this_image"]
+        - Change the order between a layer and another layer:
+            -> ["ORDER_CHANGE", "layer", "put_before_this_layer"]
             
     'INCOMPATIBLE':
         - NFT is regenerated if all the listed images are used:
