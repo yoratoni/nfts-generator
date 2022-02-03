@@ -6,6 +6,35 @@ import os
 
 
 class ExceptionsHandling:
+    modes = ['IMAGE BEFORE IMAGE', 'LAYER BEFORE IMAGE', 'IMAGE BEFORE LAYER', 'LAYER BEFORE LAYER']
+    
+    @staticmethod
+    def order_change_mode(current_exception: list[str], layers_list: list[str]) -> str:
+        '''Returns the mode of the order change.
+        
+        Args:
+            current_exception (list[str]): Current exception handled in the loop.
+            layers_list (list[str]): The list of all the layers found inside the 'paths' var.
+            
+        Returns:
+            str: The mode of the order change.
+        '''
+        
+        order_change_mode = ExceptionsHandling.modes[0]
+    
+        # Layer before image check
+        if current_exception[1] in layers_list:
+            order_change_mode = ExceptionsHandling.modes[1]
+        # Image before layer check
+        if current_exception[2] in layers_list:
+            order_change_mode = ExceptionsHandling.modes[2]
+        # Layer before layer check
+        if current_exception[1] in layers_list and order_change_mode == ExceptionsHandling.modes[2]:
+            order_change_mode = ExceptionsHandling.modes[3]
+            
+        return order_change_mode
+    
+    
     @staticmethod
     def order_change(paths: list[Path], current_exception: list[str]) -> list[Path]:
         '''Change the order between two images or one image and layers.
@@ -13,6 +42,8 @@ class ExceptionsHandling:
         Examples:
             - ["ORDER_CHANGE", "name", "put_before_this_layer"]
             - ["ORDER_CHANGE", "name", "put_before_this_image"]
+            - ["ORDER_CHANGE", "layer", "put_before_this_image"]
+            - `/!\ Not implemented yet /!\` ["ORDER_CHANGE", "layer", "put_before_this_layer"]
 
         Args:
             paths (list[Path]): List of all the paths used for one NFT.
@@ -23,16 +54,10 @@ class ExceptionsHandling:
         '''
         
         layers_list = PathsHandling.get_layer_names_from_paths(paths)
-        logger_message = False
-        
-        # Check if it's a layer order change
-        if current_exception[2] in layers_list:
-            is_layer_order_change = True
-        else:
-            is_layer_order_change = False
-            
-        # Change the order between two images
-        if not is_layer_order_change:
+        order_change_mode = ExceptionsHandling.order_change_mode(current_exception, layers_list)
+
+        # IMAGE BEFORE IMAGE
+        if order_change_mode == ExceptionsHandling.modes[0]:
             first_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[1])
             second_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[2])
 
@@ -41,12 +66,28 @@ class ExceptionsHandling:
                 saved_path = paths[first_path_index]
                 paths.pop(first_path_index)
                 paths.insert(second_path_index, saved_path)
-                logger_message = True
+
+
+        # LAYER BEFORE IMAGE
+        elif order_change_mode == ExceptionsHandling.modes[1]:
+            paths_from_layer = PathsHandling.get_paths_from_layer_name(paths, current_exception[1])
+            image_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[2])
             
-        # Change order between an image and a layer (Uses current_exception[2] as the layer name)
-        # Note that it supports only one path, as the paths list is sorted,
-        # It will use the first path in the list.  
-        else:
+            Logger.pyprint(image_path_index, 'ERRO')
+            
+            # If the image is detected and one of the path is used, change the order
+            if len(paths_from_layer) > 0 and image_path_index is not None:
+                for path in paths_from_layer:
+
+                    try:
+                        paths.remove(path)
+                        paths.insert(image_path_index, path)
+                    except ValueError as err:
+                        Logger.pyprint(f'Order change path error [{err}]', 'ERRO', True)
+
+
+        # IMAGE BEFORE LAYER
+        elif order_change_mode == ExceptionsHandling.modes[2]:
             image_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[1])
             paths_from_layer = PathsHandling.get_paths_from_layer_name(paths, current_exception[2])
             
@@ -56,16 +97,19 @@ class ExceptionsHandling:
             else:
                 order_change_path_index = None
             
-            # If the image is detected, then change the order
+            # If the image is detected and one of the path is used, change the order
             if image_path_index is not None and order_change_path_index is not None:
                 saved_path = paths[image_path_index]
                 paths.pop(image_path_index)
                 paths.insert(order_change_path_index, saved_path)
-                logger_message = True
-                
-        if logger_message:
-            Logger.pyprint(f'Order changed: [{current_exception[1]}] is now before [{current_exception[2]}]', 'DATA')
-            
+
+
+        # LAYER BEFORE LAYER
+        elif order_change_mode == ExceptionsHandling.modes[3]:
+            '''
+            '''
+
+        Logger.pyprint(f'Order changed: [{current_exception[1]}] is now before [{current_exception[2]}]', 'DATA')
         return paths
 
     
@@ -170,6 +214,7 @@ class ExceptionsHandling:
         
         - 'ORDER_CHANGE' -> Change the order between two layers / images.
         - 'INCOMPATIBLE' -> NFT is regenerated if the test is not passed.
+        - 'DELETE' -> Deletes all the images of specific layers if the specified image is used.
 
         Args:
             paths (list[Path]): Randomized character paths list.

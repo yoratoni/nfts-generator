@@ -1,16 +1,3 @@
-# Exceptions handling:
-#   'ORDER_CHANGE' -> Change the order between two layers:
-#       - ["ORDER_CHANGE", "name", "put_before_this_layer"]
-#   'ORDER_CHANGE' -> Change the order between one image and one layer:
-#       - ["ORDER_CHANGE", "name", "put_before_this_image"]
-#
-#   'INCOMPATIBLE' -> NFT is regenerated if all the listed images are used:
-#       - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
-#   'INCOMPATIBLE' -> NFT is regenerated if one of the images are inside a layer
-#   (Supports only one image and one layer):
-#       - ["INCOMPATIBLE", "image.png", "layer"]
-
-
 '''
 EXCEPTIONS SYSTEM:
     'ORDER_CHANGE':
@@ -53,7 +40,7 @@ class GlobalSettings:
     # Debugging
     dist_mode = False  # If True, remove all the console messages, even forced ones
     verbose_debugging = True  # Print a lot more data about the NFTs
-    debug_types = ['INFO', 'DATA', 'WARN', 'ERRO']  # List of debug message types
+    debug_types = ['INFO', 'DATA', 'WARN', 'ERRO', 'SUCCESS']  # List of debug message types
 
     
 class CharacterSettings:
@@ -146,18 +133,11 @@ class ElonSettings:
 class JeffSettings:
     # Exceptions handling
     exceptions = [
+        ['DELETE', 'combi haut.png', '03_belts'],
+        
         ['INCOMPATIBLE', 'combi haut.png', '06_jackets'],
         
-        ['INCOMPATIBLE', 'montre.png', 'veste fermée beige effets.png'],
-        ['INCOMPATIBLE', 'montre.png', 'veste fermée beige et noir.png'],
-        ['INCOMPATIBLE', 'montre.png', 'veste fermée beige.png'],
-        ['INCOMPATIBLE', 'montre.png', 'veste fermée noir effet.png'],
-        ['INCOMPATIBLE', 'montre.png', 'veste fermée noir net.png'],
-        ['INCOMPATIBLE', 'montre.png', 'veste fermée rayures rouges.png'],
-        ['INCOMPATIBLE', 'montre.png', 'veste ouverte beige.png'],
-        ['INCOMPATIBLE', 'montre.png', 'veste ouverte noir.png'],
-        ['INCOMPATIBLE', 'montre.png', 'veste splash.png'],
-        
+        ['INCOMPATIBLE', 'montre.png', '06_jackets'],
         ['INCOMPATIBLE', 'montre.png', 'chemise blanc motifs astro.png'],
         ['INCOMPATIBLE', 'montre.png', 'chemise blanc.png'],
         ['INCOMPATIBLE', 'montre.png', 'chemise bleu ciel effet noir morpion.png'],
@@ -169,17 +149,8 @@ class JeffSettings:
         ['INCOMPATIBLE', 'montre.png', 'chemise noir motif morpion.png'],
         ['INCOMPATIBLE', 'montre.png', 'chemise noir.png'],
         ['INCOMPATIBLE', 'montre.png', 'chemise rose.png'],
-
-        ['INCOMPATIBLE', 'bracelet.png', 'veste fermée beige effets.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'veste fermée beige et noir.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'veste fermée beige.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'veste fermée noir effet.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'veste fermée noir net.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'veste fermée rayures rouges.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'veste ouverte beige.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'veste ouverte noir.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'veste splash.png'],
         
+        ['INCOMPATIBLE', 'bracelet.png', '06_jackets'],
         ['INCOMPATIBLE', 'bracelet.png', 'chemise blanc motifs astro.png'],
         ['INCOMPATIBLE', 'bracelet.png', 'chemise blanc.png'],
         ['INCOMPATIBLE', 'bracelet.png', 'chemise bleu ciel effet noir morpion.png'],
@@ -192,17 +163,8 @@ class JeffSettings:
         ['INCOMPATIBLE', 'bracelet.png', 'chemise noir.png'],
         ['INCOMPATIBLE', 'bracelet.png', 'chemise rose.png'],
         ['INCOMPATIBLE', 'bracelet.png', 'combi haut.png'],
-
-        ['INCOMPATIBLE', 'bracelet 2.png', 'veste fermée beige effets.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'veste fermée beige et noir.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'veste fermée beige.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'veste fermée noir effet.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'veste fermée noir net.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'veste fermée rayures rouges.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'veste ouverte beige.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'veste ouverte noir.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'veste splash.png'],
-
+        
+        ['INCOMPATIBLE', 'bracelet 2.png', '06_jackets'],
         ['INCOMPATIBLE', 'bracelet 2.png', 'chemise blanc motifs astro.png'],
         ['INCOMPATIBLE', 'bracelet 2.png', 'chemise blanc.png'],
         ['INCOMPATIBLE', 'bracelet 2.png', 'chemise bleu ciel effet noir morpion.png'],
@@ -214,20 +176,29 @@ class JeffSettings:
         ['INCOMPATIBLE', 'bracelet 2.png', 'chemise noir motif morpion.png'],
         ['INCOMPATIBLE', 'bracelet 2.png', 'chemise noir.png'],
         ['INCOMPATIBLE', 'bracelet 2.png', 'chemise rose.png'],
-        
-        ['INCOMPATIBLE', 'combi haut.png', '03_belts'],
-        ['INCOMPATIBLE', 'combi bas.png', '03_belts'],
-        
+        ['INCOMPATIBLE', 'bracelet 2.png', 'combi haut.png'],
+
+        ['INCOMPATIBLE', 'combi bas.png', 'santiags.png'],
+        ['ORDER_CHANGE', 'chaussures costume.png', 'combi bas.png'],
         ['ORDER_CHANGE', 'chaussures costume.png', '02_trousers'],
-        ['ORDER_CHANGE', 'bottes combi.png', '02_trousers'],
-        ['ORDER_CHANGE', 'mocassins.png', '02_trousers']
+
+        ['ORDER_CHANGE', '07_shoes', 'combi bas.png'],
+        
+        ['ORDER_CHANGE', 'bottes combi.png', 'pantalon beige effets.png'],
+        ['ORDER_CHANGE', 'bottes combi.png', 'pantalon beige.png'],
+        ['ORDER_CHANGE', 'bottes combi.png', 'pantalon bleu.png'],
+        ['ORDER_CHANGE', 'bottes combi.png', 'pantalon noir.png'],
+        ['ORDER_CHANGE', 'mocassins.png', 'pantalon beige effets.png'],
+        ['ORDER_CHANGE', 'mocassins.png', 'pantalon beige.png'],
+        ['ORDER_CHANGE', 'mocassins.png', 'pantalon bleu.png'],
+        ['ORDER_CHANGE', 'mocassins.png', 'pantalon noir.png'],
     ]
     
     # Optional layers (Accessories is not supported here)
     optional_layers = ['06_jackets', '09_wrist', '10_glasses', '11_hats']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [5, 4, 7, 5]
+    optional_rarity = [4, 4, 8, 4]
 
     # Background folder
     backgrounds_folder = '00_backgrounds'
@@ -240,13 +211,15 @@ class JeffSettings:
     max_accessories_amount = 2 
     
     # Accessories rarity
-    accessories_rarity = 3
+    accessories_rarity = 5
     
     # Increases the chances to use a specific image
     # As an example, if one image is specified: ['image.png', XX]
     # This image will appears XX times inside the list of images
     image_rarifier = [
-        ['cravate.png', 5]
+        ['cravate.png', 2],
+        ['mask.png', 2],
+        ['combi bas.png', 500]
     ]
 
 
@@ -341,7 +314,7 @@ class RichardSettings:
     optional_layers = ['05_jackets', '09_glasses', '07_makeup']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [4, 5, 5]
+    optional_rarity = [3, 4, 5]
     
     # Background folder
     backgrounds_folder = '00_backgrounds'
@@ -360,7 +333,7 @@ class RichardSettings:
     # As an example, if one image is specified: ['image.png', XX]
     # This image will appears XX times inside the list of images
     image_rarifier = [
-        ['visage.png', 3],
+        ['visage.png', 2],
         ['chemise blanc anglais.png', 2],
         ['chemise blanc court.png', 2],
         ['chemise blanc.png', 2],

@@ -2,6 +2,8 @@ from settings import GlobalSettings
 from colorama import Style, Fore
 
 import time
+import sys
+import os
 
 
 class Logger:
@@ -26,23 +28,35 @@ class Logger:
                 color = Fore.WHITE
                 
                 if log_type == GlobalSettings.debug_types[0]:
-                    color = Fore.GREEN
+                    color = Fore.LIGHTBLUE_EX 
                 elif log_type == GlobalSettings.debug_types[1]:
-                    color = Fore.LIGHTBLUE_EX
+                    color = Fore.CYAN
                 elif log_type == GlobalSettings.debug_types[2]:
                     color = Fore.YELLOW
                 elif log_type == GlobalSettings.debug_types[3]:
                     color = Fore.LIGHTRED_EX
-
-                print(f'{color}__{log_type}__ >>> {log}{Style.RESET_ALL}')
+                elif log_type == GlobalSettings.debug_types[4]:
+                    color = Fore.LIGHTGREEN_EX
+                
+                print(f'{color}[{log_type}] {log}{Style.RESET_ALL}')
 
 
     @staticmethod
-    def extime(timer: int):
+    def extime(name: str, timer: int, multiply_timer: int = 1, print_msg: bool = True) -> str:
         '''Automatic timer format (ns, µs, ms, s and min units).
+        
+        Args:
+            name (str): Name of the timer.
+            timer (int): Using time.perf_counter_ns() to get the starting point of the timer.
+            multiply_timer (int, optional): Multiply the time by a value (To estimate time).
+            print_msg (bool, optional): If True, it also prints the formatted timer message.
+            
+        Returns:
+            str: The formatted timer message
         '''
 
-        timer = (time.time_ns() - timer)
+        timer = (time.perf_counter_ns() - timer) * multiply_timer
+        
         units = ['ns', 'µs', 'ms', 's', ' mins']
         powers = [10**3, 10**6, 10**9]
         res = 0
@@ -65,4 +79,7 @@ class Logger:
                 res = round(res / 60)
                 i = 4
         
-        Logger.pyprint(f'Execution Time: {res}{units[i]}', 'WARN', True)
+        if print_msg:
+            Logger.pyprint(f'{name}: {res}{units[i]}', 'SUCCESS', True)
+        
+        return f'{name}: {res}{units[i]}'

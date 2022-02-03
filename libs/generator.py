@@ -1,12 +1,27 @@
-from settings import GlobalSettings, CharacterSettings, ElonSettings, JeffSettings, RichardSettings
-from libs import Logger, PathsHandling, Randomization, ExceptionsHandling
+from settings import (
+    GlobalSettings,
+    CharacterSettings,
+    ElonSettings,
+    JeffSettings,
+    RichardSettings
+)
+
+from libs import (
+    Logger,
+    PathsHandling,
+    Randomization,
+    ExceptionsHandling
+)
+
 from pathlib import Path
 from PIL import Image
 
+import contextlib
 import xxhash
 import time
 import sys
 import os
+import io
 
 
 class Generator:
@@ -117,7 +132,6 @@ class Generator:
                 Logger.pyprint(f'Duplicata of an NFT found [{final_hash}]', 'WARN', True)
             else:
                 Logger.pyprint(f'Invalid character, the NFT will be regenerated..', 'ERRO', True)
-                print('')
                 
         if is_saving_system_enabled:
             # Generate the image of the character
@@ -130,8 +144,41 @@ class Generator:
             
         # Print saved NFT path
         Logger.pyprint(f'Saved NFT [{output_path_and_name}]', 'DATA', True)
+        
+    
+    @staticmethod
+    def estimate_generation_time(
+        iterations: int,
+        character_name: str,
+        settings: CharacterSettings,
+        character_layers: dict
+    ):
+        '''Generates one random NFT and estimates the time
+        that it would take to generate x number of NFTs.
+        
+        WARNING: This method is not accurate because the calculations are based on only one NFT,
+        where the complexity of the layers makes the generation time
+        pretty different between two NFTs.
+        '''
+        
+        timer_start = time.perf_counter_ns()
+        
+        # Estimation path
+        cwd = os.path.dirname(__file__)
+        character_path = Path(os.path.join(cwd, os.pardir, 'libs', 'demo', 'LATENCY_CHECK_NFT.png'))
+        
+        # Block any call to the print function
+        # with contextlib.redirect_stdout(io.StringIO()):
+        Generator.generate_unique_nft(settings, character_layers, character_path, True)
+        
+        timer_name = f'Estimated generation time for {iterations} NFTs of "{character_name}"'
+        
+        print('')
+        Logger.extime(timer_name, timer_start, iterations, True)
         print('')
         
+        time.sleep(1)
+    
     
     @staticmethod
     def generate_nfts(
@@ -140,7 +187,7 @@ class Generator:
         debug_mode_latency: int = 0,
         is_saving_system_enabled: bool = True
     ):
-        '''Generate a number of unique NFTs for a specified character.
+        '''Generates a number of unique NFTs for a specified character.
 
         Args:
             iterations (int): Total number of NFTs for this character.
@@ -150,12 +197,22 @@ class Generator:
         '''
         
         # Save the time where it starts
-        time_start = time.time_ns()
+        timer_start = time.perf_counter_ns()
         
         # Main paths
         cwd = os.path.dirname(__file__)
-        character_path = Path(os.path.abspath(os.path.join(cwd, os.pardir, 'input', character_name)))
-        output_path = Path(os.path.abspath(os.path.join(cwd, os.pardir, 'output', character_name)))
+        character_path = Path(os.path.join(cwd, os.pardir, 'input', character_name))
+        output_path = Path(os.path.join(cwd, os.pardir, 'output', character_name))
+
+        # Generates the name pattern (For normal or debugging mode)
+        if debug_mode_latency == 0:
+            nft_name_pattern = f'{character_name.upper()}_'
+            
+            # Get the number of zeros for zfill()
+            zeros = len(str(iterations))
+        else:
+            debug_mode_latency /= 1000  # The latency is in ms
+            zeros = 0  # Undeclared fallback variable
 
         # Character parameters obtained from the name
         if character_name == GlobalSettings.character_folders[0]:
@@ -171,16 +228,10 @@ class Generator:
         # Get all the images and the layers
         layers = PathsHandling.get_character_layers(character_path)
         
-        # Generates the name pattern (For normal or debugging mode)
-        if debug_mode_latency == 0:
-            nft_name_pattern = f'{character_name.upper()}_'
-            
-            # Get the number of zeros for zfill()
-            zeros = len(str(iterations))
-        else:
-            debug_mode_latency /= 1000  # The latency is in ms
-            zeros = 0  # Undeclared fallback variable
-            
+        # Estimated generation time
+        if debug_mode_latency == 0 and is_saving_system_enabled:
+            Generator.estimate_generation_time(iterations, character_name, settings, layers)
+        
         # Generate every NFT with a name based on 'i' and zfill()
         for i in range(iterations):
             if debug_mode_latency == 0:
@@ -194,7 +245,7 @@ class Generator:
             Generator.generate_unique_nft(settings, layers, nft_path, is_saving_system_enabled)
             
         # Print the total time that it took
-        Logger.extime(time_start)
+        Logger.extime('NFTs generation time', timer_start)
         
         # Returns True (for multiprocessing purpose)
         return True
