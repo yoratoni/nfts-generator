@@ -41,7 +41,7 @@ I'm generally using 2500ms, it's enough to check a whole NFT.
 
 This function also integrates an estimated time system, it generates a single NFT and multiply the timer by the final number of NFTs, this method is not really accurate because of the complexity caused by the incompatibilities, but it gives at least an estimation.
 
-![Alt text](docs/estimated time.png "Estimated time log example")
+![](docs/estimated_time.png "Estimated time log example")
 
 ### Handled exceptions:
   - `'ORDER_CHANGE'`:
@@ -73,7 +73,7 @@ this class also integrated the extime method that prints the formatted execution
 
 Here's an example of a `pyprint()` log:
 
-![Alt text](docs/pyprint.png "Pyprint logs example")
+![](docs/pyprint.png "Pyprint logs example")
 
 This class uses [Colorama](https://github.com/tartley/colorama) to print colored terminal text. 
 
