@@ -4,3 +4,4 @@ output/
 archives/
 *.pyc
 .env
+libs/demo/
