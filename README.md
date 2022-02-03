@@ -46,6 +46,8 @@ I'm generally using 2500ms, it's enough to check a whole NFT.
         `["ORDER_CHANGE", "name_1", "name_2"]`
       - Change the order between one image and one layer: <br />
         `["ORDER_CHANGE", "name", "layer"]`
+      - Change the order between a layer and another layer: <br />
+        `["ORDER_CHANGE", "layer", "put_before_this_layer"]`
         
   - `'INCOMPATIBLE'`:
       - NFT is regenerated if all the listed images are used: <br />
