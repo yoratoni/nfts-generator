@@ -12,6 +12,7 @@ On the technical side, this generator integrates a comparative hashing system al
   - Comparative hashes system to find duplicates based on the 128bits [xxHash](https://github.com/Cyan4973/xxHash) algorithm.
   - Debug mode that allows to verify an NFT (overwritten every x seconds)
   - Optimized system, it takes approximately 500ms to generate and save an NFT (1080x1080, 13 layers)
+  - Path modulation (everything is done before saving any file to the hard drive)
   - Custom logs system (pyprint & extime)
   - Optional layers & optional layers rarity
   - Image rarifier that virtually duplicates images into the paths list
