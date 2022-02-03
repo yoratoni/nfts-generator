@@ -45,7 +45,7 @@ This function also integrates an estimated time system, it generates a single NF
 
 ### Handled exceptions:
   - `'ORDER_CHANGE'`:
-      - Allows you to put an image before another image if used OR another layer (directory).
+      - Allows you to put an image before another image OR another layer (directory).
       - Change the order between two images: <br />
         `["ORDER_CHANGE", "image", "put_before_this_image"]`
       - Change the order between one image and one layer: <br />
