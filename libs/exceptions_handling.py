@@ -73,8 +73,6 @@ class ExceptionsHandling:
             paths_from_layer = PathsHandling.get_paths_from_layer_name(paths, current_exception[1])
             image_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[2])
             
-            Logger.pyprint(image_path_index, 'ERRO')
-            
             # If the image is detected and one of the path is used, change the order
             if len(paths_from_layer) > 0 and image_path_index is not None:
                 for path in paths_from_layer:

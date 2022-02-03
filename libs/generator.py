@@ -143,6 +143,7 @@ class Generator:
             final_nft.save(output_path_and_name)
             
         # Print saved NFT path
+        print('')
         Logger.pyprint(f'Saved NFT [{output_path_and_name}]', 'DATA', True)
         
     
