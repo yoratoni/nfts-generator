@@ -44,7 +44,7 @@ class Logger:
 
     @staticmethod
     def extime(name: str, timer: int, multiply_timer: int = 1, print_msg: bool = True) -> str:
-        '''Automatic timer format (ns, µs, ms, s and min units).
+        '''Automatic timer format (ns, µs, ms, s and mins units).
         
         Args:
             name (str): Name of the timer.
@@ -80,7 +80,9 @@ class Logger:
                 res = round(res / 60)
                 i = 4
         
-        if print_msg:
-            Logger.pyprint(f'{name}: {res}{units[i]}', 'SUCCESS', True)
+        output = f'{name}: {res}{units[i]}'
         
-        return f'{name}: {res}{units[i]}'
+        if print_msg:
+            Logger.pyprint(output, 'SUCCESS', True)
+        
+        return output
