@@ -21,16 +21,43 @@ On the technical side, this generator integrates a comparative hashing system al
   - [settings.py](settings/settings.py) to edit the settings for every character
   - Type hints, static method classes and full docstring for every method
 
+### The layers structure:
+Note: I'm always using a number before the name (as VS Code sort the directories by alphabetic order),
+something like `00_backgrounds`, `07_hands` etc.. so all the layers are sorted in the correct order,
+the first layer named `00_..` is generally the background, after that comes the face, the clothes etc..  <br />
+
+Check this example:
+```
+input/
+|-- character_0/
+|   |-- 00_backgrounds/
+|   |-- 01_faces/
+|   |-- 02_trousers/
+|   |-- 03_shirts/
+|   |-- 04_jackets/
+|   |-- etc..
+|
+|-- character_1/
+    |-- 00_backgrounds/
+    |-- 01_faces/
+    |-- 02_foobar/
+    |-- etc..
+```
+
+After that, the name `character_0` and the name `character_1` can be used inside the settings, for the main function,
+something like `character_directories = ['elon', 'jeff', 'richard']`
+
+
 ### The main function:
-Every setting can be modified inside the `Generator.generate_nfts()` function, ElonSettings for example concerns the first character settings of our NFTs, this class, based on the CharacterSettings class allows to define custom parameters for multiple character, the main function can be later called with only two arguments.
+Every setting can be modified for the `Generator.generate_nfts()` function (check the [settings.py](settings/settings.py) file). ElonSettings for example concerns the first character settings of our NFTs, this class, based on the CharacterSettings class allows to define custom parameters for multiple character, the main function can be later called with only two arguments.
 
 ```py
 # Character parameters obtained from the name
-if character_name == GlobalSettings.character_folders[0]:
+if character_name == GlobalSettings.character_directories[0]:
     settings = ElonSettings
-elif character_name == GlobalSettings.character_folders[1]:
+elif character_name == GlobalSettings.character_directories[1]:
     settings = JeffSettings
-elif character_name == GlobalSettings.character_folders[2]:
+elif character_name == GlobalSettings.character_directories[2]:
     settings = RichardSettings
 ```
 
