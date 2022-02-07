@@ -22,7 +22,7 @@ On the technical side, this generator integrates a comparative hashing system al
   - Type hints, static method classes and full docstring for every method
 
 ### The layers structure:
-Note: I'm always using a number before the name (as VS Code sort the directories by alphabetic order),
+Note: I'm always using a number before the name (as VS Code sorts the directories by alphabetic order),
 something like `00_backgrounds`, `07_hands` etc.. so all the layers are sorted in the correct order,
 the first layer named `00_..` is generally the background, after that comes the face, the clothes etc..  <br />
 
