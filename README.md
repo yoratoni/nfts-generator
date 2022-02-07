@@ -4,18 +4,14 @@ This tool is made by [Yoratoni](https://github.com/yoratoni) for the [AstroDream
 
 As we wanted our NFTs to show the whole body of every character, some of our NFTs had more than 11 layers so we definitely needed to create our own generator.
 
-On the technical side, this generator integrates a comparative hashing system allowing detection of potential duplicates. <br />
-It also integrates an exception handling system (See below).
-
 I decided to separate the program into two parts:
-  - The first part only concerns the generated list of random paths (Random generation, optional layers, exception handling & comparative hashing).
-  - The second part merges the images of the list together and saves the final NFT.
+- The first part concerns the generated list of random paths (Random generation exception handling, etc..).
+- The second part to merge the images of the list together and saves the final NFT.
 
 Why ? <br />
 Because it is a lot more performant to detect exceptions & potential duplicates by checking the paths list
 instead of doing that after generating the image (I don't want to destroy my SSD by saving / deleting invalid NFTs 10 times in a row..)
 
----
 
 ## Technical information:
   - Comparative hashing system to find duplicates based on the 128bits [xxHash](https://github.com/Cyan4973/xxHash) algorithm.
@@ -33,7 +29,7 @@ instead of doing that after generating the image (I don't want to destroy my SSD
 
 
 ## The layers structure:
-Note: I'm always using a number before the name (as VS Code sorts the directories by alphabetic order),
+**Note**: I'm always using a number before the name (as VS Code sorts the directories by alphabetic order),
 something like `00_backgrounds`, `07_hands` etc.. so all the layers are sorted in the correct order,
 the first layer named `00_..` is generally the background, after that comes the face, the clothes etc..  <br />
 
@@ -70,14 +66,16 @@ After defining your character classes, you need to modify these lines into the [
 ```py
 # Character parameters obtained from the name
 if character_name == GlobalSettings.character_directories[0]:
-    settings = CharacterNumberOneSettings
+    settings = FirstCharacterSettings
+    
 elif character_name == GlobalSettings.character_directories[1]:
-    settings = CharacterNumberTwoSettings
+    settings = SecondCharacterSettings
+    
 elif character_name == GlobalSettings.character_directories[2]:
-    settings = CharacterNumberThreeSettings
+    settings = ThirdCharacterSettings
 ```
 
-_This will be modified later, I want this to be as simple as possible_
+_This will be modified later, I want this to be as simple as possible._
 
 
 
@@ -91,6 +89,7 @@ Arguments:
     in this mode, only one NFT is generated, using the name `DEBUG_NFT.png` to check if everything works perfectly fine.
     The value defined in this parameter is the number of sleeping milliseconds between two generated NFTs,
     I'm generally using 2500ms, it's enough to check a whole NFT.
+  - [**OPTIONAL**] The last argument (is_saving_system_enabled) is set to True by default, it simply allows you to deactivate the saving system.
 
 This function also integrates an estimated time system, it generates a single NFT and multiply the time that it took by the final number of NFTs, this method is not really accurate because the complexity per NFT fully depends on the incompatibilites and the number of used images, but it gives at least an estimation.
 
@@ -147,11 +146,3 @@ Here's an example of a `pyprint()` log:
 ![](docs/pyprint.png "Pyprint logs example")
 
 This class uses [Colorama](https://github.com/tartley/colorama) to print colored terminal text. 
-
-
-
-
-
-
-
-
