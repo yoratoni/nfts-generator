@@ -82,7 +82,7 @@ class Generator:
             # Generate a random background path
             background = Randomization.random_path_from_layer_name(
                             character_layers,
-                            settings.backgrounds_folder
+                            settings.backgrounds_dir
                          )
             
             # Generate a random list of layers path for the character image
@@ -185,11 +185,11 @@ class Generator:
             zeros = 0  # Undeclared fallback variable
 
         # Character parameters obtained from the name
-        if character_name == GlobalSettings.character_folders[0]:
+        if character_name == GlobalSettings.character_dirs[0]:
             settings = ElonSettings
-        elif character_name == GlobalSettings.character_folders[1]:
+        elif character_name == GlobalSettings.character_dirs[1]:
             settings = JeffSettings
-        elif character_name == GlobalSettings.character_folders[2]:
+        elif character_name == GlobalSettings.character_dirs[2]:
             settings = RichardSettings
         else:
             Logger.pyprint('Invalid character name', 'ERRO', True)

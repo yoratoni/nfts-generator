@@ -5,8 +5,8 @@ class GlobalSettings:
     # Default path to the output directory
     main_output_dir = 'output'
     
-    # Character folders list
-    character_folders = ['elon', 'jeff', 'richard']
+    # Character directories list
+    character_dirs = ['elon', 'jeff', 'richard']
     
     # List of all the available exceptions
     exceptions_list = ['ORDER_CHANGE', 'INCOMPATIBLE', 'DELETE']
@@ -41,12 +41,12 @@ class CharacterSettings:
     # Optional layers rarity (List of rarity per layer)
     optional_rarity = []
     
-    # Background folder
-    backgrounds_folder = ''
+    # Background directory
+    backgrounds_dir = ''
     
-    # Accessories folder name
+    # Accessories directory name
     # Handled separately from the main character randomizer function
-    accessories_folder = ''
+    accessories_dir = ''
 
     # Max amount of accessories
     max_accessories_amount = 0
@@ -88,12 +88,12 @@ class ElonSettings:
     # Optional layers rarity (List of rarity per layer)
     optional_rarity = [5, 6, 5]
     
-    # Background folder
-    backgrounds_folder = '00_backgrounds'
+    # Background directory
+    backgrounds_dir = '00_backgrounds'
     
-    # Accessories folder name
-    # Handled separately from the main character randomize function
-    accessories_folder = '06_accessories'
+    # Accessories directory name
+    # Handled separately from the main character randomizer function
+    accessories_dir = '06_accessories'
 
     # Max amount of accessories
     max_accessories_amount = 1
@@ -182,12 +182,12 @@ class JeffSettings:
     # Optional layers rarity (List of rarity per layer)
     optional_rarity = [4, 4, 8, 4]
 
-    # Background folder
-    backgrounds_folder = '00_backgrounds'
-
-    # Accessories folder name
-    # Handled separately from the main character randomize function
-    accessories_folder = '08_accessories'
+    # Background directory
+    backgrounds_dir = '00_backgrounds'
+    
+    # Accessories directory name
+    # Handled separately from the main character randomizer function
+    accessories_dir = '06_accessories'
     
     # Max amount of accessories
     max_accessories_amount = 2 
@@ -297,12 +297,12 @@ class RichardSettings:
     # Optional layers rarity (List of rarity per layer)
     optional_rarity = [3, 4, 5]
     
-    # Background folder
-    backgrounds_folder = '00_backgrounds'
+    # Background directory
+    backgrounds_dir = '00_backgrounds'
     
-    # Accessories folder name
-    # Handled separately from the main character randomize function
-    accessories_folder = '08_accessories'
+    # Accessories directory name
+    # Handled separately from the main character randomizer function
+    accessories_dir = '06_accessories'
     
     # Max amount of accessories
     max_accessories_amount = 2

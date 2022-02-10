@@ -14,7 +14,7 @@ class Randomization:
         '''Returns a random path between all the files found inside one layer.
 
         Args:
-            character_layers (dict): Dictionary that contains all the paths inside the character folder.
+            character_layers (dict): Dictionary that contains all the paths inside the character directory.
             layer_name (str): Name of one of the character layers where to get a random path.
 
         Returns:
@@ -110,7 +110,7 @@ class Randomization:
         '''Generate a random list of all the layers for one NFT.
 
         Args:
-            character_layers (dict): Dictionary that contains all the paths inside the character folder.
+            character_layers (dict): Dictionary that contains all the paths inside the character directory.
             settings (CharacterSettings): Link to the settings.
 
         Returns:
@@ -122,8 +122,8 @@ class Randomization:
         character_paths = []
         
         for i in range(layers_driver):
-            if keys[i] != settings.backgrounds_folder:
-                if keys[i] != settings.accessories_folder:
+            if keys[i] != settings.backgrounds_dir:
+                if keys[i] != settings.accessories_dir:
                     raw_list = character_layers[keys[i]]
                     
                     # Add duplicated image paths to modify the chances to use one specific image
