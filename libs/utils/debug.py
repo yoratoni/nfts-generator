@@ -2,13 +2,11 @@ from settings import GlobalSettings
 from colorama import Style, Fore
 
 import time
-import sys
-import os
 
 
 class Logger:
     @staticmethod
-    def pyprint(log: str, log_type: str, forced_log: bool = False):
+    def pyprint(log: str, log_type: str, forced_log: bool = False, same_line: bool = False):
         '''Debug Mode formatted print statements.
         
         Supported message types:
@@ -23,6 +21,7 @@ class Logger:
             log_type (str): Type of the log (Unsupported title returns white colored log).
             include_path (bool, optional): Include the path in the log. Defaults to False.
             forced_log (bool, optional): Force even if not in debug mode. Defaults to False.
+            same_line (bool, optional): Print over the previous line.
         '''
         
         if not GlobalSettings.dist_mode and (GlobalSettings.verbose_debugging or forced_log):
@@ -39,8 +38,15 @@ class Logger:
                 elif log_type == GlobalSettings.debug_types[4]:
                     color = Fore.LIGHTGREEN_EX
                 
-                print(f'{color}[{log_type}] {log}{Style.RESET_ALL}')
-
+                output = f'{color}[{log_type}] {log}{Style.RESET_ALL}'
+                
+                if same_line:
+                    print_end = '\r'
+                else:
+                    print_end = None
+                    
+                print(output, end=print_end)
+                    
 
     @staticmethod
     def extime(name: str, timer: int, multiply_timer: int = 1, print_msg: bool = True) -> str:

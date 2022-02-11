@@ -5,3 +5,4 @@ archives/
 *.pyc
 .env
 libs/demo/
+dist/

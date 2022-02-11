@@ -6,4 +6,4 @@ import os
 # Generator.generate_nfts(2000, 'richard', 2500)
 
 
-NFTsUtils.nfts_mix()
+NFTsUtils.mix_nfts()
