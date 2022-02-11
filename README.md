@@ -137,7 +137,7 @@ You can check the [settings.py](settings/settings.py) file to have an example of
       
 
 ## File Utils:
-Inside the [file_utils.py](libs/utils/file_utils.py) file, there's a method called `mix_nfts()`, this method allows to take all the NFTs inside one folder (by default, the method checks the `dist` folder) and mix them with the `random.shuffle()` function, after that, all the NFTs are renamed with a simple number starting from 1.
+Inside the [file_utils.py](libs/utils/file_utils.py) file, there's a method called `mix_nfts()`, this method allows to take all the NFTs inside one directory (by default, the method checks the `dist` directory) and mix them with the `random.shuffle()` function, after that, all the NFTs are renamed with a simple number starting from 1.
 
 This method is used for the final collection (more precisely for OpenSea), it sorts / renames the NFTs randomly so they're not in order when uploaded with a bot or something like that on OpenSea.
 
