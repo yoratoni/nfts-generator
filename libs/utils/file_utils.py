@@ -11,18 +11,21 @@ class NFTsUtils:
     '''
 
     @staticmethod
-    def mix_nfts():
+    def mix_nfts(directory_name: str = 'dist'):
         '''Mix all the NFTs from the dist directory.
         
         WARNING: This method overwrites the original NFTs inside the 'dist/' directory.
                 
         This method renames all the NFTs with a number from 0 to xxx
         in a random order, so all the NFTs are ready for OpenSea.
+        
+        Args:
+            directory_name (str, optional) The name of the directory where all the final NFTs are.
         '''
         
         # Main paths
         cwd = os.getcwd()
-        dist_path = os.path.join(cwd, 'dist')
+        dist_path = os.path.join(cwd, directory_name)
 
         # Original NFTs
         names = os.listdir(dist_path)
