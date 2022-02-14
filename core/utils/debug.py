@@ -6,7 +6,7 @@ import time
 
 class Logger:
     @staticmethod
-    def pyprint(log: str, log_type: str, forced_log: bool = False, same_line: bool = False):
+    def pyprint(log_type: str, title: str, log: str, forced_log: bool = False, same_line: bool = False):
         '''Debug Mode formatted print statements.
         
         Supported message types:
@@ -17,8 +17,9 @@ class Logger:
         - SUCCESS -> Light green
 
         Args:
-            log (str): Printed log message.
             log_type (str): Type of the log (Unsupported title returns white colored log).
+            title (str): The title of the log.
+            log (str): Printed log message.
             include_path (bool, optional): Include the path in the log. Defaults to False.
             forced_log (bool, optional): Force even if not in debug mode. Defaults to False.
             same_line (bool, optional): Print over the previous line.
@@ -38,7 +39,10 @@ class Logger:
                 elif log_type == GlobalSettings.debug_types[4]:
                     color = Fore.LIGHTGREEN_EX
                 
-                output = f'{color}[{log_type}] {log}{Style.RESET_ALL}'
+                if len(title) == 0:
+                    output = f'{color}[{log_type}] {log}{Style.RESET_ALL}'
+                else:
+                    output = f'{color}[{log_type}] {title}: {log}{Style.RESET_ALL}'
                 
                 if same_line:
                     print_end = '\r'
@@ -89,6 +93,6 @@ class Logger:
         output = f'{name}: {res}{units[i]}'
         
         if print_msg:
-            Logger.pyprint(output, 'SUCCESS', True)
+            Logger.pyprint('SUCCESS', 'Extime', output, True)
         
         return output

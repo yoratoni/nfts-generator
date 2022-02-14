@@ -1,8 +1,7 @@
 __pycache__/
-input/
-output/
 archives/
 *.pyc
 .env
 libs/demo/
 dist/
+NFTs/

@@ -1,4 +1,4 @@
-from libs import PathsHandling, Logger
+from core import PathsHandling, Logger
 from settings import CharacterSettings
 from pathlib import Path
 
@@ -24,7 +24,7 @@ class Randomization:
         paths = character_layers[layer_name]
         random_path = paths[random.randrange(0, len(paths))]
         
-        Logger.pyprint(f'Random paths generated', 'DATA')
+        Logger.pyprint('DATA', 'Randomization', f'Random paths generated')
         return random_path
         
     
@@ -63,7 +63,7 @@ class Randomization:
             for i in range(rarity_driver):
                 random_accessories.append(accessories[indexes[i]])
                 
-            Logger.pyprint('Random accessories generated', 'INFO')
+            Logger.pyprint('INFO', 'Randomization', 'Random accessories generated')
             
         return random_accessories
 
@@ -149,6 +149,6 @@ class Randomization:
                     if settings.max_accessories_amount > 0:
                         character_paths += Randomization.accessories(character_layers[keys[i]], settings)
                     
-        Logger.pyprint('Random character list generated', 'INFO')
+        Logger.pyprint('INFO', 'Randomization', 'Random character list generated')
         return character_paths
     
