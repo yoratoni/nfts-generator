@@ -31,7 +31,7 @@ class ExceptionsHandling:
             order_change_mode = GlobalSettings.order_change_modes[3]
             
         if order_change_mode != GlobalSettings.order_change_modes[0] and len(current_exception) > 3:
-            Logger.pyprint('WARN', 'ExceptionsHandling', 'In this mode, "ORDER CHANGE" only supports two images / layers', True)
+            Logger.pyprint('WARN', '', 'In this mode, "ORDER CHANGE" only supports two images / layers', True)
             
         return order_change_mode
     
@@ -82,7 +82,7 @@ class ExceptionsHandling:
                         paths.remove(path)
                         paths.insert(image_path_index, path)
                     except ValueError as err:
-                        Logger.pyprint('ERRO', 'ExceptionsHandling', f'Order change path error [{err}]', True)
+                        Logger.pyprint('ERRO', '', f'Order change path error [{err}]', True)
 
 
         # IMAGE BEFORE LAYER
@@ -153,13 +153,13 @@ class ExceptionsHandling:
             
             # Regenerate the NFT is the images are all found
             if None not in incompatible_paths:
-                Logger.pyprint('WARN', 'ExceptionsHandling', 'Incompatible images found')
+                Logger.pyprint('WARN', '', 'Incompatible images found')
                 return None  # Regenerate the NFT
         
         # Handles incompatibilities with a whole layer
         else:
             if incompatibility_driver > 2:
-                Logger.pyprint('WARN', 'ExceptionsHandling', 'Incompatibility in layer mode only supports one image and one layer', True)
+                Logger.pyprint('WARN', '', 'Incompatibility in layer mode only supports one image and one layer', True)
                 
             # Check if the image is used (Returns None if not)
             image_path = PathsHandling.get_index_in_paths_list_from_filename(paths, incompatibles[0])
@@ -172,7 +172,7 @@ class ExceptionsHandling:
                     
                     # Check if the layer name is the incompatible one
                     if current_layer == incompatibles[1]:
-                        Logger.pyprint('WARN', 'ExceptionsHandling', 'Incompatibility with a layer found')
+                        Logger.pyprint('WARN', '', 'Incompatibility with a layer found')
                         return None  # Regenerate the NFT
 
         return paths
@@ -246,6 +246,6 @@ class ExceptionsHandling:
                 
             # Error
             else:
-                Logger.pyprint('ERRO', 'ExceptionsHandling', f'Invalid exception name in {current_exception}', True)
+                Logger.pyprint('ERRO', '', f'Invalid exception name in {current_exception}', True)
         
         return paths

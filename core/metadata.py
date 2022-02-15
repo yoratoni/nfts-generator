@@ -69,9 +69,10 @@ class MetadataHandling:
             
             # Fallback for an empty value
             if len(current_attribute['value']) == 0:
-                current_attribute['value'] = 'None'
+                current_attribute['value'] = 'Nothing'
             
             # Include the final attribute inside the metadata dict
             metadata['attributes'].append(current_attribute)
 
-        Logger.pyprint('WARN', 'METADATA TEST', metadata, True)
+        Logger.pyprint('WARN', '', metadata, True)
+        

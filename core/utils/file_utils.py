@@ -39,4 +39,4 @@ class NFTsUtils:
             orig_path = os.path.join(dist_path, name)
             new_path = os.path.join(dist_path, f'{i+1}.png')
             os.rename(orig_path, new_path)
-            Logger.pyprint('SUCCESS', 'NFTsUtils', f'{i+1}/{driver} NFTs renamed', same_line=True)
+            Logger.pyprint('SUCCESS', '', f'{i+1}/{driver} NFTs renamed', same_line=True)

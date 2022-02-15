@@ -94,7 +94,7 @@ class Logger:
         
         if print_msg:
             print('')
-            Logger.pyprint('SUCCESS', 'Extime', output, True)
+            Logger.pyprint('SUCCESS', '', output, True)
             print('')
         
         return output

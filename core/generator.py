@@ -57,10 +57,10 @@ class Generator:
             try:
                 img = Image.alpha_composite(img, layer)
             except ValueError as err:
-                Logger.pyprint('ERRO', 'Generator', f'Alpha Composite error: {err}', True)
-                Logger.pyprint('ERRO', 'Generator', f'Between [{paths[0]}] and [{paths[i]}]', True)
+                Logger.pyprint('ERRO', '', f'Alpha Composite error: {err}', True)
+                Logger.pyprint('ERRO', '', f'Between [{paths[0]}] and [{paths[i]}]', True)
                 
-        Logger.pyprint('INFO', 'Generator', 'Merged background and character images')
+        Logger.pyprint('INFO', '', 'Merged background and character images')
         return img
 
     
@@ -103,14 +103,14 @@ class Generator:
             
             # If the character exception handling is valid, break the while loop
             if character is not None:
-                Logger.pyprint('INFO', 'Generator', 'Exceptions handled successfully')
+                Logger.pyprint('INFO', '', 'Exceptions handled successfully')
                 if final_hash not in Generator.nft_comparator_hashlib:
                     Generator.nft_comparator_hashlib.append(final_hash)
                     break
                 
-                Logger.pyprint('WARN', 'Generator', f'Duplicata of an NFT found [{final_hash}]', True)
+                Logger.pyprint('WARN', '', f'Duplicata of an NFT found [{final_hash}]', True)
             else:
-                Logger.pyprint('ERRO', 'Generator', f'Invalid character, the NFT will be regenerated..', True)
+                Logger.pyprint('ERRO', '', f'Invalid character, the NFT will be regenerated..', True)
                 
         if is_saving_system_enabled:
             # Generate the image of the character from the list (merged to the background)
@@ -118,7 +118,7 @@ class Generator:
             generated_nft.save(output_path_and_name)
             
         # Print saved NFT path
-        Logger.pyprint('SUCCESS', 'Generator', f'Saved NFT [{output_path_and_name}]', True)
+        Logger.pyprint('SUCCESS', '', f'Saved NFT [{output_path_and_name}]', True)
         print('')
         
         # Used for the metadata generation (Metadata bus)
@@ -202,7 +202,7 @@ class Generator:
             elif character_name == GlobalSettings.character_dirs[2]:
                 settings = RichardSettings
             else:
-                Logger.pyprint('ERRO', 'Generator', 'Invalid character name', True)
+                Logger.pyprint('ERRO', '', 'Invalid character name', True)
                 sys.exit()
             
             # Get all the images and the layers
@@ -236,6 +236,6 @@ class Generator:
             return True
         
         else:
-            Logger.pyprint('ERRO', 'Generator', 'Invalid character path / output path', True)
+            Logger.pyprint('ERRO', '', 'Invalid character path / output path', True)
             return False
         

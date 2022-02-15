@@ -32,7 +32,7 @@ class PathsHandling:
                 
             scanned_structure.append(current_name)
             
-        Logger.pyprint('DATA', 'PathsHandling', f'Structure scanned [{main_dir_path}]')
+        Logger.pyprint('DATA', '', f'Structure scanned [{main_dir_path}]')
         return scanned_structure
         
         
@@ -55,7 +55,7 @@ class PathsHandling:
             dir_name = os.path.basename(directories[i])
             layers_dict[dir_name] = PathsHandling.get_structure(directories[i], True)
             
-        Logger.pyprint('INFO', 'PathsHandling', 'Character layers scanned')
+        Logger.pyprint('INFO', '', 'Character layers scanned')
         return layers_dict
         
         
