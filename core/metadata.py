@@ -57,7 +57,7 @@ class MetadataHandling:
             layer_name = settings.metadata_attributes[layer]
             
             # Copy & add the trait type (Example: '00_backgrounds': 'Background')
-            current_attribute = attribute_format
+            current_attribute = attribute_format.copy()
             current_attribute['trait_type'] = layer_name
             
             # Get all the filenames used in the paths of this specific layer
@@ -66,6 +66,12 @@ class MetadataHandling:
             
             # Format the 'filenames' list and add it as a value
             current_attribute['value'] = str(filenames)[1:-1]
-            metadata['attributes'].append(current_attribute)
             
-            print(metadata)
+            # Fallback for an empty value
+            if len(current_attribute['value']) == 0:
+                current_attribute['value'] = 'None'
+            
+            # Include the final attribute inside the metadata dict
+            metadata['attributes'].append(current_attribute)
+
+        Logger.pyprint('WARN', 'METADATA TEST', metadata, True)

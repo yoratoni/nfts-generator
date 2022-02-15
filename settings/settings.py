@@ -344,5 +344,6 @@ class RichardSettings:
     #   The value is the name of the attribute
     #   Example: {'00_backgrounds': 'Background'}
     metadata_attributes = {
-        '00_backgrounds': 'Background'
+        '00_backgrounds': 'Background',
+        '09_glasses': 'Glasses'
     }
