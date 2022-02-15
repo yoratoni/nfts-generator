@@ -93,6 +93,8 @@ class Logger:
         output = f'{name}: {res}{units[i]}'
         
         if print_msg:
+            print('')
             Logger.pyprint('SUCCESS', 'Extime', output, True)
+            print('')
         
         return output

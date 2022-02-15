@@ -147,3 +147,23 @@ class PathsHandling:
                 paths.pop(path_index)
 
         return paths
+
+
+    @staticmethod
+    def get_filename_from_paths(paths: list[Path]) -> list[str]:
+        '''Just a better wrapper to get multiple filenames
+        from multiple paths.
+        
+        Args:
+            paths (list): The paths list.
+            
+        Returns:
+            list: The list of all the filenames.
+        '''
+        
+        filenames = []
+        for path in paths:
+            filenames.append(os.path.basename(path))
+            
+        return filenames
+    

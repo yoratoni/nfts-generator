@@ -10,11 +10,14 @@ from core import (
     Logger,
     PathsHandling,
     Randomization,
-    ExceptionsHandling
+    ExceptionsHandling,
+    MetadataHandling
 )
 
 from pathlib import Path
+from datetime import datetime
 from PIL import Image
+
 
 import contextlib
 import xxhash
@@ -67,7 +70,7 @@ class Generator:
         character_layers: dict,
         output_path_and_name: Path,
         is_saving_system_enabled: bool
-    ):
+    ) -> list:
         '''Generate an unique NFT (compared to others with a xxHash128 hash).
 
         Args:
@@ -75,6 +78,9 @@ class Generator:
             character_layers (dict): All the layers of this character using get_character_layers().
             output_and_name_path (Path): Full path (Path + Name + '.png') where to save the NFT.
             is_saving_system_enabled (bool): (FOR TESTING ONLY) Remove the saving system.
+            
+        Returns:
+            list: Contains the metadata of the NFT (Mix of background & character).
         '''
         
         # Multiple NFTs comparison system
@@ -115,6 +121,10 @@ class Generator:
         Logger.pyprint('SUCCESS', 'Generator', f'Saved NFT [{output_path_and_name}]', True)
         print('')
         
+        # Used for the metadata generation (Metadata bus)
+        character.append(background)
+        return character
+    
     
     @staticmethod
     def estimate_generation_time(
@@ -143,10 +153,7 @@ class Generator:
         
         timer_name = f'Estimated generation time for {iterations} NFTs of "{character_name}"'
         
-        print('')
         Logger.extime(timer_name, timer_start, iterations, True)
-        print('')
-        
         time.sleep(1)
     
     
@@ -171,13 +178,11 @@ class Generator:
         
         # Main paths
         cwd = os.path.dirname(__file__)
-        character_path = Path(os.path.join(cwd, os.pardir, 'input', character_name))
-        output_path = Path(os.path.join(cwd, os.pardir, 'output', character_name))
+        main_path = os.path.join(cwd, os.pardir, 'NFTs')
+        metadata_path = os.path.join(main_path, 'metadata', character_name)
+        character_path = Path(os.path.join(main_path, 'input', character_name))
+        output_path = Path(os.path.join(main_path, 'output', character_name))
         
-        print(cwd)
-        print(character_path)
-        print(output_path)
-
         if os.path.exists(character_path) and os.path.exists(output_path):
             # Generates the name pattern (For normal or debugging mode)
             if debug_mode_latency == 0:
@@ -214,10 +219,15 @@ class Generator:
                     nft_path = os.path.abspath(os.path.join(output_path, current_name))
                 else:
                     # (FOR TESTING ONLY) Erase the previous NFT by saving with the same name
-                    nft_path = nft_path = os.path.abspath(os.path.join(output_path, 'DEBUG_NFT.png'))
+                    current_name = 'DEBUG_NFT.png'
+                    nft_path = os.path.abspath(os.path.join(output_path, current_name))
                     time.sleep(debug_mode_latency)
-                    
-                Generator.generate_unique_nft(settings, layers, nft_path, is_saving_system_enabled)
+
+                # Generates an unique NFT and get the metadata from it (background / character dict)
+                metadata_bus = Generator.generate_unique_nft(settings, layers, nft_path, is_saving_system_enabled)
+                
+                # Generates the metadata as a file (same file -> Put at the end)
+                MetadataHandling.generate_meta(metadata_path, metadata_bus, settings)
                 
             # Print the total time that it took
             Logger.extime('NFTs generation time', timer_start)

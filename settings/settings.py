@@ -23,7 +23,7 @@ class GlobalSettings:
         'IMAGE BEFORE LAYER',
         'LAYER BEFORE LAYER'
     ]
-
+    
     
 class CharacterSettings:
     '''Used for copy/pasting to create a new character settings class.
@@ -59,6 +59,17 @@ class CharacterSettings:
     # This image will appears XX times inside the list of images,
     # Reducing the chances for other images to be used
     image_rarifier = []
+    
+    # Metadata description
+    metadata_description = ''
+    
+    # The attributes used for the character
+    #   The key is the direct name of the directory
+    #   The value is the name of the attribute
+    #   Example: {'00_backgrounds': 'Background'}
+    metadata_attributes = {
+        '00_backgrounds': 'Background'
+    }
 
 
 class ElonSettings:
@@ -324,3 +335,14 @@ class RichardSettings:
         ['chemise gris foncé.png', 2],
         ['chemise gris.png', 2]
     ]
+    
+    # Metadata description
+    metadata_description = 'JESUS'
+    
+    # The attributes used for the character
+    #   The key is the direct name of the directory
+    #   The value is the name of the attribute
+    #   Example: {'00_backgrounds': 'Background'}
+    metadata_attributes = {
+        '00_backgrounds': 'Background'
+    }

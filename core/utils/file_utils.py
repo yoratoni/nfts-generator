@@ -4,6 +4,8 @@ from core import Logger
 import random
 import os
 
+# NOTES:
+#   CHANGE THE 'name' VALUE FOR EVERY NFT METADATA JSON FILE
 
 class NFTsUtils:
     '''This class contains file-related methods
