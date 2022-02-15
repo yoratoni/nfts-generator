@@ -3,25 +3,8 @@ from core import PathsHandling
 from pathlib import Path
 from core import Logger
 
+import json
 import os
-
-
-'''
-JSON Structure:
-
-{
-    "image_path": "",
-    "name": "",
-    "external_link": "",
-    "description": "",
-    "attributes": [
-        {
-            "trait_type": "",
-            "value": ""
-        },
-    ]
-}
-'''
 
 
 class MetadataHandling:
@@ -29,6 +12,7 @@ class MetadataHandling:
     def generate_meta(
         metadata_path: os.path,
         metadata_bus: dict,
+        nft_name: str,
         settings: CharacterSettings
     ):
         '''Generates the metadata of all the NFTs,
@@ -62,17 +46,17 @@ class MetadataHandling:
             
             # Get all the filenames used in the paths of this specific layer
             paths_in_layer = PathsHandling.get_paths_from_layer_name(metadata_bus, layer)
-            filenames = PathsHandling.get_filename_from_paths(paths_in_layer)
-            
-            # Format the 'filenames' list and add it as a value
-            current_attribute['value'] = str(filenames)[1:-1]
-            
-            # Fallback for an empty value
-            if len(current_attribute['value']) == 0:
-                current_attribute['value'] = 'Nothing'
+            current_attribute['value'] = PathsHandling.get_filename_from_paths(paths_in_layer)
             
             # Include the final attribute inside the metadata dict
             metadata['attributes'].append(current_attribute)
 
-        Logger.pyprint('WARN', '', metadata, True)
+        # Saves the metadata into a JSON file
+        save_name = nft_name[:-4]
+        save_path = os.path.join(metadata_path, f'{save_name}.json')
+        with open(save_path, 'w+') as file:
+            json.dump(metadata, file, indent=4)
+
+        Logger.pyprint('SUCCESS', '', f'Metadata generated for "{nft_name}"')
+        print('')
         

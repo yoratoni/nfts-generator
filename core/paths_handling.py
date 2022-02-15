@@ -150,20 +150,32 @@ class PathsHandling:
 
 
     @staticmethod
-    def get_filename_from_paths(paths: list[Path]) -> list[str]:
+    def get_filename_from_paths(paths: list[Path]) -> str:
         '''Just a better wrapper to get multiple filenames
-        from multiple paths.
+        from multiple paths (STRING FORMATTED)
         
         Args:
             paths (list): The paths list.
             
         Returns:
-            list: The list of all the filenames.
+            str: The formatted list of all the filenames into a string with commas.
         '''
         
-        filenames = []
+        driver = len(paths)
+        filenames = ''
+        
         for path in paths:
-            filenames.append(os.path.basename(path))
+            # Get the filename & remove the '.png' extension
+            name = os.path.basename(path)[:-4]
+            
+            # Format for only one name
+            if driver == 1:
+                filenames = name
+            else:
+                filenames += f'{name}, '
+                
+        # Fallback if the list is empty
+        if driver == 0:
+            filenames = 'Nothing'
             
         return filenames
-    

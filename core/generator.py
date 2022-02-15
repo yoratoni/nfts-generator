@@ -119,7 +119,6 @@ class Generator:
             
         # Print saved NFT path
         Logger.pyprint('SUCCESS', '', f'Saved NFT [{output_path_and_name}]', True)
-        print('')
         
         # Used for the metadata generation (Metadata bus)
         character.append(background)
@@ -183,7 +182,7 @@ class Generator:
         character_path = Path(os.path.join(main_path, 'input', character_name))
         output_path = Path(os.path.join(main_path, 'output', character_name))
         
-        if os.path.exists(character_path) and os.path.exists(output_path):
+        if os.path.exists(character_path) and os.path.exists(output_path) and os.path.exists(metadata_path):
             # Generates the name pattern (For normal or debugging mode)
             if debug_mode_latency == 0:
                 nft_name_pattern = f'{character_name.upper()}_'
@@ -226,8 +225,8 @@ class Generator:
                 # Generates an unique NFT and get the metadata from it (background / character dict)
                 metadata_bus = Generator.generate_unique_nft(settings, layers, nft_path, is_saving_system_enabled)
                 
-                # Generates the metadata as a file (same file -> Put at the end)
-                MetadataHandling.generate_meta(metadata_path, metadata_bus, settings)
+                # Generates the metadata as a JSON file
+                MetadataHandling.generate_meta(metadata_path, metadata_bus, current_name, settings)
                 
             # Print the total time that it took
             Logger.extime('NFTs generation time', timer_start)
