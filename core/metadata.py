@@ -46,10 +46,14 @@ class MetadataHandling:
             
             # Get all the filenames used in the paths of this specific layer
             paths_in_layer = PathsHandling.get_paths_from_layer_name(metadata_bus, layer)
-            current_attribute['value'] = PathsHandling.get_filename_from_paths(paths_in_layer)
+            filenames = PathsHandling.get_filename_from_paths(paths_in_layer)
             
-            # Include the final attribute inside the metadata dict
-            metadata['attributes'].append(current_attribute)
+            # If no filenames found, don't include this attribute
+            if filenames is not None:
+                current_attribute['value'] = filenames
+                
+                # Include the final attribute inside the metadata dict
+                metadata['attributes'].append(current_attribute)
 
         # Saves the metadata into a JSON file
         save_name = nft_name[:-4]

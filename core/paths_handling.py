@@ -158,7 +158,8 @@ class PathsHandling:
             paths (list): The paths list.
             
         Returns:
-            str: The formatted list of all the filenames into a string with commas.
+            str/None: The formatted list of all the filenames into a string with commas
+                        or None if nothing found.
         '''
         
         driver = len(paths)
@@ -176,6 +177,6 @@ class PathsHandling:
                 
         # Fallback if the list is empty
         if driver == 0:
-            filenames = 'Nothing'
+            filenames = None
             
         return filenames

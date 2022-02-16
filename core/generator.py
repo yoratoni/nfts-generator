@@ -80,8 +80,13 @@ class Generator:
             is_saving_system_enabled (bool): (FOR TESTING ONLY) Remove the saving system.
             
         Returns:
-            list: Contains the metadata of the NFT (Mix of background & character).
+            list (Position 0): Contains the metadata of the NFT (Mix of background & character).
+            list (Position 1): Statistics about the generation
         '''
+        
+        # Measure some stats about the generation
+        statistics = []
+        iterations = 1
         
         # Multiple NFTs comparison system
         while True:
@@ -111,6 +116,10 @@ class Generator:
                 Logger.pyprint('WARN', '', f'Duplicata of an NFT found [{final_hash}]', True)
             else:
                 Logger.pyprint('ERRO', '', f'Invalid character, the NFT will be regenerated..', True)
+            
+            # Measure the number of iterations per NFT
+            iterations += 1
+        statistics.append(iterations)
                 
         if is_saving_system_enabled:
             # Generate the image of the character from the list (merged to the background)
@@ -122,7 +131,7 @@ class Generator:
         
         # Used for the metadata generation (Metadata bus)
         character.append(background)
-        return character
+        return [character, statistics]
     
     
     @staticmethod
@@ -144,7 +153,7 @@ class Generator:
         
         # Estimation path
         cwd = os.path.dirname(__file__)
-        character_path = Path(os.path.join(cwd, os.pardir, 'libs', 'demo', 'LATENCY_CHECK_NFT.png'))
+        character_path = Path(os.path.join(cwd, os.pardir, 'core', 'demo', 'LATENCY_CHECK_NFT.png'))
         
         # Block any call to the print function
         with contextlib.redirect_stdout(io.StringIO()):
@@ -152,8 +161,11 @@ class Generator:
         
         timer_name = f'Estimated generation time for {iterations} NFTs of "{character_name}"'
         
+        print('')
         Logger.extime(timer_name, timer_start, iterations, True)
-        time.sleep(1)
+        print('')
+        
+        time.sleep(2)
     
     
     @staticmethod
@@ -171,6 +183,9 @@ class Generator:
             debug_mode_latency (int): If == 0, debug mode is disabled (Value exprimed in milliseconds).
             is_saving_system_enabled (bool, optional): (FOR TESTING ONLY) Remove the saving system.
         '''
+        
+        # Stats
+        final_iterations = 0
         
         # Save the time where it starts
         timer_start = time.perf_counter_ns()
@@ -223,13 +238,25 @@ class Generator:
                     time.sleep(debug_mode_latency)
 
                 # Generates an unique NFT and get the metadata from it (background / character dict)
-                metadata_bus = Generator.generate_unique_nft(settings, layers, nft_path, is_saving_system_enabled)
+                unique_nft_data = Generator.generate_unique_nft(settings, layers, nft_path, is_saving_system_enabled)
                 
                 # Generates the metadata as a JSON file
-                MetadataHandling.generate_meta(metadata_path, metadata_bus, current_name, settings)
+                MetadataHandling.generate_meta(metadata_path, unique_nft_data[0], current_name, settings)
+                
+                # Final number of iterations (Get the iterations var at pos 1/0)
+                final_iterations += unique_nft_data[1][0]
                 
             # Print the total time that it took
             Logger.extime('NFTs generation time', timer_start)
+            
+            # Statistics
+            overall_complexity = len(settings.exceptions) + len(settings.image_rarifier) + len(settings.optional_layers)
+            generation_complexity = round((iterations / final_iterations) * 100, 2)
+            comparison_haslib_size = sys.getsizeof(Generator.nft_comparator_hashlib)
+            Logger.pyprint('DATA', '', f'NFT comparison hashlib size: {comparison_haslib_size} bytes')
+            Logger.pyprint('DATA', '', f'Overall character complexity: {overall_complexity}')
+            Logger.pyprint('DATA', '', f'Final number of iterations: {final_iterations}')
+            Logger.pyprint('DATA', '', f'Generation complexity: {generation_complexity}%')
             
             # Returns True (for multiprocessing purpose)
             return True
