@@ -112,7 +112,7 @@ You can check the [settings.py](settings/settings.py) file to have an example of
         `["ORDER_CHANGE", "image", "put_before_this_layer"]`
       - Change the order between a layer and one image: <br />
         `["ORDER_CHANGE", "layer", "put_before_this_image"]`
-      - **[NOT YET IMPLEMENTED]** Change the order between a layer and another layer: <br />
+      - Change the order between a layer and another layer: <br />
         `["ORDER_CHANGE", "layer", "put_before_this_layer"]`
         <br />
         <br />
