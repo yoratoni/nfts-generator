@@ -15,7 +15,6 @@ from core import (
 )
 
 from pathlib import Path
-from datetime import datetime
 from PIL import Image
 
 
@@ -198,12 +197,9 @@ class Generator:
         output_path = Path(os.path.join(main_path, 'output', character_name))
         
         if os.path.exists(character_path) and os.path.exists(output_path) and os.path.exists(metadata_path):
-            # Generates the name pattern (For normal or debugging mode)
+            # Debugging mode handling
             if debug_mode_latency == 0:
-                nft_name_pattern = f'{character_name.upper()}_'
-                
-                # Get the number of zeros for zfill()
-                zeros = len(str(iterations))
+                zeros = len(str(iterations))  # Get the number of zeros for zfill()
             else:
                 debug_mode_latency /= 1000  # The latency is in ms
                 zeros = 0  # Undeclared fallback variable
@@ -229,7 +225,8 @@ class Generator:
             # Generate every NFT with a name based on 'i' and zfill()
             for i in range(iterations):
                 if debug_mode_latency == 0:
-                    current_name = f'{nft_name_pattern}{str(i).zfill(zeros)}.png'
+                    nft_number = str(i).zfill(zeros)
+                    current_name = f'{character_name.upper()}_{nft_number}.png'
                     nft_path = os.path.abspath(os.path.join(output_path, current_name))
                 else:
                     # (FOR TESTING ONLY) Erase the previous NFT by saving with the same name
@@ -238,10 +235,21 @@ class Generator:
                     time.sleep(debug_mode_latency)
 
                 # Generates an unique NFT and get the metadata from it (background / character dict)
-                unique_nft_data = Generator.generate_unique_nft(settings, layers, nft_path, is_saving_system_enabled)
+                unique_nft_data = Generator.generate_unique_nft(
+                                      settings,
+                                      layers,
+                                      nft_path,
+                                      is_saving_system_enabled
+                                  )
                 
                 # Generates the metadata as a JSON file
-                MetadataHandling.generate_meta(metadata_path, unique_nft_data[0], current_name, settings)
+                MetadataHandling.generate_meta(
+                    metadata_path,
+                    unique_nft_data[0],
+                    current_name,
+                    i,
+                    settings
+                )
                 
                 # Final number of iterations (Get the iterations var at pos 1/0)
                 final_iterations += unique_nft_data[1][0]
@@ -250,13 +258,11 @@ class Generator:
             Logger.extime('NFTs generation time', timer_start)
             
             # Statistics
-            overall_complexity = len(settings.exceptions) + len(settings.image_rarifier) + len(settings.optional_layers)
             generation_complexity = round((iterations / final_iterations) * 100, 2)
             comparison_haslib_size = sys.getsizeof(Generator.nft_comparator_hashlib)
-            Logger.pyprint('DATA', '', f'NFT comparison hashlib size: {comparison_haslib_size} bytes')
-            Logger.pyprint('DATA', '', f'Overall character complexity: {overall_complexity}')
-            Logger.pyprint('DATA', '', f'Final number of iterations: {final_iterations}')
-            Logger.pyprint('DATA', '', f'Generation complexity: {generation_complexity}%')
+            Logger.pyprint('DATA', '', f'Comparison hashlib: {comparison_haslib_size} bytes')
+            Logger.pyprint('DATA', '', f'Total iterations: {final_iterations}')
+            Logger.pyprint('DATA', '', f'General complexity: {generation_complexity}%')
             
             # Returns True (for multiprocessing purpose)
             return True

@@ -32,6 +32,9 @@ class CharacterSettings:
     The class name should be defined like this by convention: NameSettings.
     '''
     
+    # String name of the character
+    character_name = 'Elon Musk'
+    
     # Exceptions Handling
     exceptions = []
     
@@ -68,36 +71,35 @@ class CharacterSettings:
     #   The value is the name of the attribute
     #   Example: {'00_backgrounds': 'Background'}
     metadata_attributes = {
-        '00_backgrounds': 'Background'
+        
     }
 
 
 class ElonSettings:
+    # String name of the character
+    character_name = 'Elon Musk'
+    
     # Exceptions handling
     exceptions = [
-        ['INCOMPATIBLE', 'visage et casquette rose.png', '08_hats'],
-        ['INCOMPATIBLE', 'visage et casquette noir.png', '08_hats'],
-        ['INCOMPATIBLE', 'casque space transparence.png', 'clope.png'],
-        ['INCOMPATIBLE', 'casque space transparence.png', 'bandana mask.png'],
-        ['INCOMPATIBLE', 'casque space transparence.png', '07_glasses'],
-        ['INCOMPATIBLE', 'casque space transparence.png', '04_jackets'],
-        ['INCOMPATIBLE', 'combinaison haut.png', '04_jackets'],
-        ['INCOMPATIBLE', 'pantalon costume.png', 'bottes moto.png'],
+        ['INCOMPATIBLE', 'Space helmet.png', 'Cigarette.png'],
+        ['INCOMPATIBLE', 'Space helmet.png', 'Bandana.png'],
+        ['INCOMPATIBLE', 'Space helmet.png', '04_jackets'],
+        ['INCOMPATIBLE', 'Space helmet.png', '07_glasses'],
+        ['INCOMPATIBLE', 'Spacesuit shirt.png', '04_jackets'],
+        ['INCOMPATIBLE', 'Suit trousers.png', 'Motorbike boots.png'],
         
-        ['ORDER_CHANGE', 'bottes combinaison.png', 'jean tesla bleu.png'],
-        ['ORDER_CHANGE', 'bottes combinaison.png', 'pantalon costume.png'],
-        
-        ['ORDER_CHANGE', 'chaussures costume.png', 'jean tesla bleu.png'],
-        ['ORDER_CHANGE', 'chaussures costume.png', 'pantalon costume.png'],
-        
-        ['ORDER_CHANGE', 'pieds nus.png', '02_trousers']
+        ['ORDER_CHANGE', 'Spacesuit boots.png', 'Tesla jeans.png'],
+        ['ORDER_CHANGE', 'Spacesuit boots.png', 'Suit trousers.png'],
+        ['ORDER_CHANGE', 'Suit shoes.png', 'Tesla jeans.png'],
+        ['ORDER_CHANGE', 'Suit shoes.png', 'Suit trousers.png'],
+        ['ORDER_CHANGE', 'Barefoot.png', '02_trousers']
     ]
     
     # Optional layers (Accessories is not supported here)
-    optional_layers = ['04_jackets', '07_glasses', '08_hats']
+    optional_layers = ['04_jackets', '07_glasses']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [5, 6, 5]
+    optional_rarity = [5, 6]
     
     # Background directory
     backgrounds_dir = '00_backgrounds'
@@ -117,13 +119,35 @@ class ElonSettings:
     # This image will appears XX times inside the list of images,
     # Reducing the chances for other images to be used
     image_rarifier = [
-        ['visage.png', 2],
-        ['visage coupe court.png', 2],
-        ['mains.png', 3]
+        ['Normal hair.png', 3],
+        ['Short hair.png', 2],
+        ['Normal hands.png', 5]
     ]
+    
+    # Metadata description
+    metadata_description = ''
+    
+    # The attributes used for the character
+    #   The key is the direct name of the directory
+    #   The value is the name of the attribute
+    #   Example: {'00_backgrounds': 'Background'}
+    metadata_attributes = {
+        '00_backgrounds': 'Background',
+        '01_faces': 'Head',
+        '02_trousers': 'Trousers',
+        '03_shirts': 'Shirt',
+        '04_jackets': 'Jacket',
+        '05_shoes': 'Shoes',
+        '06_accessories': 'Accessories',
+        '07_glasses': 'Glasses',
+        '08_hands': 'Hands',
+    }
 
 
 class JeffSettings:
+    # String name of the character
+    character_name = 'Jeff Bezos'
+    
     # Exceptions handling
     exceptions = [
         ['DELETE', 'combi haut.png', '03_belts'],
@@ -213,9 +237,23 @@ class JeffSettings:
         ['cravate.png', 2],
         ['mask.png', 2]
     ]
-
+    
+    # Metadata description
+    metadata_description = ''
+    
+    # The attributes used for the character
+    #   The key is the direct name of the directory
+    #   The value is the name of the attribute
+    #   Example: {'00_backgrounds': 'Background'}
+    metadata_attributes = {
+        
+    }
+    
 
 class RichardSettings:
+    # String name of the character
+    character_name = 'Richard Branson'
+    
     # Exceptions handling
     exceptions = [
         ['DELETE', 'combi space entier.png', '03_trousers', '05_jackets'],
@@ -337,13 +375,12 @@ class RichardSettings:
     ]
     
     # Metadata description
-    metadata_description = 'JESUS'
+    metadata_description = ''
     
     # The attributes used for the character
     #   The key is the direct name of the directory
     #   The value is the name of the attribute
     #   Example: {'00_backgrounds': 'Background'}
     metadata_attributes = {
-        '00_backgrounds': 'Background',
-        '09_glasses': 'Glasses'
+        
     }

@@ -3,7 +3,7 @@ from pathlib import Path
 
 import os
 
-Generator.generate_nfts(10, 'richard')
+Generator.generate_nfts(1, 'elon')
 
 
 # NFTsUtils.mix_nfts()
