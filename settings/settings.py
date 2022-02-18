@@ -84,10 +84,9 @@ class ElonSettings:
     
     # Exceptions handling
     exceptions = [
-        # Using 'DELETE' instead of 'INCOMPATIBLE' for better performances
-        ['DELETE', 'Spacesuit helmet.png', '04_jackets'],
-        ['DELETE', 'Spacesuit helmet.png', '07_glasses'],
-        ['DELETE', 'Spacesuit shirt.png', '04_jackets'],
+        ['INCOMPATIBLE', 'Spacesuit helmet.png', '04_jackets'],
+        ['INCOMPATIBLE', 'Spacesuit helmet.png', '07_glasses'],
+        ['INCOMPATIBLE', 'Spacesuit shirt.png', '04_jackets'],
         
         ['INCOMPATIBLE', 'Black cap.png', '09_hats'],
         ['INCOMPATIBLE', 'Pink cap.png', '09_hats'],
@@ -168,42 +167,33 @@ class JeffSettings:
     # Exceptions handling
     exceptions = [
         ['DELETE', 'Spacesuit jacket.png', '03_belts'],
-        ['DELETE', 'Spacesuit.png', '03_belts', '04_hands', '06_jackets', '03_belts'],
+        ['DELETE', 'Spacesuit.png', '02_trousers', '03_belts', '04_hands', '06_jackets', '03_belts'],
         
-        # Using 'DELETE' instead of 'INCOMPATIBLE' for better performances
-        ['DELETE', 'Astro white shirt.png', '09_wrist'],
-        ['DELETE', 'Navy blue shirt 1.png', '09_wrist'],
-        ['DELETE', 'Navy blue shirt 2.png', '09_wrist'],
-        ['DELETE', 'Navy blue shirt 3.png', '09_wrist'],
-        ['DELETE', 'Black shirt 1.png', '09_wrist'],
-        ['DELETE', 'Black shirt 2.png', '09_wrist'],
-        ['DELETE', 'Blue shirt 1.png', '09_wrist'],
-        ['DELETE', 'Blue shirt 2.png', '09_wrist'],
-        ['DELETE', 'Blue shirt 3.png', '09_wrist'],
-        ['DELETE', 'White shirt.png', '09_wrist'],
-        ['DELETE', 'Pink shirt.png', '09_wrist'],
-        ['DELETE', 'Spacesuit.png', '09_wrist'],
-        ['DELETE', '06_jackets', '09_wrist'],
+        ['INCOMPATIBLE', 'Astro white shirt.png', '09_wrist'],
+        ['INCOMPATIBLE', 'Navy blue shirt 1.png', '09_wrist'],
+        ['INCOMPATIBLE', 'Navy blue shirt 2.png', '09_wrist'],
+        ['INCOMPATIBLE', 'Navy blue shirt 3.png', '09_wrist'],
+        ['INCOMPATIBLE', 'Black shirt 1.png', '09_wrist'],
+        ['INCOMPATIBLE', 'Black shirt 2.png', '09_wrist'],
+        ['INCOMPATIBLE', 'Blue shirt 1.png', '09_wrist'],
+        ['INCOMPATIBLE', 'Blue shirt 2.png', '09_wrist'],
+        ['INCOMPATIBLE', 'Blue shirt 3.png', '09_wrist'],
+        ['INCOMPATIBLE', 'White shirt.png', '09_wrist'],
+        ['INCOMPATIBLE', 'Pink shirt.png', '09_wrist'],
+        ['INCOMPATIBLE', 'Spacesuit.png', '09_wrist'],
+        ['INCOMPATIBLE', '06_jackets', '09_wrist'],
         
         ['INCOMPATIBLE', 'Spacesuit.png', 'Tie.png'],
+        ['INCOMPATIBLE', 'Spacesuit.png', 'Santiags.png'],
         ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Santiags.png'],
         ['INCOMPATIBLE', 'Spacesuit jacket.png', 'Tie.png'],
         
-        ['INCOMPATIBLE', 'Bald.png', 'Blackboard.png'],
-        ['INCOMPATIBLE', 'Bald.png', 'Factory.png'],
-        ['INCOMPATIBLE', 'Bald.png', 'Orbital launch pad.png'],
-        ['INCOMPATIBLE', 'Bald.png', 'Beige world map.png'],
-        ['INCOMPATIBLE', 'Bald.png', 'Blue world map.png'],
-        ['INCOMPATIBLE', 'Bald.png', 'Engine blueprint.png'],
-        ['INCOMPATIBLE', 'Bald.png', 'Area 51.png'],
-        ['INCOMPATIBLE', 'Bald.png', 'Pyramid.png'],
-        ['INCOMPATIBLE', 'Bald.png', 'Sky map.png'],
-        ['INCOMPATIBLE', 'Bald.png', 'Pyramid and spaceship.png'],
-        
-        ['ORDER_CHANGE', 'Suit shoes.png', 'Spacesuit trousers.png'],
-        ['ORDER_CHANGE', 'Suit shoes.png', '02_trousers'],
+        ['INCOMPATIBLE', 'Closed beige jacket 3.png', 'Blackboard.png'],
 
+        ['ORDER_CHANGE', '07_shoes', 'Spacesuit.png'],
         ['ORDER_CHANGE', '07_shoes', 'Spacesuit trousers.png'],
+
+        ['ORDER_CHANGE', 'Suit shoes.png', '02_trousers'],
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Beige jeans 1.png'],
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Beige jeans 2.png'],
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Black jeans.png'],
@@ -218,7 +208,7 @@ class JeffSettings:
     optional_layers = ['06_jackets', '09_wrist', '10_glasses', '11_hats']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [4, 4, 5, 500]
+    optional_rarity = [4, 4, 5, 5]
 
     # Background directory
     backgrounds_dir = '00_backgrounds'
@@ -277,14 +267,13 @@ class RichardSettings:
     exceptions = [
         ['DELETE', 'Spacesuit.png', '03_trousers', '05_jackets'],
         
-        # Using 'DELETE' instead of 'INCOMPATIBLE' for better performances
-        ['DELETE', 'Spacesuit trousers.png', '05_jackets'],
-        ['DELETE', 'Hostess shirt.png', '05_jackets'],
-        ['DELETE', 'Circus shirt.png', '05_jackets'],
-        ['DELETE', 'Sports top.png', '05_jackets'],
-        ['DELETE', 'Blue watch.png', '05_jackets'],
-        ['DELETE', 'Red watch.png', '05_jackets'],
-        ['DELETE', 'Makeup.png', '09_glasses'],
+        ['INCOMPATIBLE', 'Spacesuit trousers.png', '05_jackets'],
+        ['INCOMPATIBLE', 'Hostess shirt.png', '05_jackets'],
+        ['INCOMPATIBLE', 'Circus shirt.png', '05_jackets'],
+        ['INCOMPATIBLE', 'Sports top.png', '05_jackets'],
+        ['INCOMPATIBLE', 'Blue watch.png', '05_jackets'],
+        ['INCOMPATIBLE', 'Red watch.png', '05_jackets'],
+        ['INCOMPATIBLE', 'Makeup.png', '09_glasses'],
         
         # Incompatibilities with watches
         ['INCOMPATIBLE', 'Blue watch.png', 'White shirt 1.png'],

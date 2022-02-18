@@ -49,7 +49,7 @@ class Generator:
         '''
         
         img = Image.open(paths[0]).convert('RGBA')
-        paths_driver = len(paths) - 1
+        paths_driver = len(paths)
         
         for i in range(1, paths_driver):
             layer = Image.open(paths[i]).convert('RGBA')

@@ -31,7 +31,7 @@ class ExceptionsHandling:
             order_change_mode = GlobalSettings.order_change_modes[3]
             
         if order_change_mode != GlobalSettings.order_change_modes[0] and len(current_exception) > 3:
-            Logger.pyprint('WARN', '', 'In this mode, "ORDER CHANGE" only supports two images / layers', True)
+            Logger.pyprint('WARN', '', 'In this mode, "ORDER_CHANGE" only supports two images / layers', True)
             
         return order_change_mode
     
