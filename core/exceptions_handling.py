@@ -77,7 +77,6 @@ class ExceptionsHandling:
             # If the image is detected and one of the path is used, change the order
             if len(paths_from_layer) > 0 and image_path_index is not None:
                 for path in paths_from_layer:
-
                     try:
                         paths.remove(path)
                         paths.insert(image_path_index, path)
@@ -92,7 +91,8 @@ class ExceptionsHandling:
             
             # Check if there's at least one path in the list
             if len(paths_from_layer) > 0:
-                order_change_path_index = paths.index(paths_from_layer[0])  # First path index in 'paths_from_layer'
+                # First path index in 'paths_from_layer'
+                order_change_path_index = paths.index(paths_from_layer[0])
             else:
                 order_change_path_index = None
             
@@ -105,9 +105,24 @@ class ExceptionsHandling:
 
         # LAYER BEFORE LAYER
         elif order_change_mode == GlobalSettings.order_change_modes[3]:
-            '''
-            '''
+            paths_from_layer_1 = PathsHandling.get_paths_from_layer_name(paths, current_exception[1])
+            paths_from_layer_2 = PathsHandling.get_paths_from_layer_name(paths, current_exception[2])
             
+            # Check if there's at least one path in the lists
+            if len(paths_from_layer_1) > 0 and len(paths_from_layer_2) > 0:
+                # First path index in 'paths_from_layer_2'
+                order_change_path_index = paths.index(paths_from_layer_2[0])
+            else:
+                order_change_path_index = None
+                
+            if order_change_path_index is not None:
+                for path in paths_from_layer_1:
+                    try:
+                        paths.remove(path)
+                        paths.insert(order_change_path_index, path)
+                    except ValueError as err:
+                        Logger.pyprint('ERRO', '', f'Order change path error [{err}]', True)
+
         return paths
 
     

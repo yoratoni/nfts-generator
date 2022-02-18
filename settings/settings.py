@@ -97,7 +97,13 @@ class ElonSettings:
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Suit trousers.png'],
         ['ORDER_CHANGE', 'Suit shoes.png', 'Tesla jeans.png'],
         ['ORDER_CHANGE', 'Suit shoes.png', 'Suit trousers.png'],
-        ['ORDER_CHANGE', 'Barefoot.png', '02_trousers']
+        ['ORDER_CHANGE', 'Barefoot.png', '02_trousers'],
+        
+        # Better hat system
+        ['ORDER_CHANGE', 'Security helmet.png', '08_hands'],
+        ['ORDER_CHANGE', 'Space helmet.png', '08_hands'],
+        ['ORDER_CHANGE', 'Black cap.png', '08_hands'],
+        ['ORDER_CHANGE', 'Pink cap.png', '08_hands'],
     ]
     
     # Optional layers (Accessories is not supported here)
