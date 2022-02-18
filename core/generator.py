@@ -247,7 +247,6 @@ class Generator:
                     metadata_path,
                     unique_nft_data[0],
                     current_name,
-                    i,
                     settings
                 )
                 

@@ -1,4 +1,4 @@
-from settings import CharacterSettings
+from settings import GlobalSettings, CharacterSettings
 from core import PathsHandling
 from core import Logger
 
@@ -12,13 +12,13 @@ class MetadataHandling:
         metadata_path: os.path,
         metadata_bus: dict,
         nft_name: str,
-        token_id: int,
         settings: CharacterSettings
     ):
         '''Generates the metadata of an NFT (IPFS/ERC OpenSea format).
         
         Notes:
             - The 'name' attribute is filled during the final NFT mix.
+            - The 'tokenId' attribute is also filled during the final NFT mix.
             - The 'image' attribute is the IPFS url, should be filled after the final Pinata upload
         '''
         
@@ -31,7 +31,7 @@ class MetadataHandling:
         # The original metadata format
         metadata = {
             'image': '',
-            'tokenId': token_id,
+            'tokenId': 0,
             'name': '',
             'description': settings.metadata_description,
             'attributes': []

@@ -1,4 +1,7 @@
 class GlobalSettings:
+    # Name of the collection (used for the NFTs name -> 'NAME' + ' #0123')
+    collection_name = 'ASTRO'
+    
     # Default path to the main layers directory
     main_input_dir = 'input'
     
@@ -81,11 +84,13 @@ class ElonSettings:
     
     # Exceptions handling
     exceptions = [
+        # Using 'DELETE' instead of 'INCOMPATIBLE' for better performances
+        ['DELETE', 'Space helmet.png', '04_jackets'],
+        ['DELETE', 'Space helmet.png', '07_glasses'],
+        ['DELETE', 'Spacesuit shirt.png', '04_jackets'],
+        
         ['INCOMPATIBLE', 'Space helmet.png', 'Cigarette.png'],
         ['INCOMPATIBLE', 'Space helmet.png', 'Bandana.png'],
-        ['INCOMPATIBLE', 'Space helmet.png', '04_jackets'],
-        ['INCOMPATIBLE', 'Space helmet.png', '07_glasses'],
-        ['INCOMPATIBLE', 'Spacesuit shirt.png', '04_jackets'],
         ['INCOMPATIBLE', 'Suit trousers.png', 'Motorbike boots.png'],
         
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Tesla jeans.png'],
@@ -150,82 +155,57 @@ class JeffSettings:
     
     # Exceptions handling
     exceptions = [
-        ['DELETE', 'combi haut.png', '03_belts'],
+        ['DELETE', 'Spacesuit jacket.png', '03_belts'],
+        ['DELETE', 'Spacesuit.png', '03_belts', '04_hands', '06_jackets', '03_belts'],
         
-        ['INCOMPATIBLE', 'combi haut.png', '06_jackets'],
+        # Using 'DELETE' instead of 'INCOMPATIBLE' for better performances
+        ['DELETE', 'Astro white shirt.png', '09_wrist'],
+        ['DELETE', 'Navy blue shirt 1.png', '09_wrist'],
+        ['DELETE', 'Navy blue shirt 2.png', '09_wrist'],
+        ['DELETE', 'Navy blue shirt 3.png', '09_wrist'],
+        ['DELETE', 'Black shirt 1.png', '09_wrist'],
+        ['DELETE', 'Black shirt 2.png', '09_wrist'],
+        ['DELETE', 'Blue shirt 1.png', '09_wrist'],
+        ['DELETE', 'Blue shirt 2.png', '09_wrist'],
+        ['DELETE', 'Blue shirt 3.png', '09_wrist'],
+        ['DELETE', 'White shirt.png', '09_wrist'],
+        ['DELETE', 'Pink shirt.png', '09_wrist'],
+        ['DELETE', 'Spacesuit.png', '09_wrist'],
+        ['DELETE', '06_jackets', '09_wrist'],
         
-        ['INCOMPATIBLE', 'montre.png', '06_jackets'],
-        ['INCOMPATIBLE', 'montre.png', 'chemise blanc motifs astro.png'],
-        ['INCOMPATIBLE', 'montre.png', 'chemise blanc.png'],
-        ['INCOMPATIBLE', 'montre.png', 'chemise bleu ciel effet noir morpion.png'],
-        ['INCOMPATIBLE', 'montre.png', 'chemise bleu ciel motif morpion.png'],
-        ['INCOMPATIBLE', 'montre.png', 'chemise bleu ciel.png'],
-        ['INCOMPATIBLE', 'montre.png', 'chemise bleu marine motif morpion.png'],
-        ['INCOMPATIBLE', 'montre.png', 'chemise bleu marine motif pois.png'],
-        ['INCOMPATIBLE', 'montre.png', 'chemise bleu marine.png'],
-        ['INCOMPATIBLE', 'montre.png', 'chemise noir motif morpion.png'],
-        ['INCOMPATIBLE', 'montre.png', 'chemise noir.png'],
-        ['INCOMPATIBLE', 'montre.png', 'chemise rose.png'],
+        ['INCOMPATIBLE', 'Spacesuit.png', 'Tie.png'],
+        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Santiags.png'],
+        ['INCOMPATIBLE', 'Spacesuit jacket.png', 'Tie.png'],
         
-        ['INCOMPATIBLE', 'bracelet.png', '06_jackets'],
-        ['INCOMPATIBLE', 'bracelet.png', 'chemise blanc motifs astro.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'chemise blanc.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'chemise bleu ciel effet noir morpion.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'chemise bleu ciel motif morpion.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'chemise bleu ciel.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'chemise bleu marine motif morpion.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'chemise bleu marine motif pois.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'chemise bleu marine.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'chemise noir motif morpion.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'chemise noir.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'chemise rose.png'],
-        ['INCOMPATIBLE', 'bracelet.png', 'combi haut.png'],
-        
-        ['INCOMPATIBLE', 'bracelet 2.png', '06_jackets'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'chemise blanc motifs astro.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'chemise blanc.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'chemise bleu ciel effet noir morpion.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'chemise bleu ciel motif morpion.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'chemise bleu ciel.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'chemise bleu marine motif morpion.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'chemise bleu marine motif pois.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'chemise bleu marine.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'chemise noir motif morpion.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'chemise noir.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'chemise rose.png'],
-        ['INCOMPATIBLE', 'bracelet 2.png', 'combi haut.png'],
+        ['ORDER_CHANGE', 'Suit shoes.png', 'Spacesuit trousers.png'],
+        ['ORDER_CHANGE', 'Suit shoes.png', '02_trousers'],
 
-        ['INCOMPATIBLE', 'combi bas.png', 'santiags.png'],
-        ['ORDER_CHANGE', 'chaussures costume.png', 'combi bas.png'],
-        ['ORDER_CHANGE', 'chaussures costume.png', '02_trousers'],
-
-        ['ORDER_CHANGE', '07_shoes', 'combi bas.png'],
-        
-        ['ORDER_CHANGE', 'bottes combi.png', 'pantalon beige effets.png'],
-        ['ORDER_CHANGE', 'bottes combi.png', 'pantalon beige.png'],
-        ['ORDER_CHANGE', 'bottes combi.png', 'pantalon bleu.png'],
-        ['ORDER_CHANGE', 'bottes combi.png', 'pantalon noir.png'],
-        ['ORDER_CHANGE', 'mocassins.png', 'pantalon beige effets.png'],
-        ['ORDER_CHANGE', 'mocassins.png', 'pantalon beige.png'],
-        ['ORDER_CHANGE', 'mocassins.png', 'pantalon bleu.png'],
-        ['ORDER_CHANGE', 'mocassins.png', 'pantalon noir.png'],
+        ['ORDER_CHANGE', '07_shoes', 'Spacesuit trousers.png'],
+        ['ORDER_CHANGE', 'Spacesuit boots.png', 'Beige jeans 1.png'],
+        ['ORDER_CHANGE', 'Spacesuit boots.png', 'Beige jeans 2.png'],
+        ['ORDER_CHANGE', 'Spacesuit boots.png', 'Black jeans.png'],
+        ['ORDER_CHANGE', 'Spacesuit boots.png', 'Blue jeans.png'],
+        ['ORDER_CHANGE', 'Dress shoes.png', 'Beige jeans 1.png'],
+        ['ORDER_CHANGE', 'Dress shoes.png', 'Beige jeans 2.png'],
+        ['ORDER_CHANGE', 'Dress shoes.png', 'Black jeans.png'],
+        ['ORDER_CHANGE', 'Dress shoes.png', 'Blue jeans.png'],
     ]
     
     # Optional layers (Accessories is not supported here)
-    optional_layers = ['06_jackets', '09_wrist', '10_glasses', '11_hats']
+    optional_layers = ['06_jackets', '09_wrist', '10_glasses']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [4, 4, 8, 4]
+    optional_rarity = [4, 4, 7]
 
     # Background directory
     backgrounds_dir = '00_backgrounds'
     
     # Accessories directory name
     # Handled separately from the main character randomizer function
-    accessories_dir = '06_accessories'
+    accessories_dir = '08_accessories'
     
     # Max amount of accessories
-    max_accessories_amount = 2 
+    max_accessories_amount = 2
     
     # Accessories rarity
     accessories_rarity = 5
@@ -234,8 +214,9 @@ class JeffSettings:
     # As an example, if one image is specified: ['image.png', XX]
     # This image will appears XX times inside the list of images
     image_rarifier = [
-        ['cravate.png', 2],
-        ['mask.png', 2]
+        ['Tie.png', 2],
+        ['Mask.png', 2],
+        ['Bald.png', 16]
     ]
     
     # Metadata description
@@ -246,7 +227,16 @@ class JeffSettings:
     #   The value is the name of the attribute
     #   Example: {'00_backgrounds': 'Background'}
     metadata_attributes = {
-        
+        '00_backgrounds': 'Background',
+        '01_faces': 'Head',
+        '02_trousers': 'Trousers',
+        '03_belts': 'Belt',
+        '05_shirts': 'Shirt',
+        '06_jackets': 'Jacket',
+        '07_shoes': 'Shoes',
+        '08_accessories': 'Accessories',
+        '09_wrist': 'Wrist',
+        '10_glasses': 'Glasses'
     }
     
 
@@ -256,122 +246,119 @@ class RichardSettings:
     
     # Exceptions handling
     exceptions = [
-        ['DELETE', 'combi space entier.png', '03_trousers', '05_jackets'],
+        ['DELETE', 'Spacesuit.png', '03_trousers', '05_jackets'],
         
-        ['INCOMPATIBLE', 'montre bleu.png', 'chemise blanc anglais.png'],
-        ['INCOMPATIBLE', 'montre bleu.png', 'chemise blanc.png'],
-        ['INCOMPATIBLE', 'montre bleu.png', 'chemise cirque.png'],
-        ['INCOMPATIBLE', 'montre bleu.png', 'chemise gris foncé.png'],
-        ['INCOMPATIBLE', 'montre bleu.png', 'chemise gris.png'],
-        ['INCOMPATIBLE', 'montre bleu.png', 'combi space entier.png'],
-        ['INCOMPATIBLE', 'montre bleu.png', 'tenue sport haut.png'],
-        ['INCOMPATIBLE', 'montre rouge.png', 'chemise blanc anglais.png'],
-        ['INCOMPATIBLE', 'montre rouge.png', 'chemise blanc.png'],
-        ['INCOMPATIBLE', 'montre rouge.png', 'chemise cirque.png'],
-        ['INCOMPATIBLE', 'montre rouge.png', 'chemise gris foncé.png'],
-        ['INCOMPATIBLE', 'montre rouge.png', 'chemise gris.png'],
-        ['INCOMPATIBLE', 'montre rouge.png', 'combi space entier.png'],
-        ['INCOMPATIBLE', 'montre rouge.png', 'tenue sport haut.png'],
+        # Using 'DELETE' instead of 'INCOMPATIBLE' for better performances
+        ['DELETE', 'Spacesuit trousers.png', '05_jackets'],
+        ['DELETE', 'Hostess shirt.png', '05_jackets'],
+        ['DELETE', 'Circus shirt.png', '05_jackets'],
+        ['DELETE', 'Sports top.png', '05_jackets'],
+        ['DELETE', 'Blue watch.png', '05_jackets'],
+        ['DELETE', 'Red watch.png', '05_jackets'],
+        ['DELETE', 'Makeup.png', '09_glasses'],
+        
+        # Incompatibilities with watches
+        ['INCOMPATIBLE', 'Blue watch.png', 'White shirt 1.png'],
+        ['INCOMPATIBLE', 'Blue watch.png', 'White shirt 2.png'],
+        ['INCOMPATIBLE', 'Blue watch.png', 'Circus shirt.png'],
+        ['INCOMPATIBLE', 'Blue watch.png', 'Black shirt.png'],
+        ['INCOMPATIBLE', 'Blue watch.png', 'Gray shirt.png'],
+        ['INCOMPATIBLE', 'Blue watch.png', 'Sports top.png'],
+        ['INCOMPATIBLE', 'Blue watch.png', 'Spacesuit.png'],
+        ['INCOMPATIBLE', 'Red watch.png', 'White shirt 1.png'],
+        ['INCOMPATIBLE', 'Red watch.png', 'White shirt 2.png'],
+        ['INCOMPATIBLE', 'Red watch.png', 'Circus shirt.png'],
+        ['INCOMPATIBLE', 'Red watch.png', 'Black shirt.png'],
+        ['INCOMPATIBLE', 'Red watch.png', 'Gray shirt.png'],
+        ['INCOMPATIBLE', 'Red watch.png', 'Sports top.png'],
+        ['INCOMPATIBLE', 'Red watch.png', 'Spacesuit.png'],
 
-        # Jackets incompatibilities
-        ['INCOMPATIBLE', 'montre bleu.png', '05_jackets'],
-        ['INCOMPATIBLE', 'montre rouge.png', '05_jackets'],
-        ['INCOMPATIBLE', 'tenue sport haut.png', '05_jackets'],
-        ['INCOMPATIBLE', 'combi space bas.png', '05_jackets'],
-        ['INCOMPATIBLE', 'chemise cirque.png', '05_jackets'],
-        ['INCOMPATIBLE', 'chemise et veste hotess.png', '05_jackets'],
-        
-        ['INCOMPATIBLE', 'chaussures hotesse.png', 'combi space bas.png'],
+        ['INCOMPATIBLE', 'Hostess shoes.png', 'Spacesuit trousers.png'],
+        ['INCOMPATIBLE', 'Sports top.png', 'Hostess skirt.png'],
 
-        # Bottes combi space
-        ['INCOMPATIBLE', 'bottes combi space.png', 'tenue sport bas.png'],
-        ['INCOMPATIBLE', 'bottes combi space.png', 'pantalon costume tweed nude.png'],
-        ['INCOMPATIBLE', 'bottes combi space.png', 'pantalon costume tweed rayé.png'],
-        ['INCOMPATIBLE', 'bottes combi space.png', 'pantalon costume noir.png'],
-        ['INCOMPATIBLE', 'bottes combi space.png', 'pantalon costume noir rayé.png'],
-        ['INCOMPATIBLE', 'bottes combi space.png', 'pantalon costume gis.png'],
-        ['INCOMPATIBLE', 'bottes combi space.png', 'jupe hotesse.png'],
-        ['INCOMPATIBLE', 'bottes combi space.png', 'jean noir.png'],
-        ['INCOMPATIBLE', 'bottes combi space.png', 'jean bleu.png'],
-        
-        ['INCOMPATIBLE', 'tenue sport haut.png', 'jupe hotesse.png'],
-        
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Sports shorts.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Tweed striped suit trousers.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Tweed suit trousers.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Black striped suit trousers.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Black suit trousers.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Gray suit trousers.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Hostess skirt.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Black jeans.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Blue jeans.png'],
+
         # Pockets incompatibilities
-        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise blanc anglais.png'],
-        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise blanc court.png'],
-        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise blanc.png'],
-        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise gris court.png'],
-        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise gris foncé court.png'],
-        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise gris foncé.png'],
-        ['INCOMPATIBLE', 'tenue sport bas.png', 'chemise gris.png'],
-        ###
-        ['INCOMPATIBLE', 'combi space bas.png', 'chemise blanc anglais.png'],
-        ['INCOMPATIBLE', 'combi space bas.png', 'chemise blanc court.png'],
-        ['INCOMPATIBLE', 'combi space bas.png', 'chemise blanc.png'],
-        ['INCOMPATIBLE', 'combi space bas.png', 'chemise gris court.png'],
-        ['INCOMPATIBLE', 'combi space bas.png', 'chemise gris foncé court.png'],
-        ['INCOMPATIBLE', 'combi space bas.png', 'chemise gris foncé.png'],
-        ['INCOMPATIBLE', 'combi space bas.png', 'chemise gris.png'],
-        ###
-        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise blanc anglais.png'],
-        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise blanc court.png'],
-        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise blanc.png'],
-        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise gris court.png'],
-        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise gris foncé court.png'],
-        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise gris foncé.png'],
-        ['INCOMPATIBLE', 'jupe hotesse.png', 'chemise gris.png'],
-        ###
-        ['INCOMPATIBLE', 'maquillage.png', 'chemise blanc anglais.png'],
-        ['INCOMPATIBLE', 'maquillage.png', 'chemise blanc court.png'],
-        ['INCOMPATIBLE', 'maquillage.png', 'chemise blanc.png'],
-        ['INCOMPATIBLE', 'maquillage.png', 'chemise cirque.png'],
-        ['INCOMPATIBLE', 'maquillage.png', 'chemise gris court.png'],
-        ['INCOMPATIBLE', 'maquillage.png', 'chemise gris foncé court.png'],
-        ['INCOMPATIBLE', 'maquillage.png', 'chemise gris foncé.png'],
-        ['INCOMPATIBLE', 'maquillage.png', 'chemise gris.png'],
-        ['INCOMPATIBLE', 'maquillage.png', 'tenue sport haut.png'],
-        ['INCOMPATIBLE', 'maquillage.png', 'mask.png'],
-        ['INCOMPATIBLE', 'maquillage.png', 'mask rouge.png'],
-        ['INCOMPATIBLE', 'maquillage.png', '09_glasses'],
+        ['INCOMPATIBLE', 'Sports shorts.png', 'White short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Sports shorts.png', 'White shirt 1.png'],
+        ['INCOMPATIBLE', 'Sports shorts.png', 'White shirt 2.png'],
+        ['INCOMPATIBLE', 'Sports shorts.png', 'Gray short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Sports shorts.png', 'Gray shirt.png'],
+        ['INCOMPATIBLE', 'Sports shorts.png', 'Black short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Sports shorts.png', 'Black shirt.png'],
+        
+        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'White short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'White shirt 1.png'],
+        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'White shirt 2.png'],
+        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Gray short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Gray shirt.png'],
+        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Black short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Black shirt.png'],
+        
+        ['INCOMPATIBLE', 'Hostess skirt.png', 'White short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Hostess skirt.png', 'White shirt 1.png'],
+        ['INCOMPATIBLE', 'Hostess skirt.png', 'White shirt 2.png'],
+        ['INCOMPATIBLE', 'Hostess skirt.png', 'Gray short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Hostess skirt.png', 'Gray shirt.png'],
+        ['INCOMPATIBLE', 'Hostess skirt.png', 'Black short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Hostess skirt.png', 'Black shirt.png'],
 
-        # Order Change
-        ['ORDER_CHANGE', 'chaussures hotesse.png', '03_trousers'],
-        ['ORDER_CHANGE', 'chaussures hotesse.png', 'combi space entier.png'],
-        ['ORDER_CHANGE', 'tenue sport haut.png', '03_trousers']
+        ['INCOMPATIBLE', 'Makeup.png', 'White short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Makeup.png', 'White shirt 1.png'],
+        ['INCOMPATIBLE', 'Makeup.png', 'White shirt 2.png'],
+        ['INCOMPATIBLE', 'Makeup.png', 'Circus shirt.png'],
+        ['INCOMPATIBLE', 'Makeup.png', 'Gray short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Makeup.png', 'Gray shirt.png'],
+        ['INCOMPATIBLE', 'Makeup.png', 'Black short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Makeup.png', 'Black shirt.png'],
+        ['INCOMPATIBLE', 'Makeup.png', 'Sports top.png'],
+        ['INCOMPATIBLE', 'Makeup.png', 'Black mask.png'],
+        ['INCOMPATIBLE', 'Makeup.png', 'Red mask.png'],
+
+        ['ORDER_CHANGE', 'Hostess shoes.png', '03_trousers'],
+        ['ORDER_CHANGE', 'Hostess shoes.png', 'Spacesuit.png'],
+        ['ORDER_CHANGE', 'Sports top.png', '03_trousers']
     ]
 
     # Optional layers (Accessories is not supported here)
-    optional_layers = ['05_jackets', '09_glasses', '07_makeup']
+    optional_layers = ['05_jackets', '07_makeup', '09_glasses']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [3, 4, 5]
+    optional_rarity = [3, 5, 4]
     
     # Background directory
     backgrounds_dir = '00_backgrounds'
     
     # Accessories directory name
     # Handled separately from the main character randomizer function
-    accessories_dir = '06_accessories'
+    accessories_dir = '08_accessories'
     
     # Max amount of accessories
     max_accessories_amount = 2
 
     # Accessories rarity
-    accessories_rarity = 3
+    accessories_rarity = 4
 
     # Increases the chances to use a specific image
     # As an example, if one image is specified: ['image.png', XX]
     # This image will appears XX times inside the list of images
     image_rarifier = [
-        ['visage.png', 2],
-        ['chemise blanc anglais.png', 2],
-        ['chemise blanc court.png', 2],
-        ['chemise blanc.png', 2],
-        ['chemise gris court.png', 2],
-        ['chemise gris foncé.png', 2],
-        ['chemise gris foncé court.png', 2],
-        ['chemise gris foncé.png', 2],
-        ['chemise gris.png', 2]
+        ['Normal hair.png', 12],
+        ['White short-sleeved shirt.png', 2],
+        ['White shirt 1.png', 2],
+        ['White shirt 2.png', 2],
+        ['Black short-sleeved shirt.png', 2],
+        ['Black shirt.png', 2],
+        ['Gray short-sleeved shirt.png', 2],
+        ['Gray shirt.png', 2]
     ]
     
     # Metadata description
@@ -382,5 +369,13 @@ class RichardSettings:
     #   The value is the name of the attribute
     #   Example: {'00_backgrounds': 'Background'}
     metadata_attributes = {
-        
+        '00_backgrounds': 'Background',
+        '01_faces': 'Head',
+        '03_trousers': 'Trousers',
+        '04_shirts': 'Shirt',
+        '05_jackets': 'Jacket',
+        '06_shoes': 'Shoes',
+        '07_makeup': 'Makeup',
+        '08_accessories': 'Accessories',
+        '09_glasses': 'Glasses'
     }
