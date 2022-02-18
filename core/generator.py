@@ -34,23 +34,24 @@ class Generator:
     
 
     @staticmethod
-    def final_nft_from_paths(paths: list[Path], background_path: Path) -> Image.Image:
+    def final_nft_from_paths(paths: list[Path]) -> Image.Image:
         '''Returns an image containing all the layers in the paths list.
         
         Note:
             All the images are added to the first image of the paths list.
 
         Args:
-            paths (list[Path]): List of all the paths used for one NFT.
+            paths (list[Path]): List of all the paths used for one NFT
+            (The first of the list is the background).
 
         Returns:
             Image.Image: Final character.
         '''
         
-        img = Image.open(background_path).convert('RGBA')
-        paths_driver = len(paths)
+        img = Image.open(paths[0]).convert('RGBA')
+        paths_driver = len(paths) - 1
         
-        for i in range(paths_driver):
+        for i in range(1, paths_driver):
             layer = Image.open(paths[i]).convert('RGBA')
             
             try:
@@ -99,17 +100,20 @@ class Generator:
             character = Randomization.character(character_layers, settings)
             
             # Exception Handling
-            character = ExceptionsHandling.exceptions_handling(character, settings)
+            # Also handles the merging of the background and the character
+            # So any background related exception is handled too
+            final_paths = ExceptionsHandling.exceptions_handling(background, character, settings)
             
             # Comparison hash generation
-            digest = f'{background}::{character}'
+            digest = f'::{final_paths}::'
             final_hash = xxhash.xxh128_hexdigest(digest)
             
             # If the character exception handling is valid, break the while loop
-            if character is not None:
+            if final_paths is not None:
                 Logger.pyprint('INFO', '', 'Exceptions handled successfully')
                 if final_hash not in Generator.nft_comparator_hashlib:
                     Generator.nft_comparator_hashlib.append(final_hash)
+                    Logger.pyprint('DATA', '', f'No duplicata found [{final_hash}]', True)
                     break
                 
                 Logger.pyprint('WARN', '', f'Duplicata of an NFT found [{final_hash}]', True)
@@ -122,15 +126,14 @@ class Generator:
                 
         if is_saving_system_enabled:
             # Generate the image of the character from the list (merged to the background)
-            generated_nft = Generator.final_nft_from_paths(character, background)
+            generated_nft = Generator.final_nft_from_paths(final_paths)
             generated_nft.save(output_path_and_name)
             
         # Print saved NFT path
         Logger.pyprint('SUCCESS', '', f'Saved NFT [{output_path_and_name}]', True)
         
         # Used for the metadata generation (Metadata bus)
-        character.append(background)
-        return [character, statistics]
+        return [final_paths, statistics]
     
     
     @staticmethod
@@ -232,7 +235,9 @@ class Generator:
                     # (FOR TESTING ONLY) Erase the previous NFT by saving with the same name
                     current_name = 'DEBUG_NFT.png'
                     nft_path = os.path.abspath(os.path.join(output_path, current_name))
-                    time.sleep(debug_mode_latency)
+                    
+                    if i != 0:
+                        time.sleep(debug_mode_latency)
 
                 # Generates an unique NFT and get the metadata from it (background / character dict)
                 unique_nft_data = Generator.generate_unique_nft(

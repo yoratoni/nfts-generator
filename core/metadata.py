@@ -48,9 +48,19 @@ class MetadataHandling:
         
         # Adding every listed layer
         for layer in attributes_listed:
+            value = settings.metadata_attributes[layer]
+            
+            # Check if the value is a list (Fallback trait value)
+            if type(value) == list:
+                trait_type = value[0]
+                other_layer = value[1]
+            else:
+                trait_type = value
+                other_layer = None
+            
             # Copy & add the trait type (Example: '00_backgrounds': 'Background')
             current_attribute = attribute_format.copy()
-            current_attribute['trait_type'] = settings.metadata_attributes[layer]
+            current_attribute['trait_type'] = trait_type
             
             # Get all the filenames used in the paths of this specific layer
             paths_in_layer = PathsHandling.get_paths_from_layer_name(metadata_bus, layer)
@@ -62,7 +72,15 @@ class MetadataHandling:
                 
                 # Include the final attribute inside the metadata dict
                 metadata['attributes'].append(current_attribute)
-
+                
+            # Apply another trait value (other layer) if the metadata attribute is a list 
+            elif other_layer is not None:
+                paths_in_layer = PathsHandling.get_paths_from_layer_name(metadata_bus, other_layer)
+                current_attribute['value'] = PathsHandling.get_filename_from_paths(paths_in_layer)
+                
+                # Include the final attribute inside the metadata dict
+                metadata['attributes'].append(current_attribute)
+            
         # Saves the metadata into a JSON file
         save_name = nft_name[:-4]  # Removes the '.png' extension
         save_path = os.path.join(metadata_path, f'{save_name}.json')

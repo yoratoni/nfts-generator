@@ -217,12 +217,14 @@ class ExceptionsHandling:
             for i in range(driver):
                 paths = PathsHandling.delete_paths_from_layer_name(paths, layers_to_delete[i])
         
+            Logger.pyprint('DATA', '', f'Layer successfully deleted {layers_to_delete}')
+        
         return paths
             
 
 
     @staticmethod
-    def exceptions_handling(paths: list[Path], settings: CharacterSettings):
+    def exceptions_handling(background: Path, paths: list[Path], settings: CharacterSettings):
         '''Handle multiple exceptions / incompatibilities between layers.
         
         - 'ORDER_CHANGE' -> Change the order between two layers / images.
@@ -230,12 +232,16 @@ class ExceptionsHandling:
         - 'DELETE' -> Deletes all the images of specific layers if the specified image is used.
 
         Args:
+            background (Path): The path of the background
             paths (list[Path]): Randomized character paths list.
             settings (CharacterSettings): Link to the settings.
             
         Returns:
             list[Path] OR None: Modified paths list. (Or None if the NFT needs to be regenerated)
         '''
+
+        # Add the background to the paths list (POS 0)
+        paths.insert(0, background)
     
         exceptions = settings.exceptions
         exceptions_driver = len(exceptions)

@@ -85,12 +85,18 @@ class ElonSettings:
     # Exceptions handling
     exceptions = [
         # Using 'DELETE' instead of 'INCOMPATIBLE' for better performances
-        ['DELETE', 'Space helmet.png', '04_jackets'],
-        ['DELETE', 'Space helmet.png', '07_glasses'],
+        ['DELETE', 'Spacesuit helmet.png', '04_jackets'],
+        ['DELETE', 'Spacesuit helmet.png', '07_glasses'],
         ['DELETE', 'Spacesuit shirt.png', '04_jackets'],
         
-        ['INCOMPATIBLE', 'Space helmet.png', 'Cigarette.png'],
-        ['INCOMPATIBLE', 'Space helmet.png', 'Bandana.png'],
+        ['INCOMPATIBLE', 'Black cap.png', '09_hats'],
+        ['INCOMPATIBLE', 'Pink cap.png', '09_hats'],
+        ['INCOMPATIBLE', 'Normal hair.png', '09_hats'],
+        ['INCOMPATIBLE', 'Big blue sunglasses.png', '09_hats'],
+        ['INCOMPATIBLE', 'Big orange sunglasses.png', '09_hats'],
+        
+        ['INCOMPATIBLE', 'Spacesuit helmet.png', 'Cigarette.png'],
+        ['INCOMPATIBLE', 'Spacesuit helmet.png', 'Bandana.png'],
         ['INCOMPATIBLE', 'Suit trousers.png', 'Motorbike boots.png'],
         
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Tesla jeans.png'],
@@ -98,19 +104,13 @@ class ElonSettings:
         ['ORDER_CHANGE', 'Suit shoes.png', 'Tesla jeans.png'],
         ['ORDER_CHANGE', 'Suit shoes.png', 'Suit trousers.png'],
         ['ORDER_CHANGE', 'Barefoot.png', '02_trousers'],
-        
-        # Better hat system
-        ['ORDER_CHANGE', 'Security helmet.png', '08_hands'],
-        ['ORDER_CHANGE', 'Space helmet.png', '08_hands'],
-        ['ORDER_CHANGE', 'Black cap.png', '08_hands'],
-        ['ORDER_CHANGE', 'Pink cap.png', '08_hands'],
     ]
     
     # Optional layers (Accessories is not supported here)
-    optional_layers = ['04_jackets', '07_glasses']
+    optional_layers = ['04_jackets', '07_glasses', '09_hats']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [5, 6]
+    optional_rarity = [5, 6, 5]
     
     # Background directory
     backgrounds_dir = '00_backgrounds'
@@ -130,7 +130,7 @@ class ElonSettings:
     # This image will appears XX times inside the list of images,
     # Reducing the chances for other images to be used
     image_rarifier = [
-        ['Normal hair.png', 3],
+        ['Normal hair.png', 2],
         ['Short hair.png', 2],
         ['Normal hands.png', 5]
     ]
@@ -142,9 +142,14 @@ class ElonSettings:
     #   The key is the direct name of the directory
     #   The value is the name of the attribute
     #   Example: {'00_backgrounds': 'Background'}
+    # Option (Fallback trait value):
+    #   The attribute can be a list with another layer directory as the second argument:
+    #   If te main layer is not used, the other layer value will be added instead
+    #   Example: {'10_hats': ['Head', '01_faces']}
+    #   Which means that if no hat is used, use the mandatory layer instead
+    #   If no hat -> Use 'Short hair' or 'Normal hair' as a value
     metadata_attributes = {
         '00_backgrounds': 'Background',
-        '01_faces': 'Head',
         '02_trousers': 'Trousers',
         '03_shirts': 'Shirt',
         '04_jackets': 'Jacket',
@@ -152,6 +157,7 @@ class ElonSettings:
         '06_accessories': 'Accessories',
         '07_glasses': 'Glasses',
         '08_hands': 'Hands',
+        '09_hats': ['Head', '01_faces']
     }
 
 
@@ -183,6 +189,17 @@ class JeffSettings:
         ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Santiags.png'],
         ['INCOMPATIBLE', 'Spacesuit jacket.png', 'Tie.png'],
         
+        ['INCOMPATIBLE', 'Bald.png', 'Blackboard.png'],
+        ['INCOMPATIBLE', 'Bald.png', 'Factory.png'],
+        ['INCOMPATIBLE', 'Bald.png', 'Orbital launch pad.png'],
+        ['INCOMPATIBLE', 'Bald.png', 'Beige world map.png'],
+        ['INCOMPATIBLE', 'Bald.png', 'Blue world map.png'],
+        ['INCOMPATIBLE', 'Bald.png', 'Engine blueprint.png'],
+        ['INCOMPATIBLE', 'Bald.png', 'Area 51.png'],
+        ['INCOMPATIBLE', 'Bald.png', 'Pyramid.png'],
+        ['INCOMPATIBLE', 'Bald.png', 'Sky map.png'],
+        ['INCOMPATIBLE', 'Bald.png', 'Pyramid and spaceship.png'],
+        
         ['ORDER_CHANGE', 'Suit shoes.png', 'Spacesuit trousers.png'],
         ['ORDER_CHANGE', 'Suit shoes.png', '02_trousers'],
 
@@ -198,10 +215,10 @@ class JeffSettings:
     ]
     
     # Optional layers (Accessories is not supported here)
-    optional_layers = ['06_jackets', '09_wrist', '10_glasses']
+    optional_layers = ['06_jackets', '09_wrist', '10_glasses', '11_hats']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [4, 4, 7]
+    optional_rarity = [4, 4, 5, 500]
 
     # Background directory
     backgrounds_dir = '00_backgrounds'
@@ -232,9 +249,14 @@ class JeffSettings:
     #   The key is the direct name of the directory
     #   The value is the name of the attribute
     #   Example: {'00_backgrounds': 'Background'}
+    # Option (Fallback trait value):
+    #   The attribute can be a list with another layer directory as the second argument:
+    #   If te main layer is not used, the other layer value will be added instead
+    #   Example: {'10_hats': ['Head', '01_faces']}
+    #   Which means that if no hat is used, use the mandatory layer instead
+    #   If no hat -> Use 'Short hair' or 'Normal hair' as a value
     metadata_attributes = {
         '00_backgrounds': 'Background',
-        '01_faces': 'Head',
         '02_trousers': 'Trousers',
         '03_belts': 'Belt',
         '05_shirts': 'Shirt',
@@ -242,7 +264,8 @@ class JeffSettings:
         '07_shoes': 'Shoes',
         '08_accessories': 'Accessories',
         '09_wrist': 'Wrist',
-        '10_glasses': 'Glasses'
+        '10_glasses': 'Glasses',
+        '11_hats': ['Head', '01_faces']
     }
     
 
@@ -374,6 +397,12 @@ class RichardSettings:
     #   The key is the direct name of the directory
     #   The value is the name of the attribute
     #   Example: {'00_backgrounds': 'Background'}
+    # Option (Fallback trait value):
+    #   The attribute can be a list with another layer directory as the second argument:
+    #   If te main layer is not used, the other layer value will be added instead
+    #   Example: {'10_hats': ['Head', '01_faces']}
+    #   Which means that if no hat is used, use the mandatory layer instead
+    #   If no hat -> Use 'Short hair' or 'Normal hair' as a value
     metadata_attributes = {
         '00_backgrounds': 'Background',
         '01_faces': 'Head',
