@@ -193,6 +193,7 @@ class JeffSettings:
         ['ORDER_CHANGE', '07_shoes', 'Spacesuit.png'],
         ['ORDER_CHANGE', '07_shoes', 'Spacesuit trousers.png'],
 
+        ['ORDER_CHANGE', 'Tie.png', '06_jackets'],
         ['ORDER_CHANGE', 'Suit shoes.png', '02_trousers'],
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Beige jeans 1.png'],
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Beige jeans 2.png'],
@@ -220,8 +221,8 @@ class JeffSettings:
     # Max amount of accessories
     max_accessories_amount = 2
     
-    # Accessories rarity
-    accessories_rarity = 5
+    # Accessories rarity (MIN 1)
+    accessories_rarity = 1
     
     # Increases the chances to use a specific image
     # As an example, if one image is specified: ['image.png', XX]

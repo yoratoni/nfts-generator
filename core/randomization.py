@@ -101,7 +101,7 @@ class Randomization:
                 if index is not None:
                     for _ in range(current_instruction[1] - 1):
                         layer_images.insert(index, layer_images[index])
-                        
+
         return layer_images
     
     
