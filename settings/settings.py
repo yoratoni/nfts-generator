@@ -149,14 +149,14 @@ class ElonSettings:
     #   If no hat -> Use 'Short hair' or 'Normal hair' as a value
     metadata_attributes = {
         '00_backgrounds': 'Background',
+        '09_hats': ['Head', '01_faces'],
         '02_trousers': 'Trousers',
         '03_shirts': 'Shirt',
         '04_jackets': 'Jacket',
+        '08_hands': 'Hands',
         '05_shoes': 'Shoes',
         '06_accessories': 'Accessories',
-        '07_glasses': 'Glasses',
-        '08_hands': 'Hands',
-        '09_hats': ['Head', '01_faces']
+        '07_glasses': 'Glasses'
     }
 
 
@@ -248,15 +248,15 @@ class JeffSettings:
     #   If no hat -> Use 'Short hair' or 'Normal hair' as a value
     metadata_attributes = {
         '00_backgrounds': 'Background',
+        '11_hats': ['Head', '01_faces'],
         '02_trousers': 'Trousers',
         '03_belts': 'Belt',
         '05_shirts': 'Shirt',
         '06_jackets': 'Jacket',
         '07_shoes': 'Shoes',
-        '08_accessories': 'Accessories',
         '09_wrist': 'Wrist',
-        '10_glasses': 'Glasses',
-        '11_hats': ['Head', '01_faces']
+        '08_accessories': 'Accessories',
+        '10_glasses': 'Glasses'
     }
     
 

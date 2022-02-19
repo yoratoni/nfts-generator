@@ -76,10 +76,10 @@ class Logger:
         if timer < powers[0]:
             res = timer
         elif powers[0] <= timer < powers[1]:
-            res = timer / powers[0]
+            res = round(timer / powers[0])
             i = 1
         elif powers[1] <= timer < powers[2]:
-            res = timer / powers[1]
+            res = round(timer / powers[1])
             i = 2
         elif powers[2] <= timer:
             res = timer / powers[2]

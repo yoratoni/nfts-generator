@@ -6,7 +6,7 @@ import os
 
 # The main generator function:
 #   This one will generate NFTs for one character (Check the function docstring for more info)
-Generator.generate_nfts(2000, 'richard', 3000)
+Generator.generate_nfts(1, 'richard', 1)
 
 
 # The main mixing function
