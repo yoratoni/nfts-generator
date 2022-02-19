@@ -4,13 +4,6 @@ from pathlib import Path
 import os
 
 
-# Generation data:
-#   7,456 NFTs in total
-#   2,400 normal NFTs per character
-#   80 rare NFTs per character
-#   16 already generated super rare NFTs
-
-
 # The main generator function:
 #   This one will generate NFTs for one character (Check the function docstring for more info)
 # Generator.generate_nfts(2400, 'jeff')
