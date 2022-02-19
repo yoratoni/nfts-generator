@@ -134,6 +134,15 @@ You can check the [settings.py](settings/settings.py) file to have an example of
       Precise the image first, and any number of layers after it.
       - In this example, if 'space suit.png' is detected, all the images of these layers will be deleted: <br />
       `['DELETE', 'space suit.png', '05_jackets', '03_trousers']`
+      <br />
+      
+  - `'DELETE_ACCESSORY'`: <br />
+      Works exactly like the `'DELETE'` exception, but instead of deleting the layers, it actually deletes the image if one of the layers is used,
+      it is used for accessories, when there's a lot of exceptions, it is more performant to just delete the accessory. <br />
+      
+      - In this example, if an image of the layer `05_jackets` or `03_trousers` is used,
+        the image `space suit.png` is removed from the paths list: <br />
+      `['DELETE', 'space suit.png', '05_jackets', '03_trousers']`
       
 
 ## File Utils:
