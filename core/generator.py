@@ -106,17 +106,17 @@ class Generator:
             
             # Comparison hash generation
             digest = f'::{final_paths}::'
-            final_hash = xxhash.xxh128_hexdigest(digest)
+            final_hash = xxhash.xxh128_hexdigest(digest).upper()
             
             # If the character exception handling is valid, break the while loop
             if final_paths is not None:
                 Logger.pyprint('INFO', '', 'Exceptions handled successfully')
                 if final_hash not in Generator.nft_comparator_hashlib:
                     Generator.nft_comparator_hashlib.append(final_hash)
-                    Logger.pyprint('DATA', '', f'No duplicata found [{final_hash}]', True)
+                    Logger.pyprint('DATA', '', f'Hashlib address generated [0x{final_hash}]')
                     break
                 
-                Logger.pyprint('WARN', '', f'Duplicata of an NFT found [{final_hash}]', True)
+                Logger.pyprint('WARN', '', f'Duplicata of an NFT found [0x{final_hash}]', True)
             else:
                 Logger.pyprint('ERRO', '', f'Invalid character, the NFT will be regenerated..', True)
             
@@ -262,11 +262,11 @@ class Generator:
             Logger.extime('NFTs generation time', timer_start)
             
             # Statistics
-            generation_complexity = round((iterations / final_iterations) * 100, 2)
+            generation_complexity = round(((final_iterations / iterations) - 1) * 100, 1)
             comparison_haslib_size = sys.getsizeof(Generator.nft_comparator_hashlib)
             Logger.pyprint('DATA', '', f'Comparison hashlib: {comparison_haslib_size} bytes')
             Logger.pyprint('DATA', '', f'Total iterations: {final_iterations}')
-            Logger.pyprint('DATA', '', f'General complexity: {generation_complexity}%')
+            Logger.pyprint('DATA', '', f'Additional complexity: {generation_complexity}%')
             
             # Returns True (for multiprocessing purpose)
             return True
