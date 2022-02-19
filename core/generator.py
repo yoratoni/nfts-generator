@@ -113,7 +113,7 @@ class Generator:
                 Logger.pyprint('INFO', '', 'Exceptions handled successfully')
                 if final_hash not in Generator.nft_comparator_hashlib:
                     Generator.nft_comparator_hashlib.append(final_hash)
-                    Logger.pyprint('DATA', '', f'Hashlib address generated [0x{final_hash}]')
+                    Logger.pyprint('INFO', '', f'Hashlib comparison address generated')
                     break
                 
                 Logger.pyprint('WARN', '', f'Duplicata of an NFT found [0x{final_hash}]', True)
@@ -224,7 +224,7 @@ class Generator:
             # Estimated generation time
             if debug_mode_latency == 0 and is_saving_system_enabled:
                 Generator.estimate_generation_time(iterations, character_name, settings, layers)
-            
+
             # Generate every NFT with a name based on 'i' and zfill()
             for i in range(iterations):
                 if debug_mode_latency == 0:
@@ -246,7 +246,7 @@ class Generator:
                                       nft_path,
                                       is_saving_system_enabled
                                   )
-                
+
                 # Generates the metadata as a JSON file
                 MetadataHandling.generate_meta(
                     metadata_path,
@@ -254,13 +254,13 @@ class Generator:
                     current_name,
                     settings
                 )
-                
+
                 # Final number of iterations (Get the iterations var at pos 1/0)
                 final_iterations += unique_nft_data[1][0]
-                
+
             # Print the total time that it took
             Logger.extime('NFTs generation time', timer_start)
-            
+
             # Statistics
             generation_complexity = round(((final_iterations / iterations) - 1) * 100, 1)
             comparison_haslib_size = sys.getsizeof(Generator.nft_comparator_hashlib)
@@ -270,8 +270,7 @@ class Generator:
             
             # Returns True (for multiprocessing purpose)
             return True
-        
+
         else:
             Logger.pyprint('ERRO', '', 'Invalid character path / output path', True)
             return False
-        

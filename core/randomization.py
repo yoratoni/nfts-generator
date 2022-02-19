@@ -24,7 +24,6 @@ class Randomization:
         paths = character_layers[layer_name]
         random_path = paths[random.randrange(0, len(paths))]
         
-        Logger.pyprint('DATA', '', f'Random paths generated')
         return random_path
         
     
@@ -149,6 +148,6 @@ class Randomization:
                     if settings.max_accessories_amount > 0:
                         character_paths += Randomization.accessories(character_layers[keys[i]], settings)
                     
-        Logger.pyprint('INFO', '', 'Random character list generated')
+        Logger.pyprint('INFO', '', 'Random character generated')
         return character_paths
     

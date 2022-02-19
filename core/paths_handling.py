@@ -103,7 +103,7 @@ class PathsHandling:
 
     @staticmethod
     def get_paths_from_layer_name(paths: list[Path], layer_name: str) -> list[Path]:
-        '''Get a list of all the paths that are in specific layer
+        '''Get a list of all the paths that are in a specific layer
         from the list of all the character paths.
 
         Args:

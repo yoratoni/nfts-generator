@@ -168,7 +168,7 @@ class ExceptionsHandling:
             
             # Regenerate the NFT is the images are all found
             if None not in incompatible_paths:
-                Logger.pyprint('WARN', '', 'Incompatible images found')
+                Logger.pyprint('WARN', '', f'Incompatible images found {incompatibles}')
                 return None  # Regenerate the NFT
         
         # Handles incompatibilities with a whole layer
@@ -194,7 +194,7 @@ class ExceptionsHandling:
     
     
     @staticmethod
-    def delete(paths: list[Path], current_exception: list[str]):
+    def delete(paths: list[Path], current_exception: list[str]) -> list[Path]:
         '''Delete all the layers listed (for a full suit etc..)
         
         Example:
@@ -221,6 +221,34 @@ class ExceptionsHandling:
         
         return paths
             
+            
+    @staticmethod
+    def delete_accessory(paths: list[Path], current_exception: list[str]) -> list[Path]:
+        '''Works exactly like the 'delete' method, excepts that it destroys
+        the listed image instead of the layer (Specially used for accessories).
+        
+        Args:
+            paths (list[Path]): List of all the paths used for one NFT.
+            current_exception (list[str]): Current exception handled in the loop.
+        
+        Returns:
+            list[Path]: Modified list of paths.
+        '''
+        
+        image_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[1])
+        
+        if image_path_index is not None:
+            layers_to_check = current_exception[2:]
+            driver = len(layers_to_check)
+            
+            for i in range(driver):
+                paths_from_layer = PathsHandling.get_paths_from_layer_name(paths, layers_to_check[i])
+                
+                if len(paths_from_layer) > 0:
+                    del paths[image_path_index]
+                    break
+        
+        return paths
 
 
     @staticmethod
@@ -264,7 +292,11 @@ class ExceptionsHandling:
             # Delete exception (Deletes multiple layers)
             elif current_exception[0] == GlobalSettings.exceptions_list[2]:
                 paths = ExceptionsHandling.delete(paths, current_exception)
-                
+            
+            # Delete accessory exception (Exactly like 'delete' but it removes the image)
+            elif current_exception[0] == GlobalSettings.exceptions_list[3]:
+                paths = ExceptionsHandling.delete_accessory(paths, current_exception)
+            
             # Error
             else:
                 Logger.pyprint('ERRO', '', f'Invalid exception name in {current_exception}', True)

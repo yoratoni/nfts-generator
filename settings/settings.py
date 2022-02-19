@@ -12,7 +12,7 @@ class GlobalSettings:
     character_dirs = ['elon', 'jeff', 'richard']
     
     # List of all the available exceptions
-    exceptions_list = ['ORDER_CHANGE', 'INCOMPATIBLE', 'DELETE']
+    exceptions_list = ['ORDER_CHANGE', 'INCOMPATIBLE', 'DELETE', 'DELETE_ACCESSORY']
     
     # Debugging
     dist_mode = False  # If True, remove all the console messages, even forced ones
@@ -122,7 +122,7 @@ class ElonSettings:
     max_accessories_amount = 1
 
     # Accessories rarity
-    accessories_rarity = 4
+    accessories_rarity = 2
     
     # Increases the chances to use a specific image
     # As an example, if one image is specified: ['image.png', XX]
@@ -222,7 +222,7 @@ class JeffSettings:
     max_accessories_amount = 2
     
     # Accessories rarity (MIN 1)
-    accessories_rarity = 1
+    accessories_rarity = 2
     
     # Increases the chances to use a specific image
     # As an example, if one image is specified: ['image.png', XX]
@@ -329,6 +329,7 @@ class RichardSettings:
         ['INCOMPATIBLE', 'Hostess skirt.png', 'Gray shirt.png'],
         ['INCOMPATIBLE', 'Hostess skirt.png', 'Black short-sleeved shirt.png'],
         ['INCOMPATIBLE', 'Hostess skirt.png', 'Black shirt.png'],
+        ['INCOMPATIBLE', 'Hostess skirt.png', 'Sports top.png'],
 
         ['INCOMPATIBLE', 'Makeup.png', 'White short-sleeved shirt.png'],
         ['INCOMPATIBLE', 'Makeup.png', 'White shirt 1.png'],
@@ -343,6 +344,7 @@ class RichardSettings:
         ['INCOMPATIBLE', 'Makeup.png', 'Red mask.png'],
 
         ['ORDER_CHANGE', 'Hostess shoes.png', '03_trousers'],
+        ['ORDER_CHANGE', 'Hostess skirt.png', 'Hostess shoes.png'],
         ['ORDER_CHANGE', 'Hostess shoes.png', 'Spacesuit.png'],
         ['ORDER_CHANGE', 'Sports top.png', '03_trousers']
     ]
@@ -351,7 +353,7 @@ class RichardSettings:
     optional_layers = ['05_jackets', '07_makeup', '09_glasses']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [3, 5, 4]
+    optional_rarity = [3, 3, 4]
     
     # Background directory
     backgrounds_dir = '00_backgrounds'
@@ -364,20 +366,21 @@ class RichardSettings:
     max_accessories_amount = 2
 
     # Accessories rarity
-    accessories_rarity = 4
+    accessories_rarity = 2
 
     # Increases the chances to use a specific image
     # As an example, if one image is specified: ['image.png', XX]
     # This image will appears XX times inside the list of images
     image_rarifier = [
-        ['Normal hair.png', 12],
+        ['Normal hair.png', 2],
         ['White short-sleeved shirt.png', 2],
         ['White shirt 1.png', 2],
         ['White shirt 2.png', 2],
         ['Black short-sleeved shirt.png', 2],
         ['Black shirt.png', 2],
         ['Gray short-sleeved shirt.png', 2],
-        ['Gray shirt.png', 2]
+        ['Gray shirt.png', 2],
+        ['Hostess shirt.png', 2]
     ]
     
     # Metadata description
