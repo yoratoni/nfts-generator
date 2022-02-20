@@ -151,6 +151,10 @@ Inside the [file_utils.py](libs/utils/file_utils.py) file, there's a method call
 This method is used for the final collection (more precisely for OpenSea), it sorts / renames the NFTs randomly so they're not in order when uploaded with a bot or something like that on OpenSea.
 
 
+## Metadata generation:
+...
+
+
 ## Logger class:
 Pyprint is a simple custom logging system made to get a lot of formatted data about the generation of the NFTs,
 this class also integrated the extime method that prints the formatted execution time. Verbose debugging can be turned off inside the `GlobalSettings` class to reduce the amount of printed data.
