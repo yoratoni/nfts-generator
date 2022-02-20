@@ -1,5 +1,6 @@
 from settings import GlobalSettings, CharacterSettings
 from core import PathsHandling
+from copy import deepcopy
 from core import Logger
 
 import json
@@ -44,7 +45,7 @@ class MetadataHandling:
         final_attributes_list = []
         
         # Adding the character trait first
-        character_attribute = attribute_format.copy()
+        character_attribute = deepcopy(attribute_format)
         character_attribute['trait_type'] = 'Character'
         character_attribute['value'] = settings.character_name
         final_attributes_list.append(character_attribute)
@@ -61,7 +62,7 @@ class MetadataHandling:
                 other_layer = None
             
             # Copy & add the trait type (Example: '00_backgrounds': 'Background')
-            current_attribute = attribute_format.copy()
+            current_attribute = deepcopy(attribute_format)
             current_attribute['trait_type'] = trait_type
             
             # Get all the filenames used in the paths of this specific layer

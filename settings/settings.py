@@ -166,8 +166,8 @@ class JeffSettings:
     
     # Exceptions handling
     exceptions = [
-        ['DELETE', 'Spacesuit jacket.png', '03_belts'],
-        ['DELETE', 'Spacesuit.png', '02_trousers', '03_belts', '04_hands', '06_jackets', '03_belts'],
+        ['DELETE', 'Spacesuit jacket.png', '03_belts', '05_shirts'],
+        ['DELETE', 'Spacesuit.png', '02_trousers', '03_belts', '04_hands', '06_jackets'],
         
         ['INCOMPATIBLE', 'Astro white shirt.png', '09_wrist'],
         ['INCOMPATIBLE', 'Navy blue shirt 1.png', '09_wrist'],
@@ -209,7 +209,7 @@ class JeffSettings:
     optional_layers = ['06_jackets', '09_wrist', '10_glasses', '11_hats']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [4, 4, 5, 5]
+    optional_rarity = [3, 4, 5, 5]
 
     # Background directory
     backgrounds_dir = '00_backgrounds'
@@ -230,7 +230,7 @@ class JeffSettings:
     image_rarifier = [
         ['Tie.png', 2],
         ['Mask.png', 2],
-        ['Bald.png', 16]
+        ['Bald.png', 10]
     ]
     
     # Metadata description

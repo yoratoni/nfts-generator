@@ -1,5 +1,6 @@
 from pathlib import Path
 from core import Logger
+from typing import Union
 
 import os
 
@@ -150,7 +151,7 @@ class PathsHandling:
 
 
     @staticmethod
-    def get_filename_from_paths(paths: list[Path]) -> str:
+    def get_filename_from_paths(paths: list[Path]) -> Union[str, None]:
         '''Just a better wrapper to get multiple filenames
         from multiple paths (STRING FORMATTED)
         
@@ -165,6 +166,10 @@ class PathsHandling:
         driver = len(paths)
         filenames = ''
         
+        # Fallback if the list is empty
+        if driver == 0:
+            return None
+        
         for path in paths:
             # Get the filename & remove the '.png' extension
             name = os.path.basename(path)[:-4]
@@ -174,9 +179,10 @@ class PathsHandling:
                 filenames = name
             else:
                 filenames += f'{name}, '
-                
-        # Fallback if the list is empty
-        if driver == 0:
-            filenames = None
-            
+        
+        # In the case of multiple filenames, removes the last comma
+        if filenames[-2:] == ', ':
+            filenames = filenames[:-2]
+
         return filenames
+    
