@@ -373,7 +373,7 @@ class RichardSettings:
     # As an example, if one image is specified: ['image.png', XX]
     # This image will appears XX times inside the list of images
     image_rarifier = [
-        ['Normal hair.png', 16],
+        ['Normal hair.png', 10],
         ['White short-sleeved shirt.png', 2],
         ['White shirt 1.png', 2],
         ['White shirt 2.png', 2],

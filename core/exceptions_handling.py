@@ -217,7 +217,7 @@ class ExceptionsHandling:
             for i in range(driver):
                 paths = PathsHandling.delete_paths_from_layer_name(paths, layers_to_delete[i])
         
-            Logger.pyprint('DATA', '', f'Layer successfully deleted {layers_to_delete}')
+            Logger.pyprint('INFO', '', 'Layer(s) successfully deleted')
         
         return paths
             
