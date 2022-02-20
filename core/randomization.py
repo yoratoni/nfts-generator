@@ -1,5 +1,6 @@
 from core import PathsHandling, Logger
 from settings import CharacterSettings
+from copy import deepcopy
 from pathlib import Path
 
 import random
@@ -120,10 +121,13 @@ class Randomization:
         layers_driver = len(keys)
         character_paths = []
         
+        # Deep copy of the character layers, ensure that this dict is independent everytime
+        deep_character_layers = deepcopy(character_layers)
+        
         for i in range(layers_driver):
             if keys[i] != settings.backgrounds_dir:
                 if keys[i] != settings.accessories_dir:
-                    raw_list = character_layers[keys[i]]
+                    raw_list = deep_character_layers[keys[i]]
                     
                     # Add duplicated image paths to modify the chances to use one specific image
                     current_list = Randomization.duplicate(raw_list, settings)
@@ -146,7 +150,7 @@ class Randomization:
                 else:
                     # Handles accessories separately inside the accessories() method
                     if settings.max_accessories_amount > 0:
-                        character_paths += Randomization.accessories(character_layers[keys[i]], settings)
+                        character_paths += Randomization.accessories(deep_character_layers[keys[i]], settings)
                     
         Logger.pyprint('INFO', '', 'Random character generated')
         
