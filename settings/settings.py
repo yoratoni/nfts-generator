@@ -272,9 +272,10 @@ class RichardSettings:
         ['INCOMPATIBLE', 'Hostess shirt.png', '05_jackets'],
         ['INCOMPATIBLE', 'Circus shirt.png', '05_jackets'],
         ['INCOMPATIBLE', 'Sports top.png', '05_jackets'],
-        ['INCOMPATIBLE', 'Blue watch.png', '05_jackets'],
-        ['INCOMPATIBLE', 'Red watch.png', '05_jackets'],
-        ['INCOMPATIBLE', 'Makeup.png', '09_glasses'],
+        
+        ['DELETE_ACCESSORY', 'Blue watch.png', '05_jackets'],
+        ['DELETE_ACCESSORY', 'Red watch.png', '05_jackets'],
+        ['DELETE_ACCESSORY', 'Makeup.png', '09_glasses'],
         
         # Incompatibilities with watches
         ['INCOMPATIBLE', 'Blue watch.png', 'White shirt 1.png'],

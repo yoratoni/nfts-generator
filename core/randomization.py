@@ -87,7 +87,7 @@ class Randomization:
         
         for i in range(rarifier_driver):
             current_instruction = settings.image_rarifier[i]
-            
+
             # If the image is duplicated more than once
             # image_rarifier is the final amount of images
             if current_instruction[1] > 1:
@@ -105,7 +105,7 @@ class Randomization:
     
     
     @staticmethod
-    def character(character_layers: dict,  settings: CharacterSettings) -> list[Path]:
+    def character(character_layers: dict,  settings: CharacterSettings, test = 0) -> list[Path]:
         '''Generate a random list of all the layers for one NFT.
 
         Args:
@@ -149,5 +149,6 @@ class Randomization:
                         character_paths += Randomization.accessories(character_layers[keys[i]], settings)
                     
         Logger.pyprint('INFO', '', 'Random character generated')
+        
         return character_paths
     

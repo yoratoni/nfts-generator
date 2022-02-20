@@ -15,6 +15,7 @@ from core import (
 )
 
 from pathlib import Path
+from copy import deepcopy
 from PIL import Image
 
 
@@ -88,16 +89,19 @@ class Generator:
         statistics = []
         iterations = 1
         
+        # Deep copy of the character layers, ensure that this dict is independent everytime
+        deep_character_layers = deepcopy(character_layers)
+        
         # Multiple NFTs comparison system
         while True:
             # Generate a random background path
             background = Randomization.random_path_from_layer_name(
-                            character_layers,
+                            deep_character_layers,
                             settings.backgrounds_dir
                          )
             
             # Generate a random list of layers path for the character image
-            character = Randomization.character(character_layers, settings)
+            character = Randomization.character(deep_character_layers, settings)
             
             # Exception Handling
             # Also handles the merging of the background and the character
@@ -156,7 +160,7 @@ class Generator:
         # Estimation path
         cwd = os.path.dirname(__file__)
         character_path = Path(os.path.join(cwd, os.pardir, 'core', 'demo', 'LATENCY_CHECK_NFT.png'))
-        
+
         # Block any call to the print function
         with contextlib.redirect_stdout(io.StringIO()):
             Generator.generate_unique_nft(settings, character_layers, character_path, True)
@@ -219,11 +223,11 @@ class Generator:
                 sys.exit()
             
             # Get all the images and the layers
-            layers = PathsHandling.get_character_layers(character_path)
+            character_layers = PathsHandling.get_character_layers(character_path)
             
             # Estimated generation time
             if debug_mode_latency == 0 and is_saving_system_enabled:
-                Generator.estimate_generation_time(iterations, character_name, settings, layers)
+                Generator.estimate_generation_time(iterations, character_name, settings, character_layers)
 
             # Generate every NFT with a name based on 'i' and zfill()
             for i in range(iterations):
@@ -242,7 +246,7 @@ class Generator:
                 # Generates an unique NFT and get the metadata from it (background / character dict)
                 unique_nft_data = Generator.generate_unique_nft(
                                       settings,
-                                      layers,
+                                      character_layers,
                                       nft_path,
                                       is_saving_system_enabled
                                   )
