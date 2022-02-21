@@ -22,7 +22,7 @@ instead of doing that after generating the image (I don't want to destroy my SSD
   - Accessories handling (Allows multiple accessories)
   - Exceptions handling ('ORDER_CHANGE', 'INCOMPATIBLE' and 'DELETE')
   - [settings.py](settings/settings.py) to edit the settings for every character
-  - Type hints, static method classes and full docstring for every method
+  - Type hints, static function classes (Non-OOP) and full docstring for every function
   - Paths verification (everything is done before saving any file to the hard drive)
   - Custom logs system (pyprint & extime)
 
@@ -39,7 +39,7 @@ input/
 |-- character_0/
 |   |-- 00_backgrounds/
 |   |-- 01_faces/
-|   |-- 02_trousers/
+|   |-- 02_pants/
 |   |-- 03_shirts/
 |   |-- 04_jackets/
 |   |-- etc..
@@ -91,7 +91,7 @@ Arguments:
     I'm generally using 2500ms, it's enough to check a whole NFT.
   - [**OPTIONAL**] The last argument (is_saving_system_enabled) is set to True by default, it simply allows you to deactivate the saving system.
 
-This function also integrates an estimated time system, it generates a single NFT and multiply the time that it took by the final number of NFTs, this method is not really accurate because the complexity per NFT fully depends on the incompatibilites and the number of used images, but it gives at least an estimation.
+This function also integrates an estimated time system, it generates a single NFT and multiply the time that it took by the final number of NFTs, this function is not really accurate because the complexity per NFT fully depends on the incompatibilites and the number of used images, but it gives at least an estimation.
 
 ![](docs/estimated_time.png "Estimated time log example")
 
@@ -133,22 +133,22 @@ You can check the [settings.py](settings/settings.py) file to have an example of
       It can be used for something that overrides multiple layers like a space suit. <br />
       Precise the image first, and any number of layers after it.
       - In this example, if 'space suit.png' is detected, all the images of these layers will be deleted: <br />
-      `['DELETE', 'space suit.png', '05_jackets', '03_trousers']`
+      `['DELETE', 'space suit.png', '05_jackets', '03_pants']`
       <br />
       
   - `'DELETE_ACCESSORY'`: <br />
       Works exactly like the `'DELETE'` exception, but instead of deleting the layers, it actually deletes the image if one of the layers is used,
       it is used for accessories, when there's a lot of exceptions, it is more performant to just delete the accessory. <br />
       
-      - In this example, if an image of the layer `05_jackets` or `03_trousers` is used,
+      - In this example, if an image of the layer `05_jackets` or `03_pants` is used,
         the image `space suit.png` is removed from the paths list: <br />
-      `['DELETE', 'space suit.png', '05_jackets', '03_trousers']`
+      `['DELETE', 'space suit.png', '05_jackets', '03_pants']`
       
 
 ## File Utils:
-Inside the [file_utils.py](libs/utils/file_utils.py) file, there's a method called `mix_nfts()`, this method allows to take all the NFTs inside one directory (by default, the method checks the `dist` directory) and mix them with the `random.shuffle()` function, after that, all the NFTs are renamed with a simple number starting from 1.
+Inside the [file_utils.py](libs/utils/file_utils.py) file, there's a function called `mix_nfts()`, this function allows to take all the NFTs inside one directory (by default, the function checks the `dist` directory) and mix them with the `random.shuffle()` function, after that, all the NFTs are renamed with a simple number starting from 1.
 
-This method is used for the final collection (more precisely for OpenSea), it sorts / renames the NFTs randomly so they're not in order when uploaded with a bot or something like that on OpenSea.
+This function is used for the final collection (more precisely for OpenSea), it sorts / renames the NFTs randomly so they're not in order when uploaded with a bot or something like that on OpenSea.
 
 
 ## Metadata generation:
@@ -157,7 +157,7 @@ This method is used for the final collection (more precisely for OpenSea), it so
 
 ## Logger class:
 Pyprint is a simple custom logging system made to get a lot of formatted data about the generation of the NFTs,
-this class also integrated the extime method that prints the formatted execution time. Verbose debugging can be turned off inside the `GlobalSettings` class to reduce the amount of printed data.
+this class also integrated the extime function that prints the formatted execution time. Verbose debugging can be turned off inside the `GlobalSettings` class to reduce the amount of printed data.
 
 Here's an example of a `pyprint()` log:
 

@@ -1,3 +1,4 @@
+
 from settings import (
     GlobalSettings,
     CharacterSettings,
@@ -14,10 +15,10 @@ from core import (
     MetadataHandling
 )
 
+from typing import Union
 from copy import deepcopy
 from pathlib import Path
 from PIL import Image
-
 
 import contextlib
 import xxhash
@@ -120,7 +121,7 @@ class Generator:
                     Logger.pyprint('INFO', '', f'Hashlib comparison address generated')
                     break
                 
-                Logger.pyprint('WARN', '', f'Duplicata of an NFT found [0x{final_hash}]', True)
+                Logger.pyprint('WARN', '', f'Duplicate of an NFT found [0x{final_hash}]', True)
             else:
                 Logger.pyprint('ERRO', '', f'Invalid character, the NFT will be regenerated..', True)
             
@@ -150,37 +151,64 @@ class Generator:
         '''Generates one random NFT and estimates the time
         that it would take to generate x number of NFTs.
         
-        WARNING: This method is not accurate because the calculations are based on only one NFT,
+        WARNING: This function is not accurate because the calculations are based on only one NFT,
         where the complexity of the layers makes the generation time
         pretty different between two NFTs.
         '''
-        
-        timer_start = time.perf_counter_ns()
         
         # Estimation path
         cwd = os.path.dirname(__file__)
         character_path = Path(os.path.join(cwd, os.pardir, 'core', 'demo', 'LATENCY_CHECK_NFT.png'))
 
-        # Block any call to the print function
-        with contextlib.redirect_stdout(io.StringIO()):
-            Generator.generate_unique_nft(settings, character_layers, character_path, True)
+        precision = 4
+        timer_start = time.perf_counter_ns()
+
+        for _ in range(precision):
+            # Block any call to the print function
+            with contextlib.redirect_stdout(io.StringIO()):
+                Generator.generate_unique_nft(settings, character_layers, character_path, True)
         
         timer_name = f'Estimated generation time for {iterations} NFTs of "{character_name}"'
+        iterations = iterations // precision
         
         print('')
-        Logger.extime(timer_name, timer_start, iterations, True)
+        Logger.extime(timer_name, timer_start, iterations, True, True)
         print('')
         
         time.sleep(2)
     
     
     @staticmethod
-    def generate_nfts(
+    def get_character_settings(character_name: str) -> CharacterSettings:
+        '''Obtains the character settings based on the string arg.
+
+        Args:
+            character_name (str): Name of the character (based on GlobalSettings).
+
+        Returns:
+            CharacterSettings: The settings class of the character.
+        '''
+        
+        if character_name == GlobalSettings.character_dirs[0]:
+            settings = ElonSettings
+        elif character_name == GlobalSettings.character_dirs[1]:
+            settings = JeffSettings
+        elif character_name == GlobalSettings.character_dirs[2]:
+            settings = RichardSettings
+        else:
+            Logger.pyprint('ERRO', '', 'Invalid character name', True)
+            sys.exit()
+        
+        return settings
+    
+    
+    @staticmethod
+    def __multiple_nft_generation(
         iterations: int,
         character_name: str,
         debug_mode_latency: int = 0,
         is_saving_system_enabled: bool = True
-    ):
+    ) -> Union[list[int], None]:
         '''Generates a number of unique NFTs for a specified character.
 
         Args:
@@ -188,13 +216,11 @@ class Generator:
             character_name (str): Current generated character name. 
             debug_mode_latency (int): If == 0, debug mode is disabled (Value exprimed in milliseconds).
             is_saving_system_enabled (bool, optional): (FOR TESTING ONLY) Remove the saving system.
+            
+        Returns:
+            list[int]/None: The first value is the real number of iterations,
+                            the second one is the value of the starting timer.
         '''
-        
-        # Stats
-        final_iterations = 0
-        
-        # Save the time where it starts
-        timer_start = time.perf_counter_ns()
         
         # Main paths
         cwd = os.path.dirname(__file__)
@@ -203,6 +229,10 @@ class Generator:
         character_path = Path(os.path.join(main_path, 'input', character_name))
         output_path = Path(os.path.join(main_path, 'output', character_name))
         
+        settings = Generator.get_character_settings(character_name)
+        final_iterations = 0
+        timer_start = 0
+        
         if os.path.exists(character_path) and os.path.exists(output_path) and os.path.exists(metadata_path):
             # Debugging mode handling
             if debug_mode_latency == 0:
@@ -210,18 +240,7 @@ class Generator:
             else:
                 debug_mode_latency /= 1000  # The latency is in ms
                 zeros = 0  # Undeclared fallback variable
-
-            # Character parameters obtained from the name
-            if character_name == GlobalSettings.character_dirs[0]:
-                settings = ElonSettings
-            elif character_name == GlobalSettings.character_dirs[1]:
-                settings = JeffSettings
-            elif character_name == GlobalSettings.character_dirs[2]:
-                settings = RichardSettings
-            else:
-                Logger.pyprint('ERRO', '', 'Invalid character name', True)
-                sys.exit()
-            
+                
             # Get all the images and the layers
             character_layers = PathsHandling.get_character_layers(character_path)
             
@@ -229,6 +248,9 @@ class Generator:
             if debug_mode_latency == 0 and is_saving_system_enabled:
                 Generator.estimate_generation_time(iterations, character_name, settings, character_layers)
 
+            # Save the time where it starts
+            timer_start = time.perf_counter_ns()
+            
             # Generate every NFT with a name based on 'i' and zfill()
             for i in range(iterations):
                 if debug_mode_latency == 0:
@@ -242,7 +264,7 @@ class Generator:
                     
                     if i != 0:
                         time.sleep(debug_mode_latency)
-
+                        
                 # Generates an unique NFT and get the metadata from it (background / character dict)
                 unique_nft_data = Generator.generate_unique_nft(
                                       settings,
@@ -261,20 +283,75 @@ class Generator:
 
                 # Final number of iterations (Get the iterations var at pos 1/0)
                 final_iterations += unique_nft_data[1][0]
+                
+            return [final_iterations, timer_start]
+        else:
+            Logger.pyprint('ERRO', '', 'Invalid character path / output path', True)
 
+    
+    @staticmethod
+    def generate_nfts(
+        iterations: int,
+        character_name: str,
+        debug_mode_latency: int = 0,
+        is_saving_system_enabled: bool = True
+    ) -> bool:
+        '''This is the main wrapper for the NFT generation function,
+        check the "__multiple_nft_generation()" function for more info.
+
+        Args:
+            iterations (int): Total number of NFTs for this character.
+            character_name (str): Current generated character name. 
+            debug_mode_latency (int): If == 0, debug mode is disabled (Value exprimed in milliseconds).
+            is_saving_system_enabled (bool, optional): (FOR TESTING ONLY) Remove the saving system.
+            
+        Returns:
+            bool: only for multiprocessing purpose.
+        '''
+        
+        # Args validity issue catcher
+        if iterations <= 0:
+            err = 'Invalid number of iterations'
+            Logger.pyprint('ERRO', '', err, True)
+            return False
+        if character_name not in GlobalSettings.character_dirs:
+            err = 'Invalid character name, check the class GlobalSettings inside the "settings.py" file'
+            Logger.pyprint('ERRO', '', err, True)
+            return False
+        if debug_mode_latency < 0:
+            err = 'Invalid debug mode latency (Value should be superior or equal to 0)'
+            Logger.pyprint('ERRO', '', err, True)
+            return False
+        if type(is_saving_system_enabled) != bool:
+            err = 'Invalid arg: "is_saving_system_enabled" should be a boolean'
+            Logger.pyprint('ERRO', '', err, True)
+            return False
+                
+        # Call the main private function
+        try:
+            generation_res = Generator.__multiple_nft_generation(
+                iterations,
+                character_name,
+                debug_mode_latency,
+                is_saving_system_enabled
+            )
+        except Exception as err:
+            err_format = f'Invalid nft generation: {err}'
+            Logger.pyprint('ERRO', '', err_format, True)
+            return False
+        
+        if generation_res is not None:
             # Print the total time that it took
-            Logger.extime('NFTs generation time', timer_start)
+            Logger.extime('NFTs generation time', generation_res[1])
 
             # Statistics
-            generation_complexity = round(((final_iterations / iterations) - 1) * 100, 1)
+            generation_complexity = round(((generation_res[0] / iterations) - 1) * 100, 1)
             comparison_haslib_size = sys.getsizeof(Generator.nft_comparator_hashlib)
             Logger.pyprint('DATA', '', f'Comparison hashlib: {comparison_haslib_size} bytes')
-            Logger.pyprint('DATA', '', f'Total iterations: {final_iterations}')
+            Logger.pyprint('DATA', '', f'Total iterations: {generation_res[0]}')
             Logger.pyprint('DATA', '', f'Additional complexity: {generation_complexity}%')
             
             # Returns True (for multiprocessing purpose)
             return True
 
-        else:
-            Logger.pyprint('ERRO', '', 'Invalid character path / output path', True)
-            return False
+        return False

@@ -89,27 +89,32 @@ class ElonSettings:
         ['INCOMPATIBLE', 'Spacesuit shirt.png', '04_jackets'],
         
         ['INCOMPATIBLE', 'Black cap.png', '09_hats'],
+        ['INCOMPATIBLE', 'Blue cap.png', '09_hats'],
+        ['INCOMPATIBLE', 'Green cap.png', '09_hats'],
+        ['INCOMPATIBLE', 'Navy blue cap.png', '09_hats'],
         ['INCOMPATIBLE', 'Pink cap.png', '09_hats'],
+        ['INCOMPATIBLE', 'Red cap.png', '09_hats'],
         ['INCOMPATIBLE', 'Normal hair.png', '09_hats'],
+        
         ['INCOMPATIBLE', 'Big blue sunglasses.png', '09_hats'],
         ['INCOMPATIBLE', 'Big orange sunglasses.png', '09_hats'],
         
         ['INCOMPATIBLE', 'Spacesuit helmet.png', 'Cigarette.png'],
         ['INCOMPATIBLE', 'Spacesuit helmet.png', 'Bandana.png'],
-        ['INCOMPATIBLE', 'Suit trousers.png', 'Motorbike boots.png'],
+        ['INCOMPATIBLE', 'Suit pants.png', 'Motorbike boots.png'],
         
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Tesla jeans.png'],
-        ['ORDER_CHANGE', 'Spacesuit boots.png', 'Suit trousers.png'],
+        ['ORDER_CHANGE', 'Spacesuit boots.png', 'Suit pants.png'],
         ['ORDER_CHANGE', 'Suit shoes.png', 'Tesla jeans.png'],
-        ['ORDER_CHANGE', 'Suit shoes.png', 'Suit trousers.png'],
-        ['ORDER_CHANGE', 'Barefoot.png', '02_trousers'],
+        ['ORDER_CHANGE', 'Suit shoes.png', 'Suit pants.png'],
+        ['ORDER_CHANGE', 'Barefoot.png', '02_pants'],
     ]
     
     # Optional layers (Accessories is not supported here)
     optional_layers = ['04_jackets', '07_glasses', '09_hats']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [5, 6, 5]
+    optional_rarity = [4, 6, 4]
     
     # Background directory
     backgrounds_dir = '00_backgrounds'
@@ -129,7 +134,7 @@ class ElonSettings:
     # This image will appears XX times inside the list of images,
     # Reducing the chances for other images to be used
     image_rarifier = [
-        ['Normal hair.png', 2],
+        ['Normal hair.png', 10],
         ['Short hair.png', 2],
         ['Normal hands.png', 5]
     ]
@@ -150,7 +155,7 @@ class ElonSettings:
     metadata_attributes = {
         '00_backgrounds': 'Background',
         '09_hats': ['Head', '01_faces'],
-        '02_trousers': 'Trousers',
+        '02_pants': 'Pants',
         '03_shirts': 'Shirt',
         '04_jackets': 'Jacket',
         '08_hands': 'Hands',
@@ -167,7 +172,7 @@ class JeffSettings:
     # Exceptions handling
     exceptions = [
         ['DELETE', 'Spacesuit jacket.png', '03_belts', '05_shirts'],
-        ['DELETE', 'Spacesuit.png', '02_trousers', '03_belts', '04_hands', '06_jackets'],
+        ['DELETE', 'Spacesuit.png', '02_pants', '03_belts', '04_hands', '06_jackets'],
         
         ['INCOMPATIBLE', 'Astro white shirt.png', '09_wrist'],
         ['INCOMPATIBLE', 'Navy blue shirt 1.png', '09_wrist'],
@@ -185,16 +190,16 @@ class JeffSettings:
         
         ['INCOMPATIBLE', 'Spacesuit.png', 'Tie.png'],
         ['INCOMPATIBLE', 'Spacesuit.png', 'Santiags.png'],
-        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Santiags.png'],
+        ['INCOMPATIBLE', 'Spacesuit pants.png', 'Santiags.png'],
         ['INCOMPATIBLE', 'Spacesuit jacket.png', 'Tie.png'],
         
         ['INCOMPATIBLE', 'Closed beige jacket 3.png', 'Blackboard.png'],
 
         ['ORDER_CHANGE', '07_shoes', 'Spacesuit.png'],
-        ['ORDER_CHANGE', '07_shoes', 'Spacesuit trousers.png'],
+        ['ORDER_CHANGE', '07_shoes', 'Spacesuit pants.png'],
 
         ['ORDER_CHANGE', 'Tie.png', '06_jackets'],
-        ['ORDER_CHANGE', 'Suit shoes.png', '02_trousers'],
+        ['ORDER_CHANGE', 'Suit shoes.png', '02_pants'],
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Beige jeans 1.png'],
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Beige jeans 2.png'],
         ['ORDER_CHANGE', 'Spacesuit boots.png', 'Black jeans.png'],
@@ -249,7 +254,7 @@ class JeffSettings:
     metadata_attributes = {
         '00_backgrounds': 'Background',
         '11_hats': ['Head', '01_faces'],
-        '02_trousers': 'Trousers',
+        '02_pants': 'Pants',
         '03_belts': 'Belt',
         '05_shirts': 'Shirt',
         '06_jackets': 'Jacket',
@@ -266,9 +271,9 @@ class RichardSettings:
     
     # Exceptions handling
     exceptions = [
-        ['DELETE', 'Spacesuit.png', '03_trousers', '05_jackets'],
+        ['DELETE', 'Spacesuit.png', '03_pants', '05_jackets'],
         
-        ['INCOMPATIBLE', 'Spacesuit trousers.png', '05_jackets'],
+        ['INCOMPATIBLE', 'Spacesuit pants.png', '05_jackets'],
         ['INCOMPATIBLE', 'Hostess shirt.png', '05_jackets'],
         ['INCOMPATIBLE', 'Circus shirt.png', '05_jackets'],
         ['INCOMPATIBLE', 'Sports top.png', '05_jackets'],
@@ -293,15 +298,15 @@ class RichardSettings:
         ['INCOMPATIBLE', 'Red watch.png', 'Sports top.png'],
         ['INCOMPATIBLE', 'Red watch.png', 'Spacesuit.png'],
 
-        ['INCOMPATIBLE', 'Hostess shoes.png', 'Spacesuit trousers.png'],
+        ['INCOMPATIBLE', 'Hostess shoes.png', 'Spacesuit pants.png'],
         ['INCOMPATIBLE', 'Sports top.png', 'Hostess skirt.png'],
 
         ['INCOMPATIBLE', 'Spacesuit boots.png', 'Sports shorts.png'],
-        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Tweed striped suit trousers.png'],
-        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Tweed suit trousers.png'],
-        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Black striped suit trousers.png'],
-        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Black suit trousers.png'],
-        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Gray suit trousers.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Tweed striped suit pants.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Tweed suit pants.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Black striped suit pants.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Black suit pants.png'],
+        ['INCOMPATIBLE', 'Spacesuit boots.png', 'Gray suit pants.png'],
         ['INCOMPATIBLE', 'Spacesuit boots.png', 'Hostess skirt.png'],
         ['INCOMPATIBLE', 'Spacesuit boots.png', 'Black jeans.png'],
         ['INCOMPATIBLE', 'Spacesuit boots.png', 'Blue jeans.png'],
@@ -315,13 +320,13 @@ class RichardSettings:
         ['INCOMPATIBLE', 'Sports shorts.png', 'Black short-sleeved shirt.png'],
         ['INCOMPATIBLE', 'Sports shorts.png', 'Black shirt.png'],
         
-        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'White short-sleeved shirt.png'],
-        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'White shirt 1.png'],
-        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'White shirt 2.png'],
-        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Gray short-sleeved shirt.png'],
-        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Gray shirt.png'],
-        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Black short-sleeved shirt.png'],
-        ['INCOMPATIBLE', 'Spacesuit trousers.png', 'Black shirt.png'],
+        ['INCOMPATIBLE', 'Spacesuit pants.png', 'White short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Spacesuit pants.png', 'White shirt 1.png'],
+        ['INCOMPATIBLE', 'Spacesuit pants.png', 'White shirt 2.png'],
+        ['INCOMPATIBLE', 'Spacesuit pants.png', 'Gray short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Spacesuit pants.png', 'Gray shirt.png'],
+        ['INCOMPATIBLE', 'Spacesuit pants.png', 'Black short-sleeved shirt.png'],
+        ['INCOMPATIBLE', 'Spacesuit pants.png', 'Black shirt.png'],
         
         ['INCOMPATIBLE', 'Hostess skirt.png', 'White short-sleeved shirt.png'],
         ['INCOMPATIBLE', 'Hostess skirt.png', 'White shirt 1.png'],
@@ -344,10 +349,10 @@ class RichardSettings:
         ['INCOMPATIBLE', 'Makeup.png', 'Black mask.png'],
         ['INCOMPATIBLE', 'Makeup.png', 'Red mask.png'],
 
-        ['ORDER_CHANGE', 'Hostess shoes.png', '03_trousers'],
+        ['ORDER_CHANGE', 'Hostess shoes.png', '03_pants'],
         ['ORDER_CHANGE', 'Hostess skirt.png', 'Hostess shoes.png'],
         ['ORDER_CHANGE', 'Hostess shoes.png', 'Spacesuit.png'],
-        ['ORDER_CHANGE', 'Sports top.png', '03_trousers']
+        ['ORDER_CHANGE', 'Sports top.png', '03_pants']
     ]
 
     # Optional layers (Accessories is not supported here)
@@ -400,7 +405,7 @@ class RichardSettings:
     metadata_attributes = {
         '00_backgrounds': 'Background',
         '01_faces': 'Head',
-        '03_trousers': 'Trousers',
+        '03_pants': 'Pants',
         '04_shirts': 'Shirt',
         '05_jackets': 'Jacket',
         '06_shoes': 'Shoes',

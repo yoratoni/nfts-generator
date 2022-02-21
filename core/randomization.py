@@ -148,7 +148,7 @@ class Randomization:
                         random_driver = random.randrange(0, len(current_list))
                         character_paths.append(current_list[random_driver])
                 else:
-                    # Handles accessories separately inside the accessories() method
+                    # Handles accessories separately inside the accessories() function
                     if settings.max_accessories_amount > 0:
                         character_paths += Randomization.accessories(deep_character_layers[keys[i]], settings)
                     

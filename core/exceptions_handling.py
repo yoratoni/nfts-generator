@@ -200,7 +200,7 @@ class ExceptionsHandling:
         '''Delete all the layers listed (for a full suit etc..)
         
         Example:
-            - ['DELETE', 'space suit.png', '05_jackets', '03_trousers']
+            - ['DELETE', 'space suit.png', '05_jackets', '03_pants']
 
         Args:
             paths (list[Path]): List of all the paths used for one NFT.
@@ -226,7 +226,7 @@ class ExceptionsHandling:
             
     @staticmethod
     def delete_accessory(paths: list[Path], current_exception: list[str]) -> list[Path]:
-        '''Works exactly like the 'delete' method, excepts that it destroys
+        '''Works exactly like the 'delete' function, excepts that it destroys
         the listed image instead of the layer (Specially used for accessories).
         
         Args:
@@ -256,7 +256,7 @@ class ExceptionsHandling:
     @staticmethod
     def exceptions_handling(background: Path, paths: list[Path], settings: CharacterSettings):
         '''Handle multiple exceptions / incompatibilities between images/layers.
-        This main method ensure that the paths list is valid.
+        This main function ensure that the paths list is valid.
         
         - 'ORDER_CHANGE' -> Change the order between two layers / images.
         - 'INCOMPATIBLE' -> NFT is regenerated if the test is not passed.

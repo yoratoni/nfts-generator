@@ -1,16 +1,54 @@
 from core import Logger
 
 import random
+import xxhash
+import json
 import os
 
 
 class NFTsUtils:
-    '''This class contains file-related methods
+    '''This class contains file-related functions
     for the final preparation of NFTs for OpenSea.
     '''
 
     @staticmethod
-    def compare_listdir(listdir_1: list[str], listdir_2: list[str]) -> bool:
+    def __verify_metadata_attributes(metadata_path: os.path, filenames: list[str]) -> bool:
+        '''This function is used to verify that every metadata file is unique
+        (By checking the "attributes" key and doing an hash comparison).
+        
+        Args:
+            directory_name (str, optional): The name of the directory where all the final NFTs are.
+            
+        Returns:
+            bool: True if all the metadata files contains unique metadata attributes.
+        '''
+        
+        comparison_hashlib = []
+        verified = True
+        
+        for filename in filenames:
+            curr_path = os.path.join(metadata_path, filename)
+            
+            with open(curr_path, 'r') as file:
+                data = json.load(file)
+                attributes = data['attributes']
+                
+                # Comparison hash generation
+                digest = f'::{attributes}::'
+                final_hash = xxhash.xxh128_hexdigest(digest).upper()
+                
+                if final_hash not in comparison_hashlib:
+                    comparison_hashlib.append(final_hash)
+                else:
+                    verified = False
+                    err = f'Duplicate of an "attributes" dict found [{filename}]'
+                    Logger.pyprint('ERRO', '', err, True)
+        
+        return verified
+
+
+    @staticmethod
+    def __compare_listdir(listdir_1: list[str], listdir_2: list[str]) -> bool:
         '''Allows the comparison between two directory lists of files,
         it removes the files extension and verify them.
         
@@ -46,12 +84,12 @@ class NFTsUtils:
     
 
     @staticmethod
-    def mix_nfts(directory_name: str = 'dist'):
+    def mix_nfts(directory_name: str = 'dist', comparison_check: bool = True):
         '''Mix all the NFTs/metadata from the dist directory.
         
-        WARNING: This method overwrites the original NFTs inside the 'dist/' directory.
+        WARNING: This function overwrites the original NFTs inside the 'dist/' directory.
         
-        This method renames all the NFTs/metadata with a number from 0 to xxx
+        This function renames all the NFTs/metadata with a number from 0 to xxx
         in a random order, so all the NFTs/metadata are ready for OpenSea.
         
         The 'dist' directory contains two dirs:
@@ -61,7 +99,8 @@ class NFTsUtils:
         These two dirs contains the same amount of files, named 
         
         Args:
-            directory_name (str, optional) The name of the directory where all the final NFTs are.
+            directory_name (str, optional): The name of the directory where all the final NFTs are.
+            comparison_check (bool, optional): Verifies the uniqueness of the metadata "attributes".
         '''
         
         # Main paths
@@ -78,28 +117,38 @@ class NFTsUtils:
             Logger.pyprint('ERRO', '', 'The "dist" directory is empty')
             return
         
-        listdir_comparison = NFTsUtils.compare_listdir(nfts_names, metadata_names)
+        # If the arg is set to True,
+        # verifies that every metadata file 'attributes' key is unique
+        if comparison_check:
+            comparison_verified = NFTsUtils.__verify_metadata_attributes(metadata_path, metadata_names)
+        else:
+            comparison_verified = True
         
-        if listdir_comparison:
-            # Apply a shuffle on the two lists to create a random mirrored order
-            lists_zip = list(zip(nfts_names, metadata_names))
-            random.shuffle(lists_zip)
-            nfts_names, metadata_names = zip(*lists_zip)
-            nfts_names, metadata_names = list(nfts_names), list(metadata_names)
-
-        driver = len(nfts_names)
-
-        # Renaming (path modification) loop
-        for i, nft_name in enumerate(nfts_names):
-            metadata_name = metadata_names[i]
-
-            nft_orig_path = os.path.join(nfts_path, nft_name)
-            metadata_orig_path = os.path.join(metadata_path, metadata_name)
+        if comparison_verified:
+            listdir_comparison = NFTsUtils.__compare_listdir(nfts_names, metadata_names)
             
-            nft_new_path = os.path.join(nfts_path, f'{i+1}.png')
-            metadata_new_path = os.path.join(metadata_path, f'{i+1}.json')
-            
-            os.rename(nft_orig_path, nft_new_path)
-            os.rename(metadata_orig_path, metadata_new_path)
+            if listdir_comparison:
+                # Apply a shuffle on the two lists to create a random mirrored order
+                lists_zip = list(zip(nfts_names, metadata_names))
+                random.shuffle(lists_zip)
+                nfts_names, metadata_names = zip(*lists_zip)
+                nfts_names, metadata_names = list(nfts_names), list(metadata_names)
 
-            Logger.pyprint('SUCCESS', '', f'{i+1}/{driver} NFTs renamed', same_line=True)
+            driver = len(nfts_names)
+
+            # Renaming (path modification) loop
+            for i, nft_name in enumerate(nfts_names):
+                metadata_name = metadata_names[i]
+
+                nft_orig_path = os.path.join(nfts_path, nft_name)
+                metadata_orig_path = os.path.join(metadata_path, metadata_name)
+                
+                nft_new_path = os.path.join(nfts_path, f'{i+1}.png')
+                metadata_new_path = os.path.join(metadata_path, f'{i+1}.json')
+                
+                os.rename(nft_orig_path, nft_new_path)
+                os.rename(metadata_orig_path, metadata_new_path)
+
+                Logger.pyprint('SUCCESS', '', f'{i+1}/{driver} NFTs renamed', same_line=True)
+        else:
+            Logger.pyprint('ERRO', '', 'NFTs could not be mixed, verify your metadata files', True)
