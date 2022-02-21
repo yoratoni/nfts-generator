@@ -31,7 +31,8 @@ class ExceptionsHandling:
             order_change_mode = GlobalSettings.order_change_modes[3]
             
         if order_change_mode != GlobalSettings.order_change_modes[0] and len(current_exception) > 3:
-            Logger.pyprint('WARN', '', 'In this mode, "ORDER_CHANGE" only supports two images / layers', True)
+            err = f'In this mode, "ORDER_CHANGE" only supports two images / layers [{current_exception}]'
+            Logger.pyprint('WARN', '', err, True)
             
         return order_change_mode
     
@@ -44,7 +45,7 @@ class ExceptionsHandling:
             - ["ORDER_CHANGE", "name", "put_before_this_layer"]
             - ["ORDER_CHANGE", "name", "put_before_this_image"]
             - ["ORDER_CHANGE", "layer", "put_before_this_image"]
-            - `/!\ Not implemented yet /!\` ["ORDER_CHANGE", "layer", "put_before_this_layer"]
+            - ["ORDER_CHANGE", "layer", "put_before_this_layer"]
 
         Args:
             paths (list[Path]): List of all the paths used for one NFT.
@@ -174,7 +175,8 @@ class ExceptionsHandling:
         # Handles incompatibilities with a whole layer
         else:
             if incompatibility_driver > 2:
-                Logger.pyprint('WARN', '', 'Incompatibility in layer mode only supports one image and one layer', True)
+                err = f'Incompatibility in layer mode only supports one image and one layer [{current_exception}]'
+                Logger.pyprint('WARN', '', err, True)
                 
             # Check if the image is used (Returns None if not)
             image_path = PathsHandling.get_index_in_paths_list_from_filename(paths, incompatibles[0])
@@ -253,7 +255,8 @@ class ExceptionsHandling:
 
     @staticmethod
     def exceptions_handling(background: Path, paths: list[Path], settings: CharacterSettings):
-        '''Handle multiple exceptions / incompatibilities between layers.
+        '''Handle multiple exceptions / incompatibilities between images/layers.
+        This main method ensure that the paths list is valid.
         
         - 'ORDER_CHANGE' -> Change the order between two layers / images.
         - 'INCOMPATIBLE' -> NFT is regenerated if the test is not passed.
@@ -269,6 +272,7 @@ class ExceptionsHandling:
         '''
 
         # Add the background to the paths list (POS 0)
+        # So the background is included into the exceptions handling
         paths.insert(0, background)
     
         exceptions = settings.exceptions
