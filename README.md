@@ -125,6 +125,8 @@ You can check the [settings.py](settings/settings.py) file to have an example of
       `["INCOMPATIBLE", "image_1", "image_2", ...]`
       - NFT is regenerated if the image is used with an image that comes from this specific layer **(Only one image and one layer)**: <br />
       `["INCOMPATIBLE", "image.png", "layer"]`
+      - NFT is regenerated if images from theses layers are used: <br />
+      `["INCOMPATIBLE", "layer_1", "layer_2", ...]`
       <br />
     
   - `'DELETE'`: <br />
