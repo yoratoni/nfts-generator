@@ -4,9 +4,10 @@ This tool is made by [Yoratoni](https://github.com/yoratoni) for the [AstroDream
 
 As we wanted our NFTs to show the whole body of every character, some of our NFTs had more than 11 layers so we definitely needed to create our own generator.
 
-I decided to separate the program into two parts:
+I decided to separate the program into multiple parts:
 - The first part concerns the generated list of random paths (Random generation exception handling, etc..).
 - The second part to merge the images of the list together and saves the final NFT.
+- The third part concerns the preparation for OpenSea, mixing the NFTs/metadata, adding the IPFS, etc.. 
 
 Why ? <br />
 Because it is a lot more performant to detect exceptions & potential duplicates by checking the paths list
