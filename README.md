@@ -19,7 +19,7 @@ instead of doing that after generating the image (I don't want to destroy my SSD
   - Comparative hashing system to find duplicates based on the 128bits [xxHash](https://github.com/Cyan4973/xxHash) algorithm.
   - Now supports metadata, they are generated at the same time as the NFTs.
   - Debug mode that allows to verify an NFT (overwritten every x seconds)
-  - Optimized system, it takes arround 500ms to generate an NFT (1080x1080, 12 layers)
+  - Optimized system, it takes ~500ms to generate an NFT (1080x1080, 12 layers)
   - Optional layers & optional layers rarity
   - Image rarifier that virtually duplicates images into the paths list
   - Accessories handling (Allows multiple accessories)
