@@ -133,7 +133,7 @@ You can check the [elon_settings.py](settings/elon_settings.py) file to have an 
       <br />
     
   - `'DELETE'`: <br />
-      Allows you to delete one or multiple layers if a specific image is used, it can be used in the case of a mandatory layer (any layer that is not specified inside the layer list). Note that this exception should be noted first (exceptions are handled in the order of the list) so any other exception is not handled for nothing (It would still works but it's less performant)<br />
+      Allows you to delete one or multiple layers if a specific image is used, it can be used in the case of a mandatory layer (any layer that is not specified inside the `optional_layers` variable in the character settings file). Note that this exception should be noted first (exceptions are handled in the order of the list) so any other exception is not handled for nothing (It would still works but it's less performant)<br />
       
       It can be used for something that overrides multiple layers like a space suit. <br />
       Precise the image first, and any number of layers after it.
