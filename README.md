@@ -121,7 +121,7 @@ You can check the [elon_settings.py](settings/elon_settings.py) file to have an 
         <br />
         
   - `'INCOMPATIBLE'`: <br />
-      Allows you to make multiple images/layers incompatible, it now supports layers exactly like images (it simply check if any image used in the generated NFT is from the specified layer), if all the images (or images from a specific layer) are used together, the generated NFT will be considered as invalid, and another NFT will be generated (everything works by path modulation, so before saving the valid NFT on the HDD/SSD, it's a lot more faster that way). <br />
+      Allows you to make multiple images/layers incompatible, it now supports layers exactly like images (it simply check if any image used in the generated NFT is from the specified layer), if all the images (or images from a specific layer) are used together, the generated NFT will be considered as invalid, and another NFT will be generated (everything works by path modulation, so before saving the invalid NFT on the HDD/SSD, it's a lot more faster that way). <br />
       
       The order of the names doesn't matter.
       - NFT is regenerated if all the listed images are used: <br />
