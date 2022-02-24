@@ -13,16 +13,19 @@ Because it is a lot more performant to detect exceptions & potential duplicates 
 instead of doing that after generating the image (I don't want to destroy my SSD by saving / deleting invalid NFTs 10 times in a row..)
 
 
-## Technical information:
+
+## Technical summary:
   - Comparative hashing system to find duplicates based on the 128bits [xxHash](https://github.com/Cyan4973/xxHash) algorithm.
+  - Now supports metadata, they are generated at the same time as the NFTs.
   - Debug mode that allows to verify an NFT (overwritten every x seconds)
   - Optimized system, it takes approximately 500ms to generate and save an NFT (1080x1080, 12 layers)
   - Optional layers & optional layers rarity
   - Image rarifier that virtually duplicates images into the paths list
   - Accessories handling (Allows multiple accessories)
   - Exceptions handling ('ORDER_CHANGE', 'INCOMPATIBLE' and 'DELETE')
-  - [settings.py](settings/settings.py) to edit the settings for every character
-  - Type hints, static function classes (Non-OOP) and full docstring for every function
+  - [settings.py](settings/settings.py) to edit the main settings.
+  - A settings file for every character, check [elon_settings.py](settings/elon_settings.py)
+  - Type hints, utility classes (Non-OOP) and full docstring for every function
   - Paths verification (everything is done before saving any file to the hard drive)
   - Custom logs system (pyprint & extime)
 
@@ -57,9 +60,10 @@ something like `character_directories = ['character_0', 'character_1']`
 
 
 ## Settings
-All the settings can be modified inside the [settings.py](settings/settings.py) file. The first class called `GlobalSettings` concerns all the main settings such as the main input directory, the name of the characters (character_directories) and other debugging settings.
+All the main app settings can be modified inside the [settings.py](settings/settings.py) file. The first class called `GlobalSettings` concerns all the main settings such as the main input directory, the name of the characters (character_directories) and other debugging settings.
 
-About the character settings: `ElonSettings` for example concerns the first character settings of our NFTs, this class, based on the `CharacterSettings` class allows to define custom parameters per character (exceptions, optional layers, etc..)
+**NEW:** The character settings are now separated into multiple files, it's a lot more easier like this.
+About the character settings: [ElonSettings](settings/elon_settings.py) for example concerns the first character settings of our NFTs, this class, based on the `CharacterSettings` class allows to define custom parameters per character (exceptions, optional layers, etc..)
 
 After defining your character classes, you need to modify these lines into the [generator.py](https://github.com/ostra-project/Advanced-NFTs-Generator/blob/main/libs/generator.py#L187) file
 
@@ -149,6 +153,25 @@ You can check the [settings.py](settings/settings.py) file to have an example of
 
 ## File Utils:
 Inside the [file_utils.py](libs/utils/file_utils.py) file, there's a function called `mix_nfts()`, this function allows to take all the NFTs inside one directory (by default, the function checks the `dist` directory) and mix them with the `random.shuffle()` function, after that, all the NFTs are renamed with a simple number starting from 1.
+
+**NEW:** This function now supports metadata, as they are necessary (and now generated too) for OpenSea, I decided to not add a parameter to disable metadata, it will now shows an error if the folder structure is incorrect,
+note that it shuffles the NFTs and the metadata together so they match at the end.
+
+As it supports metadata, two folders are added inside the main `dist` folder, check this structure:
+```
+dist/
+|-- NFTs/
+|   |-- ELON_001.png/
+|   |-- ELON_002.png/
+|   |-- JEFF_001.png/
+|   |-- JEFF_002.png/
+|
+|-- metadata/
+    |-- ELON_001.json/
+    |-- ELON_002.json/
+    |-- JEFF_001.json/
+    |-- JEFF_002.json/
+```
 
 This function is used for the final collection (more precisely for OpenSea), it sorts / renames the NFTs randomly so they're not in order when uploaded with a bot or something like that on OpenSea.
 
