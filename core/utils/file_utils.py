@@ -235,7 +235,5 @@ class NFTsUtils:
             Logger.pyprint('ERRO', '', err, True)
             return
         
-        
         NFTsUtils.__mix_nfts(directory_path, comparison_check)
-        
         

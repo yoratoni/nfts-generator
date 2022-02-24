@@ -14,12 +14,14 @@ from core import (
     MetadataHandling
 )
 
+from colorama import Style, Fore
 from typing import Union
 from copy import deepcopy
 from pathlib import Path
 from PIL import Image
 
 import contextlib
+import textwrap
 import xxhash
 import time
 import sys
@@ -171,10 +173,11 @@ class Generator:
         timer_name = f'Estimated generation time for {iterations} NFTs of "{character_name}"'
         iterations = iterations // precision
         
-        print('')
-        Logger.extime(timer_name, timer_start, iterations, True, True)
-        print('')
-        
+        if not GlobalSettings.dist_mode:
+            print('')
+            Logger.extime(timer_name, timer_start, iterations, True, True)
+            print('')
+            
         time.sleep(2)
     
     
@@ -213,7 +216,7 @@ class Generator:
 
         Args:
             iterations (int): Total number of NFTs for this character.
-            character_name (str): Current generated character name. 
+            character_name (str): Current generated character name.
             debug_mode_latency (int): If == 0, debug mode is disabled (Value exprimed in milliseconds).
             is_saving_system_enabled (bool, optional): (FOR TESTING ONLY) Remove the saving system.
             
@@ -254,7 +257,8 @@ class Generator:
             # Generate every NFT with a name based on 'i' and zfill()
             for i in range(iterations):
                 # Return to line for new NFT logs
-                print('')
+                if not GlobalSettings.dist_mode:
+                    print('')
                 
                 if debug_mode_latency == 0:
                     nft_number = str(i).zfill(zeros)
@@ -286,7 +290,7 @@ class Generator:
 
                 # Final number of iterations (Get the iterations var at pos 1/0)
                 final_iterations += unique_nft_data[1][0]
-                
+
             return [final_iterations, timer_start]
         else:
             Logger.pyprint('ERRO', '', 'Invalid character path/output path', True)
@@ -304,14 +308,14 @@ class Generator:
 
         Args:
             iterations (int): Total number of NFTs for this character.
-            character_name (str): Current generated character name. 
-            debug_mode_latency (int): If == 0, debug mode is disabled (Value exprimed in milliseconds).
+            character_name (str): Current generated character name.
+            debug_mode_latency (int, optional): If 0, debug mode disabled (Value in milliseconds).
             is_saving_system_enabled (bool, optional): (FOR TESTING ONLY) Remove the saving system.
             
         Returns:
             bool: only for multiprocessing purpose.
         '''
-        
+
         # Args validity issue catcher
         if iterations <= 0:
             err = 'Invalid number of iterations'

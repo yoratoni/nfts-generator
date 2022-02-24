@@ -24,7 +24,7 @@ class Logger:
             forced_log (bool, optional): Force even if not in debug mode. Defaults to False.
             same_line (bool, optional): Print over the previous line.
         '''
-        
+
         if not GlobalSettings.dist_mode and (GlobalSettings.verbose_debugging or forced_log):
                 color = Fore.WHITE
                 
@@ -96,7 +96,6 @@ class Logger:
             if res > 120:
                 res = round(res / 60)
                 i = 4
-        
         
         res = round(res, 2)
         
