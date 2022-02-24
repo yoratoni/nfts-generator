@@ -96,7 +96,7 @@ Arguments:
     I'm generally using 2500ms, it's enough to check a whole NFT.
   - [**OPTIONAL**] The last argument (is_saving_system_enabled) is set to True by default, it simply allows you to deactivate the saving system.
 
-This function also integrates an estimated time system, it generates a single NFT and multiply the time that it took by the final number of NFTs, this function is not really accurate because the complexity per NFT fully depends on the incompatibilites and the number of used images, but it gives at least an estimation.
+This function also integrates an estimated time system, it generates 5 NFTs and calculate the estimated time based on the final number of NFTs, this function is not really accurate because the complexity per NFT fully depends on the incompatibilites and the number of used images, but it gives at least an estimation.
 
 **NEW:** It now generates 5 NFTs for a better estimation.
 
