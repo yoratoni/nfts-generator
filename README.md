@@ -11,7 +11,7 @@ I decided to separate the program into multiple parts:
 
 Why ? <br />
 Because it is a lot more performant to detect exceptions & potential duplicates by checking the paths list
-instead of doing that after generating the image (I don't want to destroy my SSD by saving / deleting invalid NFTs 10 times in a row..)
+instead of doing that after generating the image (I don't want to destroy my SSD by saving/deleting invalid NFTs 10 times in a row..)
 
 
 
@@ -174,7 +174,7 @@ dist/
     |-- JEFF_002.json/
 ```
 
-This function is used for the final collection (more precisely for OpenSea), it sorts / renames the NFTs randomly so they're not in order when uploaded with a bot or something like that on OpenSea.
+This function is used for the final collection (more precisely for OpenSea), it sorts/renames the NFTs randomly so they're not in order when uploaded with a bot or something like that on OpenSea.
 
 
 ## Metadata generation:
