@@ -11,24 +11,24 @@ I decided to separate the program into multiple parts:
 
 **Why ?** <br />
 Because it is a lot more performant to detect exceptions & potential duplicates by checking the paths list
-instead of doing that after generating the image (I don't want to destroy my SSD by saving/deleting invalid NFTs 10 times in a row..)
+instead of doing that after generating the image (I don't want to destroy my SSD by saving/deleting invalid NFTs 10 times in a row..).
 
 
 
 ## Technical summary:
   - Comparative hashes system based on the [xxHash](https://github.com/Cyan4973/xxHash) algorithm.
   - Metadata are now generated at the same time as the NFTs.
-  - Debug mode that allows to verify an NFT
-  - It now takes ~500ms to generate an NFT (1080x1080)
-  - Optional layers & optional layers rarity
-  - Image rarifier that virtually duplicates images (rarity system)
-  - Accessories handling (Allows multiple accessories)
-  - Exceptions handling (4 different types)
-  - [Settings](settings/settings.py) file to edit the main settings
-  - A settings file for every character, check [ElonSettings](settings/elon_settings.py)
-  - Type hints, utility classes and docstrings for the functions
-  - Paths verification (done before saving any file)
-  - Custom logs system (pyprint & extime)
+  - Debug mode that allows to verify an NFT.
+  - It now takes ~500ms to generate an NFT (1080x1080).
+  - Optional layers & optional layers rarity.
+  - Image rarifier that virtually duplicates images (rarity system).
+  - Accessories handling (Allows multiple accessories).
+  - Exceptions handling (4 different types).
+  - [Settings](settings/settings.py) file to edit the main settings.
+  - A settings file for every character, check [ElonSettings](settings/elon_settings.py).
+  - Type hints, utility classes and docstrings for the functions.
+  - Paths verification (done before saving any file).
+  - Custom logs system (pyprint & extime).
 
 
 
@@ -64,7 +64,7 @@ something like `character_directories = ['character_0', 'character_1']`
 All the main app settings can be modified inside the [settings.py](settings/settings.py) file. The first class called `GlobalSettings` concerns all the main settings such as the main input directory, the name of the characters (character_directories) and other debugging settings.
 
 **NEW:** The character settings are now separated into multiple files, it's a lot more easier like this.
-About the character settings: [ElonSettings](settings/elon_settings.py) for example concerns the first character settings of our NFTs, this class, based on the `CharacterSettings` class allows to define custom parameters per character (exceptions, optional layers, etc..)
+About the character settings: [ElonSettings](settings/elon_settings.py) for example concerns the first character settings of our NFTs, this class, based on the `CharacterSettings` class allows to define custom parameters per character (exceptions, optional layers, etc..).
 
 After defining your character classes, you need to modify these lines into the [generator.py](https://github.com/ostra-project/Advanced-NFTs-Generator/blob/main/libs/generator.py#L187) file
 
