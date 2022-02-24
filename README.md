@@ -118,13 +118,13 @@ You can check the [settings.py](settings/settings.py) file to have an example of
         <br />
         
   - `'INCOMPATIBLE'`: <br />
-      Allows you to make two images (or one image and a whole layer) incompatible, if they're used together, the generated NFT will be considered as incompatible, and another NFT will be generated (everything works by path modulation, so before saving the valid NFT on the HDD/SSD, it's a lot more faster that way). <br />
+      Allows you to make multiple images/layers incompatible, it now supports layers exactly like images (it simply check if any image used in the generated NFT is from the specified layer), if all the images (or images from a specific layer) are used together, the generated NFT will be considered as invalid, and another NFT will be generated (everything works by path modulation, so before saving the valid NFT on the HDD/SSD, it's a lot more faster that way). <br />
       
       The order of the names doesn't matter.
       - NFT is regenerated if all the listed images are used: <br />
       `["INCOMPATIBLE", "image_1", "image_2", ...]`
-      - NFT is regenerated if the image is used with an image that comes from this specific layer **(Only one image and one layer)**: <br />
-      `["INCOMPATIBLE", "image.png", "layer"]`
+      - NFT is regenerated if the image is used with an image that comes from this specific layer: <br />
+      `["INCOMPATIBLE", "image.png", "layer", ...]`
       - NFT is regenerated if images from these layers are used: <br />
       `["INCOMPATIBLE", "layer_1", "layer_2", ...]`
       <br />
