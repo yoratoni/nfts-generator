@@ -1,5 +1,6 @@
 from core import Logger
 
+import textwrap
 import random
 import xxhash
 import json
@@ -119,30 +120,17 @@ class NFTsUtils:
 
 
     @staticmethod
-    def mix_nfts(directory_name: str = 'dist', comparison_check: bool = True):
+    def __mix_nfts(directory_path: os.path, comparison_check: bool = True):
         '''Mix all the NFTs/metadata from the dist directory.
-        
-        WARNING: This function overwrites the original NFTs inside the 'dist/' directory.
-        
-        This function renames all the NFTs/metadata with a number from 0 to xxx
-        in a random order, so all the NFTs/metadata are ready for OpenSea.
-        
-        The 'dist' directory contains two dirs:
-            - The first directory contains the NFTs
-            - The second one contains the JSON metadata files
-            
-        These two dirs contains the same amount of files, named 
-        
+
         Args:
             directory_name (str, optional): The name of the directory where all the final NFTs are.
             comparison_check (bool, optional): Verifies the uniqueness of the metadata "attributes".
         '''
         
         # Main paths
-        cwd = os.getcwd()
-        dist_path = os.path.join(cwd, directory_name)
-        nfts_path = os.path.join(dist_path, 'NFTs')
-        metadata_path = os.path.join(dist_path, 'metadata')
+        nfts_path = os.path.join(directory_path, 'NFTs')
+        metadata_path = os.path.join(directory_path, 'metadata')
         
         # Verify that the metadata corresponds to the NFTs (Names and number)
         nfts_names = os.listdir(nfts_path)
@@ -187,3 +175,67 @@ class NFTsUtils:
                 Logger.pyprint('SUCCESS', '', f'{i+1}/{driver} NFTs renamed', same_line=True)
         else:
             Logger.pyprint('ERRO', '', 'NFTs could not be mixed, verify your metadata files', True)
+
+
+    @staticmethod
+    def mix_nfts(directory_name: str = 'dist', comparison_check: bool = True):
+        '''This is the main wrapper for the NFT mixing function,
+        check the "__mix_nfts()" private function for more info.
+
+        WARNING: This function overwrites the original NFTs inside the 'dist/' directory.
+        
+        This function renames all the NFTs/metadata with a number from 0 to xxx
+        in a random order, so all the NFTs/metadata are ready for OpenSea.
+        
+        The 'dist' directory contains two dirs:
+            - The first directory contains the NFTs
+            - The second one contains the JSON metadata files
+            
+        These two dirs contains the same amount of files, named 
+
+        Args:
+            directory_name (str, optional): The name of the directory where all the final NFTs are.
+            comparison_check (bool, optional): Verifies the uniqueness of the metadata "attributes".
+        '''
+        
+        cwd = os.getcwd()
+        directory_path = os.path.join(cwd, directory_name)
+        
+        # Existing directory checking
+        if not os.path.exists(directory_path):
+            err = textwrap.dedent('''\
+            mix_nfts(): Wrong directory structure !
+            Check the documentation: https://github.com/ostra-project/Advanced-NFTs-Generator
+            
+            ERROR: "dist" directory missing.
+            ''')
+            Logger.pyprint('ERRO', '', err, True)
+            return
+        
+        # Structure checking
+        struct_check = os.listdir(directory_path)
+        if 'metadata' not in struct_check or 'NFTs' not in struct_check:
+            err = textwrap.dedent('''\
+            mix_nfts(): Wrong directory structure !
+            Check the documentation: https://github.com/ostra-project/Advanced-NFTs-Generator
+
+            Here's the correct structure:
+            
+            project_dir/
+                |--dist/
+                    |-- NFTs/
+                    |-- metadata/
+                
+            - The NFTs directory contains all of the previously generated NFTs (project_dir/NFTs/output)
+            - Same thing for the metadata directory (project_dir/NFTs/metadata)
+            
+            You can copy them from these directories after generating all the characters NFTs.
+            ''')
+
+            Logger.pyprint('ERRO', '', err, True)
+            return
+        
+        
+        NFTsUtils.__mix_nfts(directory_path, comparison_check)
+        
+        

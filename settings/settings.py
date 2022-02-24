@@ -27,12 +27,6 @@ class GlobalSettings:
         'LAYER BEFORE LAYER'
     ]
     
-    incompatible_modes = [
-        'IMAGE | IMAGE',  # Any amount of images
-        'IMAGE | LAYER',  # One image & one layer
-        'LAYER | LAYER'  # Any amount of layers
-    ]
-    
     
 class CharacterSettings:
     '''Used for copy/pasting to create a new character settings class.

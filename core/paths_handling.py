@@ -60,7 +60,7 @@ class PathsHandling:
         
         
     @staticmethod
-    def get_index_in_paths_list_from_filename(paths: list[Path], filename: str) -> int:
+    def get_index_in_paths_list_from_filename(paths: list[Path], filename: str) -> Union[int, None]:
         '''Get the index of a filename inside a Path list.
 
         Args:
@@ -68,7 +68,7 @@ class PathsHandling:
             filename (str): Name of the file to check.
             
         Returns:
-            int: Index of the file in the list or None if not found.
+            int/None: Index of the file in the list or None if not found.
         '''
         
         drv = len(paths)
@@ -150,14 +150,14 @@ class PathsHandling:
 
 
     @staticmethod
-    def get_filenames_from_paths(paths: list[Path]) -> Union[list[str], None]:
+    def get_filenames_from_paths(paths: list[Path]) -> list[str]:
         '''Get the filenames from a list of paths and returns them into a list.
         
         Args:
             paths (list[Path]): The list of paths that needs to be converted.
             
         Returns:
-            list[str]/None: The list of filenames.
+            list[str]: The list of filenames.
         '''
         
         driver = len(paths)
@@ -165,7 +165,7 @@ class PathsHandling:
         
         # Fallback if the list is empty
         if driver == 0:
-            return None
+            return filenames
         
         for path in paths:
             # Get the filename

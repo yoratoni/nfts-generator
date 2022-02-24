@@ -4,20 +4,17 @@ class ElonSettings:
     
     # Exceptions handling
     exceptions = [
-        ['INCOMPATIBLE', 'Spacesuit helmet.png', '04_jackets'],
-        ['INCOMPATIBLE', 'Spacesuit helmet.png', '07_glasses'],
-        ['INCOMPATIBLE', 'Spacesuit shirt.png', '04_jackets'],
+        ['INCOMPATIBLE', '07_glasses', 'Spacesuit helmet.png'],
+        ['INCOMPATIBLE', '04_jackets', 'Spacesuit shirt.png'],
+        ['INCOMPATIBLE', '04_jackets', 'Spacesuit helmet.png'],
         
-        ['INCOMPATIBLE', 'Black cap.png', '09_hats'],
-        ['INCOMPATIBLE', 'Blue cap.png', '09_hats'],
-        ['INCOMPATIBLE', 'Green cap.png', '09_hats'],
-        ['INCOMPATIBLE', 'Navy blue cap.png', '09_hats'],
-        ['INCOMPATIBLE', 'Pink cap.png', '09_hats'],
-        ['INCOMPATIBLE', 'Red cap.png', '09_hats'],
-        ['INCOMPATIBLE', 'Normal hair.png', '09_hats'],
-        
-        ['INCOMPATIBLE', 'Big blue sunglasses.png', '09_hats'],
-        ['INCOMPATIBLE', 'Big orange sunglasses.png', '09_hats'],
+        ['INCOMPATIBLE', '09_hats', 'Black cap.png'],
+        ['INCOMPATIBLE', '09_hats', 'Blue cap.png'],
+        ['INCOMPATIBLE', '09_hats', 'Green cap.png'],
+        ['INCOMPATIBLE', '09_hats', 'Navy blue cap.png'],
+        ['INCOMPATIBLE', '09_hats', 'Pink cap.png'],
+        ['INCOMPATIBLE', '09_hats', 'Red cap.png'],
+        ['INCOMPATIBLE', '09_hats', 'Normal hair.png'],
         
         ['INCOMPATIBLE', 'Spacesuit helmet.png', 'Cigarette.png'],
         ['INCOMPATIBLE', 'Spacesuit helmet.png', 'Bandana.png'],

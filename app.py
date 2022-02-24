@@ -3,7 +3,7 @@ from core import Generator, NFTsUtils
 
 # The main generator function:
 #   This one will generate NFTs for one character (Check the function docstring for more info)
-Generator.generate_nfts(2400, 'jeff', 1000)
+# Generator.generate_nfts(2400, 'jeff', 2500)
 
 
 # The main mixing function
@@ -16,7 +16,7 @@ Generator.generate_nfts(2400, 'jeff', 1000)
 #   Same thing for this one, just copy/paste all the metadata files from the metadata dir
 # Notes:
 #   This function also adds the data inside the 'name' key of every NFT
-# NFTsUtils.mix_nfts()
+NFTsUtils.mix_nfts()
 
 
 # Finally, this function adds the IPFS url into the metadata files

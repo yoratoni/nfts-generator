@@ -143,11 +143,16 @@ class ExceptionsHandling:
         Returns:
             list[Path] OR None: Valid list of path or None if an incompatibility is found.
         '''
-        
-        print(paths)
 
+        check_used_images = []
         incompatibles = current_exception[1:]
         layers = PathsHandling.get_layer_names_from_paths(paths)
+        incomp_driver = len(incompatibles)
+        
+        # Error catching
+        if incomp_driver < 2:
+            Logger.pyprint('ERRO', '', f'Wrong incompatible arguments: {current_exception}', True)
+            return None
         
         for incompatible in incompatibles:
             if incompatible in layers:
@@ -157,9 +162,17 @@ class ExceptionsHandling:
                 images = [incompatible]
                 
             for image in images:
-                pass
+                is_used = PathsHandling.get_index_in_paths_list_from_filename(paths, image)
                 
-                    
+                if is_used is not None:
+                    check_used_images.append(True)
+                else:
+                    check_used_images.append(False)
+        
+        # Mark the image as invalid by erasing the paths list
+        if len(check_used_images) == incomp_driver and (False not in check_used_images):
+            return None
+                
         return paths
     
     

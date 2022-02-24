@@ -7,27 +7,26 @@ class JeffSettings:
         ['DELETE', 'Spacesuit jacket.png', '03_belts', '05_shirts'],
         ['DELETE', 'Spacesuit.png', '02_pants', '03_belts', '04_hands', '06_jackets'],
         
-        ['INCOMPATIBLE', 'Astro white shirt.png', '09_wrist'],
-        # ['INCOMPATIBLE', 'Navy blue shirt 1.png', '09_wrist'],
-        # ['INCOMPATIBLE', 'Navy blue shirt 2.png', '09_wrist'],
-        # ['INCOMPATIBLE', 'Navy blue shirt 3.png', '09_wrist'],
-        # ['INCOMPATIBLE', 'Black shirt 1.png', '09_wrist'],
-        # ['INCOMPATIBLE', 'Black shirt 2.png', '09_wrist'],
-        # ['INCOMPATIBLE', 'Blue shirt 1.png', '09_wrist'],
-        # ['INCOMPATIBLE', 'Blue shirt 2.png', '09_wrist'],
-        # ['INCOMPATIBLE', 'Blue shirt 3.png', '09_wrist'],
-        # ['INCOMPATIBLE', 'White shirt.png', '09_wrist'],
-        # ['INCOMPATIBLE', 'Pink shirt.png', '09_wrist'],
-        # ['INCOMPATIBLE', 'Spacesuit.png', '09_wrist'],
+        ['INCOMPATIBLE', '09_wrist', 'Astro white shirt.png'],
+        ['INCOMPATIBLE', '09_wrist', 'Navy blue shirt 1.png'],
+        ['INCOMPATIBLE', '09_wrist', 'Navy blue shirt 2.png'],
+        ['INCOMPATIBLE', '09_wrist', 'Navy blue shirt 3.png'],
+        ['INCOMPATIBLE', '09_wrist', 'Black shirt 1.png'],
+        ['INCOMPATIBLE', '09_wrist', 'Black shirt 2.png'],
+        ['INCOMPATIBLE', '09_wrist', 'Blue shirt 1.png'],
+        ['INCOMPATIBLE', '09_wrist', 'Blue shirt 2.png'],
+        ['INCOMPATIBLE', '09_wrist', 'Blue shirt 3.png'],
+        ['INCOMPATIBLE', '09_wrist', 'White shirt.png'],
+        ['INCOMPATIBLE', '09_wrist', 'Pink shirt.png'],
+        ['INCOMPATIBLE', '09_wrist', 'Spacesuit.png'],
+        ['INCOMPATIBLE', '09_wrist', '06_jackets'],
         
-        # ['INCOMPATIBLE', '06_jackets', '09_wrist'],
+        ['INCOMPATIBLE', 'Spacesuit.png', 'Tie.png'],
+        ['INCOMPATIBLE', 'Spacesuit.png', 'Santiags.png'],
+        ['INCOMPATIBLE', 'Spacesuit pants.png', 'Santiags.png'],
+        ['INCOMPATIBLE', 'Spacesuit jacket.png', 'Tie.png'],
         
-        # ['INCOMPATIBLE', 'Spacesuit.png', 'Tie.png'],
-        # ['INCOMPATIBLE', 'Spacesuit.png', 'Santiags.png'],
-        # ['INCOMPATIBLE', 'Spacesuit pants.png', 'Santiags.png'],
-        # ['INCOMPATIBLE', 'Spacesuit jacket.png', 'Tie.png'],
-        
-        # ['INCOMPATIBLE', 'Closed beige jacket 3.png', 'Blackboard.png'],
+        ['INCOMPATIBLE', 'Closed beige jacket 3.png', 'Blackboard.png'],
 
         ['ORDER_CHANGE', '07_shoes', 'Spacesuit.png'],
         ['ORDER_CHANGE', '07_shoes', 'Spacesuit pants.png'],
@@ -48,7 +47,7 @@ class JeffSettings:
     optional_layers = ['06_jackets', '09_wrist', '10_glasses', '11_hats']
     
     # Optional layers rarity (List of rarity per layer)
-    optional_rarity = [1, 1, 4, 4]
+    optional_rarity = [3, 3, 4, 4]
 
     # Background directory
     backgrounds_dir = '00_backgrounds'
