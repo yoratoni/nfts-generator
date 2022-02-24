@@ -16,18 +16,18 @@ instead of doing that after generating the image (I don't want to destroy my SSD
 
 
 ## Technical summary:
-  - Comparative hashing system to find duplicates based on the 128bits [xxHash](https://github.com/Cyan4973/xxHash) algorithm.
-  - Now supports metadata, they are generated at the same time as the NFTs.
-  - Debug mode that allows to verify an NFT (overwritten every x seconds)
-  - Optimized system, it takes ~500ms to generate an NFT (1080x1080, 12 layers)
+  - Comparative hashing to find duplicates based on the [xxHash](https://github.com/Cyan4973/xxHash) algorithm.
+  - Metadata are now generated at the same time as the NFTs.
+  - Debug mode that allows to verify an NFT
+  - It now takes ~500ms to generate an NFT (1080x1080, 12 layers)
   - Optional layers & optional layers rarity
-  - Image rarifier that virtually duplicates images into the paths list
+  - Image rarifier that virtually duplicates images (rarity system)
   - Accessories handling (Allows multiple accessories)
-  - Exceptions handling ('ORDER_CHANGE', 'INCOMPATIBLE', 'DELETE', 'DELETE_ACCESSORY')
-  - [settings.py](settings/settings.py) to edit the main settings.
-  - A settings file for every character, check [elon_settings.py](settings/elon_settings.py)
-  - Type hints, utility classes (Non-OOP) and full docstring for every function
-  - Paths verification (everything is done before saving any file to the hard drive)
+  - Exceptions handling (4 different types)
+  - [Settings](settings/settings.py) file to edit the main settings
+  - A settings file for every character, check [ElonSettings](settings/elon_settings.py)
+  - Type hints, utility classes and docstrings for the functions
+  - Paths verification (done before saving any file)
   - Custom logs system (pyprint & extime)
 
 
