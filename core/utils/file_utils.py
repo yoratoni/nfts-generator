@@ -30,20 +30,24 @@ class NFTsUtils:
             curr_path = os.path.join(metadata_path, filename)
             
             with open(curr_path, 'r') as file:
-                data = json.load(file)
-                attributes = data['attributes']
-                
-                # Comparison hash generation
-                digest = f'::{attributes}::'
-                final_hash = xxhash.xxh128_hexdigest(digest).upper()
-                
-                if final_hash not in comparison_hashlib:
-                    comparison_hashlib.append(final_hash)
-                else:
-                    verified = False
-                    err = f'Duplicate of an "attributes" dict found [{filename}]'
-                    Logger.pyprint('ERRO', '', err, True)
-        
+                try:
+                    data = json.load(file)
+                    attributes = data['attributes']
+                    
+                    # Comparison hash generation
+                    digest = f'::{attributes}::'
+                    final_hash = xxhash.xxh128_hexdigest(digest).upper()
+                    
+                    if final_hash not in comparison_hashlib:
+                        comparison_hashlib.append(final_hash)
+                    else:
+                        verified = False
+                        err = f'Duplicate of an "attributes" dict found [{filename}]'
+                        Logger.pyprint('ERRO', '', err, True)
+                        
+                except json.decoder.JSONDecodeError as err:
+                    Logger.pyprint('ERRO', '', f'JSON decoding error [{err} - {file.name}]')
+                                
         return verified
 
 
@@ -82,6 +86,37 @@ class NFTsUtils:
             
         return False
     
+    
+    @staticmethod
+    def modify_format():
+        '''This function is only used to modify some data inside the NFTs metadata,
+        in case there's a wrong key etc..
+        '''
+        
+        # Path of the directory
+        cwd = os.getcwd()
+        main_path = os.path.join(cwd, 'NFTs', 'metadata', 'elon')
+        
+        filenames = os.listdir(main_path)
+
+        for filename in filenames:
+            curr_path = os.path.join(main_path, filename)
+            data = {}
+            
+            try:
+                with open(curr_path, 'r') as file:
+                    data = json.load(file)
+                    
+                    # Modify the 'data' dict here
+                    
+                    
+            except json.decoder.JSONDecodeError as err:
+                Logger.pyprint('ERRO', '', f'JSON decoding error [{err} - {file.name}]')
+            
+            if len(data) != 0: 
+                with open(curr_path, 'w') as file:
+                    json.dump(data, file, indent=4)
+
 
     @staticmethod
     def mix_nfts(directory_name: str = 'dist', comparison_check: bool = True):

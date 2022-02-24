@@ -1,4 +1,3 @@
-
 from settings import (
     GlobalSettings,
     CharacterSettings,
@@ -87,6 +86,7 @@ class Generator:
         '''
         
         # Measure some stats about the generation
+        timer_start = time.perf_counter_ns()
         statistics = []
         iterations = 1
         
@@ -253,6 +253,9 @@ class Generator:
             
             # Generate every NFT with a name based on 'i' and zfill()
             for i in range(iterations):
+                # Return to line for new NFT logs
+                print('')
+                
                 if debug_mode_latency == 0:
                     nft_number = str(i).zfill(zeros)
                     current_name = f'{character_name.upper()}_{nft_number}.png'
@@ -265,7 +268,7 @@ class Generator:
                     if i != 0:
                         time.sleep(debug_mode_latency)
                         
-                # Generates an unique NFT and get the metadata from it (background / character dict)
+                # Generates an unique NFT and get the metadata from it (background/character dict)
                 unique_nft_data = Generator.generate_unique_nft(
                                       settings,
                                       character_layers,
@@ -286,7 +289,7 @@ class Generator:
                 
             return [final_iterations, timer_start]
         else:
-            Logger.pyprint('ERRO', '', 'Invalid character path / output path', True)
+            Logger.pyprint('ERRO', '', 'Invalid character path/output path', True)
 
     
     @staticmethod
@@ -297,7 +300,7 @@ class Generator:
         is_saving_system_enabled: bool = True
     ) -> bool:
         '''This is the main wrapper for the NFT generation function,
-        check the "__multiple_nft_generation()" function for more info.
+        check the "__multiple_nft_generation()" private function for more info.
 
         Args:
             iterations (int): Total number of NFTs for this character.

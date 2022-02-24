@@ -10,7 +10,7 @@ I decided to separate the program into two parts:
 
 Why ? <br />
 Because it is a lot more performant to detect exceptions & potential duplicates by checking the paths list
-instead of doing that after generating the image (I don't want to destroy my SSD by saving / deleting invalid NFTs 10 times in a row..)
+instead of doing that after generating the image (I don't want to destroy my SSD by saving/deleting invalid NFTs 10 times in a row..)
 
 
 ## Technical information:
@@ -148,7 +148,7 @@ You can check the [settings.py](settings/settings.py) file to have an example of
 ## File Utils:
 Inside the [file_utils.py](libs/utils/file_utils.py) file, there's a function called `mix_nfts()`, this function allows to take all the NFTs inside one directory (by default, the function checks the `dist` directory) and mix them with the `random.shuffle()` function, after that, all the NFTs are renamed with a simple number starting from 1.
 
-This function is used for the final collection (more precisely for OpenSea), it sorts / renames the NFTs randomly so they're not in order when uploaded with a bot or something like that on OpenSea.
+This function is used for the final collection (more precisely for OpenSea), it sorts/renames the NFTs randomly so they're not in order when uploaded with a bot or something like that on OpenSea.
 
 
 ## Metadata generation:

@@ -18,23 +18,23 @@ class ExceptionsHandling:
             str: The mode of the order change.
         '''
         
-        order_change_mode = GlobalSettings.order_change_modes[0]
+        order_mode = GlobalSettings.order_change_modes[0]
     
         # Layer before image check
         if current_exception[1] in layers_list:
-            order_change_mode = GlobalSettings.order_change_modes[1]
+            order_mode = GlobalSettings.order_change_modes[1]
         # Image before layer check
         if current_exception[2] in layers_list:
-            order_change_mode = GlobalSettings.order_change_modes[2]
+            order_mode = GlobalSettings.order_change_modes[2]
         # Layer before layer check
-        if current_exception[1] in layers_list and order_change_mode == GlobalSettings.order_change_modes[2]:
-            order_change_mode = GlobalSettings.order_change_modes[3]
+        if current_exception[1] in layers_list and order_mode == GlobalSettings.order_change_modes[2]:
+            order_mode = GlobalSettings.order_change_modes[3]
             
-        if order_change_mode != GlobalSettings.order_change_modes[0] and len(current_exception) > 3:
-            err = f'In this mode, "ORDER_CHANGE" only supports two images / layers [{current_exception}]'
+        if order_mode != GlobalSettings.order_change_modes[0] and len(current_exception) > 3:
+            err = f'In this mode, "ORDER_CHANGE" only supports two images/layers [{current_exception}]'
             Logger.pyprint('WARN', '', err, True)
             
-        return order_change_mode
+        return order_mode
     
     
     @staticmethod
@@ -69,7 +69,6 @@ class ExceptionsHandling:
                 paths.pop(first_path_index)
                 paths.insert(second_path_index, saved_path)
 
-
         # LAYER BEFORE IMAGE
         elif order_change_mode == GlobalSettings.order_change_modes[1]:
             paths_from_layer = PathsHandling.get_paths_from_layer_name(paths, current_exception[1])
@@ -83,8 +82,7 @@ class ExceptionsHandling:
                         paths.insert(image_path_index, path)
                     except ValueError as err:
                         Logger.pyprint('ERRO', '', f'Order change path error [{err}]', True)
-
-
+                        
         # IMAGE BEFORE LAYER
         elif order_change_mode == GlobalSettings.order_change_modes[2]:
             image_path_index = PathsHandling.get_index_in_paths_list_from_filename(paths, current_exception[1])
@@ -102,7 +100,6 @@ class ExceptionsHandling:
                 saved_path = paths[image_path_index]
                 paths.pop(image_path_index)
                 paths.insert(order_change_path_index, saved_path)
-
 
         # LAYER BEFORE LAYER
         elif order_change_mode == GlobalSettings.order_change_modes[3]:
@@ -123,17 +120,21 @@ class ExceptionsHandling:
                         paths.insert(order_change_path_index, path)
                     except ValueError as err:
                         Logger.pyprint('ERRO', '', f'Order change path error [{err}]', True)
+                        
+            print(current_exception)
 
         return paths
 
     
     @staticmethod
-    def incompatibilities(paths: list[Path], current_exception: list[str]):
-        '''Check incompatibilities with one image and one layer or multiple images.
+    def incompatibles(paths: list[Path], current_exception: list[str]):
+        '''Check incompatibilities with multiple images/layers,
+        This function supports images and layers in any order.
         
         Examples:
-            - ["INCOMPATIBLE", "image_1.png", "image_2.png", "image_3.png"]
-            - ["INCOMPATIBLE", "image.png", "layer"]
+            - ["INCOMPATIBLE", "image_1.png", "image_2.png", ...]
+            - ["INCOMPATIBLE", "image.png", "layer", ...]
+            - ["INCOMPATIBLE", "layer_1", "layer_2", ...]
 
         Args:
             paths (list[Path]): List of all the paths used for one NFT.
@@ -143,55 +144,22 @@ class ExceptionsHandling:
             list[Path] OR None: Valid list of path or None if an incompatibility is found.
         '''
         
-        paths_driver = len(paths)
-        incompatibles = current_exception[1:]
-        incompatibility_driver = len(incompatibles)
-        
-        # Check if it's a layer incompatibility
-        is_layer_incompatibility = False
-        layers_name_list = PathsHandling.get_layer_names_from_paths(paths)
-        for i in range(incompatibility_driver):
-            if incompatibles[i] in layers_name_list:
-                is_layer_incompatibility = True
-                break
-        
-        # Handles Incompatibilities between multiple images
-        if not is_layer_incompatibility:
-            incompatible_paths = []
-            
-            # Add all the images index in path to a list
-            for i in range(incompatibility_driver):
-                current_path_index = PathsHandling.get_index_in_paths_list_from_filename(
-                                        paths,
-                                        incompatibles[i]
-                                     )
-                incompatible_paths.append(current_path_index)
-            
-            # Regenerate the NFT is the images are all found
-            if None not in incompatible_paths:
-                Logger.pyprint('WARN', '', f'Incompatible images found {incompatibles}')
-                return None  # Regenerate the NFT
-        
-        # Handles incompatibilities with a whole layer
-        else:
-            if incompatibility_driver > 2:
-                err = f'Incompatibility in layer mode only supports one image and one layer [{current_exception}]'
-                Logger.pyprint('WARN', '', err, True)
-                
-            # Check if the image is used (Returns None if not)
-            image_path = PathsHandling.get_index_in_paths_list_from_filename(paths, incompatibles[0])
-            
-            # If the image is used, check the incompatibility
-            if image_path is not None:
-                for i in range(paths_driver):
-                    # Get the layer name of every image
-                    current_layer = os.path.basename(paths[i].parent)
-                    
-                    # Check if the layer name is the incompatible one
-                    if current_layer == incompatibles[1]:
-                        Logger.pyprint('WARN', '', 'Incompatibility with a layer found')
-                        return None  # Regenerate the NFT
+        print(paths)
 
+        incompatibles = current_exception[1:]
+        layers = PathsHandling.get_layer_names_from_paths(paths)
+        
+        for incompatible in incompatibles:
+            if incompatible in layers:
+                images = PathsHandling.get_paths_from_layer_name(paths, incompatible)
+                images = PathsHandling.get_filenames_from_paths(images)
+            else:
+                images = [incompatible]
+                
+            for image in images:
+                pass
+                
+                    
         return paths
     
     
@@ -255,10 +223,10 @@ class ExceptionsHandling:
 
     @staticmethod
     def exceptions_handling(background: Path, paths: list[Path], settings: CharacterSettings):
-        '''Handle multiple exceptions / incompatibilities between images/layers.
+        '''Handle multiple exceptions/incompatibilities between images/layers.
         This main function ensure that the paths list is valid.
         
-        - 'ORDER_CHANGE' -> Change the order between two layers / images.
+        - 'ORDER_CHANGE' -> Change the order between two layers/images.
         - 'INCOMPATIBLE' -> NFT is regenerated if the test is not passed.
         - 'DELETE' -> Deletes all the images of specific layers if the specified image is used.
 
@@ -287,7 +255,7 @@ class ExceptionsHandling:
                 
             # Incompatibility exception (Returns None to regenerate the NFT)
             elif current_exception[0] == GlobalSettings.exceptions_list[1]:
-                paths = ExceptionsHandling.incompatibilities(paths, current_exception)
+                paths = ExceptionsHandling.incompatibles(paths, current_exception)
                 
                 # If it's incompatible, it's not necessary to continue the exceptions handling
                 if paths is None:

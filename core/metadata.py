@@ -31,10 +31,9 @@ class MetadataHandling:
         
         # The original metadata format
         metadata = {
-            'image': '',
-            'tokenId': 0,
             'name': '',
             'description': settings.metadata_description,
+            'image': '', 
             'attributes': []
         }
 
@@ -67,7 +66,7 @@ class MetadataHandling:
             
             # Get all the filenames used in the paths of this specific layer
             paths_in_layer = PathsHandling.get_paths_from_layer_name(metadata_bus, layer)
-            filenames = PathsHandling.get_filename_from_paths(paths_in_layer)
+            filenames = PathsHandling.get_formatted_filenames_from_paths(paths_in_layer)
             
             # If no filenames found, don't include this attribute
             if filenames is not None:
@@ -77,7 +76,7 @@ class MetadataHandling:
             # Apply another trait value (other layer) if the metadata attribute is a list 
             elif other_layer is not None:
                 paths_in_layer = PathsHandling.get_paths_from_layer_name(metadata_bus, other_layer)
-                current_attribute['value'] = PathsHandling.get_filename_from_paths(paths_in_layer)
+                current_attribute['value'] = PathsHandling.get_formatted_filenames_from_paths(paths_in_layer)
                 final_attributes_list.append(current_attribute)
         
         metadata['attributes'] = final_attributes_list
@@ -89,5 +88,4 @@ class MetadataHandling:
             json.dump(metadata, file, indent=4)
 
         Logger.pyprint('SUCCESS', '', f'Metadata generated for "{nft_name}"', True)
-        print('')
         

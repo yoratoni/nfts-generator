@@ -11,14 +11,14 @@ class PathsHandling:
     
     @staticmethod
     def get_structure(main_dir_path: Path, returns_full_path: bool = False) -> list:
-        '''Get the files / sub-directories structure of a main directory.
+        '''Get the files/sub-directories structure of a main directory.
 
         Args:
             main_dir_path (Path): Absolute path of the main directory that needs to be scanned.
             returns_full_path (bool, optional): If True, returns Path-type absolute path(s).
 
         Returns:
-            list: List of Path / str.
+            list: List of Path/str.
         '''
         
         data = os.listdir(main_dir_path)
@@ -56,7 +56,6 @@ class PathsHandling:
             dir_name = os.path.basename(directories[i])
             layers_dict[dir_name] = PathsHandling.get_structure(directories[i], True)
             
-        Logger.pyprint('INFO', '', 'Character layers scanned')
         return layers_dict
         
         
@@ -151,16 +150,46 @@ class PathsHandling:
 
 
     @staticmethod
-    def get_filename_from_paths(paths: list[Path]) -> Union[str, None]:
-        '''Just a better wrapper to get multiple filenames
-        from multiple paths (STRING FORMATTED)
+    def get_filenames_from_paths(paths: list[Path]) -> Union[list[str], None]:
+        '''Get the filenames from a list of paths and returns them into a list.
         
         Args:
-            paths (list): The paths list.
+            paths (list[Path]): The list of paths that needs to be converted.
             
         Returns:
-            str/None: The formatted list of all the filenames into a string with commas
-                        or None if nothing found.
+            list[str]/None: The list of filenames.
+        '''
+        
+        driver = len(paths)
+        filenames = []
+        
+        # Fallback if the list is empty
+        if driver == 0:
+            return None
+        
+        for path in paths:
+            # Get the filename
+            filename = os.path.basename(path)
+        
+            # Only one name optimized
+            if driver == 1:
+                return [filename]
+            
+            filenames.append(filename)
+            
+        return filenames
+            
+                
+
+    @staticmethod
+    def get_formatted_filenames_from_paths(paths: list[Path]) -> Union[str, None]:
+        '''A better wrapper to get multiple filenames from multiple paths (STRING FORMATTED).
+        
+        Args:
+            paths (list[Path]): The paths list.
+            
+        Returns:
+            str/None: Formatted list of the filenames into a string or None if nothing found.
         '''
         
         driver = len(paths)
@@ -172,13 +201,13 @@ class PathsHandling:
         
         for path in paths:
             # Get the filename & remove the '.png' extension
-            name = os.path.basename(path)[:-4]
+            filename = os.path.basename(path)[:-4]
             
             # Format for only one name
             if driver == 1:
-                filenames = name
+                filenames = filename
             else:
-                filenames += f'{name}, '
+                filenames += f'{filename}, '
         
         # In the case of multiple filenames, removes the last comma
         if filenames[-2:] == ', ':
