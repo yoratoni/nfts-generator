@@ -181,7 +181,7 @@ This function is used for the final collection (more precisely for OpenSea), it 
 
 ## Logger class:
 Pyprint is a simple custom logging system made to get a lot of formatted data about the generation of the NFTs,
-this class also integrated the extime function that prints the formatted execution time. Verbose debugging can be turned off inside the `GlobalSettings` class to reduce the amount of printed data.
+this class also integrates the extime function that prints the formatted execution time. Verbose debugging can be turned off inside the `GlobalSettings` class to reduce the amount of printed data.
 
 Here's an example of a `pyprint()` log:
 
