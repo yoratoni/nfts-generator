@@ -23,7 +23,7 @@ instead of doing that after generating the image (I don't want to destroy my SSD
   - Optional layers & optional layers rarity
   - Image rarifier that virtually duplicates images into the paths list
   - Accessories handling (Allows multiple accessories)
-  - Exceptions handling ('ORDER_CHANGE', 'INCOMPATIBLE' and 'DELETE')
+  - Exceptions handling ('ORDER_CHANGE', 'INCOMPATIBLE', 'DELETE', 'DELETE_ACCESSORY')
   - [settings.py](settings/settings.py) to edit the main settings.
   - A settings file for every character, check [elon_settings.py](settings/elon_settings.py)
   - Type hints, utility classes (Non-OOP) and full docstring for every function
