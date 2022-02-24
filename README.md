@@ -97,6 +97,7 @@ Arguments:
   - [**OPTIONAL**] The last argument (is_saving_system_enabled) is set to True by default, it simply allows you to deactivate the saving system.
 
 This function also integrates an estimated time system, it generates a single NFT and multiply the time that it took by the final number of NFTs, this function is not really accurate because the complexity per NFT fully depends on the incompatibilites and the number of used images, but it gives at least an estimation.
+
 **NEW:** It now generates 5 NFTs for a better estimation.
 
 ![](docs/estimated_time.png "Estimated time log example")
@@ -104,7 +105,7 @@ This function also integrates an estimated time system, it generates a single NF
 
 
 ## Handled exceptions:
-You can check the [settings.py](settings/settings.py) file to have an example of these exceptions and how they works (It is for the AstroDreamerz project so, it's not really pretty lol)
+You can check the [ElonSettings](settings/elon_settings.py) file to have an example of these exceptions and how they works (It is for the AstroDreamerz project so, it's not really pretty lol)
 
   <br />
 
