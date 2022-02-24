@@ -107,8 +107,6 @@ This function also integrates an estimated time system, it generates a single NF
 ## Handled exceptions:
 You can check the [ElonSettings](settings/elon_settings.py) file to have an example of these exceptions and how they works (It is for the AstroDreamerz project so, it's not really pretty lol)
 
-  <br />
-
   - `'ORDER_CHANGE'`: <br />
     Allows you to put an image/layer before another image/layer, the first parameter concerns the name of the layer/image that will go before the layer/image precised by the         second parameter. <br />
       <br />
