@@ -16,7 +16,7 @@ instead of doing that after generating the image (I don't want to destroy my SSD
 
 
 ## Technical summary:
-  - Comparative hashing to find duplicates based on the [xxHash](https://github.com/Cyan4973/xxHash) algorithm.
+  - Comparative hashes system based on the [xxHash](https://github.com/Cyan4973/xxHash) algorithm.
   - Metadata are now generated at the same time as the NFTs.
   - Debug mode that allows to verify an NFT
   - It now takes ~500ms to generate an NFT (1080x1080, 12 layers)
