@@ -98,8 +98,6 @@ Arguments:
 
 This function also integrates an estimated time system, it generates 5 NFTs and calculate the estimated time based on the final number of NFTs, this function is not really accurate because the complexity per NFT fully depends on the incompatibilites and the number of used images, but it gives at least an estimation.
 
-**NEW:** It now generates 5 NFTs for a better estimation.
-
 ![](docs/estimated_time.png "Estimated time log example")
 
 
