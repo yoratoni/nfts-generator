@@ -147,7 +147,7 @@ You can check the [elon_settings.py](settings/elon_settings.py) file to have an 
       
       - In this example, if an image of the layer `05_jackets` or `03_pants` is used,
         the image `space suit.png` is removed from the paths list: <br />
-      `['DELETE', 'space suit.png', '05_jackets', '03_pants']`
+      `['DELETE_ACCESSORY', 'space suit.png', '05_jackets', '03_pants']`
       
 
 ## File Utils:
