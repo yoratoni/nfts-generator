@@ -9,7 +9,7 @@ I decided to separate the program into multiple parts:
 - The second part to merge the images of the list together and saves the final NFT.
 - The third part concerns the preparation for OpenSea, mixing the NFTs/metadata, adding the IPFS, etc.. 
 
-Why ? <br />
+**Why ?** <br />
 Because it is a lot more performant to detect exceptions & potential duplicates by checking the paths list
 instead of doing that after generating the image (I don't want to destroy my SSD by saving/deleting invalid NFTs 10 times in a row..)
 
