@@ -155,10 +155,10 @@ You can check the [settings.py](settings/settings.py) file to have an example of
 ## File Utils:
 Inside the [file_utils.py](libs/utils/file_utils.py) file, there's a function called `mix_nfts()`, this function allows to take all the NFTs inside one directory (by default, the function checks the `dist` directory) and mix them with the `random.shuffle()` function, after that, all the NFTs are renamed with a simple number starting from 1.
 
-**NEW:** This function now supports metadata, as they are necessary (and now generated too) for OpenSea, I decided to not add a parameter to disable metadata, it will now shows an error if the folder structure is incorrect,
+**NEW:** This function now supports metadata, as they are necessary (and now generated too) for OpenSea, I decided to not add a parameter to disable metadata, it will now shows an error if the directory structure is incorrect,
 note that it shuffles the NFTs and the metadata together so they match at the end.
 
-As it supports metadata, two folders are added inside the main `dist` folder, check this structure:
+As it supports metadata, two directories are added inside the main `dist` directory, check this structure:
 ```
 dist/
 |-- NFTs/
