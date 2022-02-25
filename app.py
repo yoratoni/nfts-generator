@@ -3,7 +3,7 @@ from core import Generator, NFTsUtils
 
 # The main generator function:
 #   This one will generate NFTs for one character (Check the function docstring for more info)
-Generator.generate_nfts(2400, 'jeff', 2500)
+Generator.generate_nfts(2400, 'elon', 2000)
 
 
 # The main mixing function

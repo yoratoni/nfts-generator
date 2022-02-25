@@ -2,7 +2,7 @@ from settings import GlobalSettings, CharacterSettings
 from core import PathsHandling, Logger
 from pathlib import Path
 
-import os
+import textwrap
 
 
 class ExceptionsHandling:
@@ -39,14 +39,8 @@ class ExceptionsHandling:
     
     @staticmethod
     def order_change(paths: list[Path], current_exception: list[str]) -> list[Path]:
-        '''Change the order between two images or one image and layers.
+        '''Change the order between images / layers.
         
-        Examples:
-            - ["ORDER_CHANGE", "name", "put_before_this_layer"]
-            - ["ORDER_CHANGE", "name", "put_before_this_image"]
-            - ["ORDER_CHANGE", "layer", "put_before_this_image"]
-            - ["ORDER_CHANGE", "layer", "put_before_this_layer"]
-
         Args:
             paths (list[Path]): List of all the paths used for one NFT.
             current_exception (list[str]): Current exception handled in the loop.
@@ -130,11 +124,6 @@ class ExceptionsHandling:
     def incompatibles(paths: list[Path], current_exception: list[str]):
         '''Check incompatibilities with multiple images/layers,
         This function supports images and layers in any order.
-        
-        Examples:
-            - ["INCOMPATIBLE", "image_1.png", "image_2.png", ...]
-            - ["INCOMPATIBLE", "image.png", "layer", ...]
-            - ["INCOMPATIBLE", "layer_1", "layer_2", ...]
 
         Args:
             paths (list[Path]): List of all the paths used for one NFT.
@@ -179,9 +168,7 @@ class ExceptionsHandling:
     @staticmethod
     def delete(paths: list[Path], current_exception: list[str]) -> list[Path]:
         '''Delete all the layers listed (for a full suit etc..)
-        
-        Example:
-            - ['DELETE', 'space suit.png', '05_jackets', '03_pants']
+        if the image (first argument) is used.
 
         Args:
             paths (list[Path]): List of all the paths used for one NFT.
@@ -208,7 +195,7 @@ class ExceptionsHandling:
     @staticmethod
     def delete_accessory(paths: list[Path], current_exception: list[str]) -> list[Path]:
         '''Works exactly like the 'delete' function, excepts that it destroys
-        the listed image instead of the layer (Specially used for accessories).
+        the image (first argument) instead of the layer(s) (Specially used for accessories).
         
         Args:
             paths (list[Path]): List of all the paths used for one NFT.
@@ -239,9 +226,11 @@ class ExceptionsHandling:
         '''Handle multiple exceptions/incompatibilities between images/layers.
         This main function ensure that the paths list is valid.
         
+        Check the documentation: https://github.com/ostra-project/Advanced-NFTs-Generator
         - 'ORDER_CHANGE' -> Change the order between two layers/images.
         - 'INCOMPATIBLE' -> NFT is regenerated if the test is not passed.
         - 'DELETE' -> Deletes all the images of specific layers if the specified image is used.
+        - 'DELETE_ACCESSORY' -> Deletes the image if all the layers are used.
 
         Args:
             background (Path): The path of the background
@@ -262,28 +251,44 @@ class ExceptionsHandling:
         for i in range(exceptions_driver):
             current_exception = exceptions[i]
             
-            # Order change exception (Returns the default 'paths' var if unavailable)
-            if current_exception[0] == GlobalSettings.exceptions_list[0]:
-                paths = ExceptionsHandling.order_change(paths, current_exception)
+            # Error catching
+            if len(current_exception) < 3:
+                if not GlobalSettings.dist_mode:
+                    print('')
+                    
+                err = textwrap.dedent(f'''\
+                Wrong number of arguments for {current_exception}.
+                Check the documentation: https://github.com/ostra-project/Advanced-NFTs-Generator
                 
-            # Incompatibility exception (Returns None to regenerate the NFT)
-            elif current_exception[0] == GlobalSettings.exceptions_list[1]:
-                paths = ExceptionsHandling.incompatibles(paths, current_exception)
+                NOTE: THIS EXCEPTION WILL BE IGNORED.
+                ''')
                 
-                # If it's incompatible, it's not necessary to continue the exceptions handling
-                if paths is None:
-                    break
-            
-            # Delete exception (Deletes multiple layers)
-            elif current_exception[0] == GlobalSettings.exceptions_list[2]:
-                paths = ExceptionsHandling.delete(paths, current_exception)
-            
-            # Delete accessory exception (Exactly like 'delete' but it removes the image)
-            elif current_exception[0] == GlobalSettings.exceptions_list[3]:
-                paths = ExceptionsHandling.delete_accessory(paths, current_exception)
-            
-            # Error
+                Logger.pyprint('WARN', '"ORDER_CHANGE"', err, True)
+                
             else:
-                Logger.pyprint('ERRO', '', f'Invalid exception name in {current_exception}', True)
+                # Order change exception (Returns the default 'paths' var if unavailable)
+                if current_exception[0] == GlobalSettings.exceptions_list[0]:
+                    # Error catching
+                    paths = ExceptionsHandling.order_change(paths, current_exception)
+                    
+                # Incompatibility exception (Returns None to regenerate the NFT)
+                elif current_exception[0] == GlobalSettings.exceptions_list[1]:
+                    paths = ExceptionsHandling.incompatibles(paths, current_exception)
+                    
+                    # If it's incompatible, it's not necessary to continue the exceptions handling
+                    if paths is None:
+                        break
+                
+                # Delete exception (Deletes multiple layers)
+                elif current_exception[0] == GlobalSettings.exceptions_list[2]:
+                    paths = ExceptionsHandling.delete(paths, current_exception)
+                
+                # Delete accessory exception (Exactly like 'delete' but it removes the image)
+                elif current_exception[0] == GlobalSettings.exceptions_list[3]:
+                    paths = ExceptionsHandling.delete_accessory(paths, current_exception)
+                
+                # Error
+                else:
+                    Logger.pyprint('ERRO', '', f'Invalid exception name in {current_exception}', True)
         
         return paths

@@ -204,19 +204,19 @@ class NFTsUtils:
         # Existing directory checking
         if not os.path.exists(directory_path):
             err = textwrap.dedent('''\
-            mix_nfts(): Wrong directory structure !
+            Wrong directory structure!
             Check the documentation: https://github.com/ostra-project/Advanced-NFTs-Generator
             
             ERROR: "dist" directory missing.
             ''')
-            Logger.pyprint('ERRO', '', err, True)
+            Logger.pyprint('ERRO', 'mix_nfts()', err, True)
             return
         
         # Structure checking
         struct_check = os.listdir(directory_path)
         if 'metadata' not in struct_check or 'NFTs' not in struct_check:
             err = textwrap.dedent('''\
-            mix_nfts(): Wrong directory structure !
+            Wrong directory structure!
             Check the documentation: https://github.com/ostra-project/Advanced-NFTs-Generator
 
             Here's the correct structure:
@@ -232,7 +232,7 @@ class NFTsUtils:
             You can copy them from these directories after generating all the characters NFTs.
             ''')
 
-            Logger.pyprint('ERRO', '', err, True)
+            Logger.pyprint('ERRO', 'mix_nfts()', err, True)
             return
         
         NFTsUtils.__mix_nfts(directory_path, comparison_check)
