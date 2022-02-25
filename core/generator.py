@@ -14,14 +14,12 @@ from core import (
     MetadataHandling
 )
 
-from colorama import Style, Fore
 from typing import Union
 from copy import deepcopy
 from pathlib import Path
 from PIL import Image
 
 import contextlib
-import textwrap
 import xxhash
 import time
 import sys
