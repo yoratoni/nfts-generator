@@ -38,7 +38,7 @@ class CharacterSettings:
     '''
     
     # String name of the character
-    character_name = 'Elon Musk'
+    character_name = ''
     
     # Exceptions Handling
     exceptions = []
@@ -75,6 +75,12 @@ class CharacterSettings:
     #   The key is the direct name of the directory
     #   The value is the name of the attribute
     #   Example: {'00_backgrounds': 'Background'}
+    # Option (Fallback trait value):
+    #   The attribute can be a list with another layer directory as the second argument:
+    #   If te main layer is not used, the other layer value will be added instead
+    #   Example: {'10_hats': ['Head', '01_faces']}
+    #   Which means that if no hat is used, use the mandatory layer instead
+    #   If no hat -> Use 'Short hair' or 'Normal hair' as a value
     metadata_attributes = {
         
     }
