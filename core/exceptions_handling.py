@@ -29,7 +29,8 @@ class ExceptionsHandling:
         # Layer before layer check
         if current_exception[1] in layers_list and order_mode == GlobalSettings.order_change_modes[2]:
             order_mode = GlobalSettings.order_change_modes[3]
-            
+        
+        # Wrong order change arguments
         if order_mode != GlobalSettings.order_change_modes[0] and len(current_exception) > 3:
             err = f'In this mode, "ORDER_CHANGE" only supports two images/layers [{current_exception}]'
             Logger.pyprint('WARN', '', err, True)
@@ -74,6 +75,8 @@ class ExceptionsHandling:
                     try:
                         paths.remove(path)
                         paths.insert(image_path_index, path)
+                        
+                    # Error during the path order modification
                     except ValueError as err:
                         Logger.pyprint('ERRO', '', f'Order change path error [{err}]', True)
                         
@@ -112,6 +115,8 @@ class ExceptionsHandling:
                     try:
                         paths.remove(path)
                         paths.insert(order_change_path_index, path)
+                        
+                    # Error during the path order modification
                     except ValueError as err:
                         Logger.pyprint('ERRO', '', f'Order change path error [{err}]', True)
                         
@@ -137,12 +142,7 @@ class ExceptionsHandling:
         incompatibles = current_exception[1:]
         layers = PathsHandling.get_layer_names_from_paths(paths)
         incomp_driver = len(incompatibles)
-        
-        # Error catching
-        if incomp_driver < 2:
-            Logger.pyprint('ERRO', '', f'Wrong incompatible arguments: {current_exception}', True)
-            return None
-        
+
         for incompatible in incompatibles:
             if incompatible in layers:
                 images = PathsHandling.get_paths_from_layer_name(paths, incompatible)
@@ -186,7 +186,8 @@ class ExceptionsHandling:
             
             for i in range(driver):
                 paths = PathsHandling.delete_paths_from_layer_name(paths, layers_to_delete[i])
-        
+
+            # Info log
             Logger.pyprint('INFO', '', 'Layer(s) successfully deleted')
         
         return paths
@@ -251,13 +252,13 @@ class ExceptionsHandling:
         for i in range(exceptions_driver):
             current_exception = exceptions[i]
             
-            # Error catching
+            # Error, not enough args
             if len(current_exception) < 3:
                 if not GlobalSettings.dist_mode:
                     print('')
                     
                 err = textwrap.dedent(f'''\
-                Wrong number of arguments for {current_exception}.
+                Not enough arguments for {current_exception}.
                 Check the documentation: https://github.com/ostra-project/Advanced-NFTs-Generator
                 
                 NOTE: THIS EXCEPTION WILL BE IGNORED.
@@ -287,7 +288,7 @@ class ExceptionsHandling:
                 elif current_exception[0] == GlobalSettings.exceptions_list[3]:
                     paths = ExceptionsHandling.delete_accessory(paths, current_exception)
                 
-                # Error
+                # Error, invalid exception name
                 else:
                     Logger.pyprint('ERRO', '', f'Invalid exception name in {current_exception}', True)
         

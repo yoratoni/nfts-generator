@@ -32,7 +32,8 @@ class PathsHandling:
                 current_name = data[i]
                 
             scanned_structure.append(current_name)
-            
+        
+        # Data log
         Logger.pyprint('DATA', '', f'Structure scanned [{main_dir_path}]')
         return scanned_structure
         

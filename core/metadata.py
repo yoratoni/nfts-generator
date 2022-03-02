@@ -84,8 +84,9 @@ class MetadataHandling:
         # Saves the metadata into a JSON file
         save_name = nft_name[:-4]
         save_path = os.path.join(metadata_path, f'{save_name}.json')
-        with open(save_path, 'w+') as file:
-            json.dump(metadata, file, indent=4)
+        with open(save_path, 'w+') as metadata_file:
+            json.dump(metadata, metadata_file, indent=4)
 
+        # Success log
         Logger.pyprint('SUCCESS', '', f'Metadata generated for "{nft_name}"', True)
         

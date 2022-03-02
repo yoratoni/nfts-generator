@@ -62,7 +62,8 @@ class Randomization:
             # Add accessories path to the final list
             for i in range(rarity_driver):
                 random_accessories.append(accessories[indexes[i]])
-                
+            
+            # Info log
             Logger.pyprint('INFO', '', 'Random accessories generated')
             
         return random_accessories
@@ -151,7 +152,8 @@ class Randomization:
                     # Handles accessories separately inside the accessories() function
                     if settings.max_accessories_amount > 0:
                         character_paths += Randomization.accessories(deep_character_layers[keys[i]], settings)
-                    
+        
+        # Info Log
         Logger.pyprint('INFO', '', 'Random character generated')
         
         return character_paths

@@ -58,9 +58,11 @@ class Generator:
             try:
                 img = Image.alpha_composite(img, layer)
             except ValueError as err:
+                # Error during the superposition of the images
                 Logger.pyprint('ERRO', '', f'Alpha Composite error: {err}', True)
                 Logger.pyprint('ERRO', '', f'Between [{paths[0]}] and [{paths[i]}]', True)
-                
+        
+        # Info log
         Logger.pyprint('INFO', '', 'Merged background and character images')
         return img
 
@@ -86,7 +88,6 @@ class Generator:
         '''
         
         # Measure some stats about the generation
-        timer_start = time.perf_counter_ns()
         statistics = []
         iterations = 1
         
@@ -115,14 +116,20 @@ class Generator:
             
             # If the character exception handling is valid, break the while loop
             if final_paths is not None:
+                # Info log
                 Logger.pyprint('INFO', '', 'Exceptions handled successfully')
+                
                 if final_hash not in Generator.nft_comparator_hashlib:
                     Generator.nft_comparator_hashlib.append(final_hash)
+                    
+                    # Info log
                     Logger.pyprint('INFO', '', f'Hashlib comparison address generated')
                     break
                 
+                # Warning, duplicates found
                 Logger.pyprint('WARN', '', f'Duplicate of an NFT found [0x{final_hash}]', True)
             else:
+                # The character paths will now be regenerated
                 Logger.pyprint('ERRO', '', f'Invalid character, the NFT will be regenerated..', True)
             
             # Measure the number of iterations per NFT
@@ -197,6 +204,7 @@ class Generator:
         elif character_name == GlobalSettings.character_dirs[2]:
             settings = RichardSettings
         else:
+            # The name of the character is not included in the settings
             Logger.pyprint('ERRO', '', 'Invalid character name', True)
             sys.exit()
         
@@ -291,6 +299,7 @@ class Generator:
 
             return [final_iterations, timer_start]
         else:
+            # One of the path does not exists
             Logger.pyprint('ERRO', '', 'Invalid character path/output path', True)
 
     
@@ -340,6 +349,8 @@ class Generator:
                 debug_mode_latency,
                 is_saving_system_enabled
             )
+            
+        # Multiple NFTs generation failed
         except Exception as err:
             err_format = f'Invalid nft generation: {err}'
             Logger.pyprint('ERRO', '', err_format, True)
@@ -349,7 +360,7 @@ class Generator:
             # Print the total time that it took
             Logger.extime('NFTs generation time', generation_res[1])
 
-            # Statistics
+            # Statistic logs
             generation_complexity = round(((generation_res[0] / iterations) - 1) * 100, 1)
             comparison_haslib_size = sys.getsizeof(Generator.nft_comparator_hashlib)
             Logger.pyprint('DATA', '', f'Comparison hashlib: {comparison_haslib_size} bytes')

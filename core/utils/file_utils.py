@@ -41,11 +41,14 @@ class NFTsUtils:
                     
                     if final_hash not in comparison_hashlib:
                         comparison_hashlib.append(final_hash)
+                        
+                    # Two metadata files have the same attributes
                     else:
                         verified = False
                         err = f'Duplicate of an "attributes" dict found [{filename}]'
                         Logger.pyprint('ERRO', '', err, True)
-                        
+                      
+                # Error during the decoding of the file  
                 except json.decoder.JSONDecodeError as err:
                     Logger.pyprint('ERRO', '', f'JSON decoding error [{err} - {file.name}]')
                                 
@@ -74,6 +77,7 @@ class NFTsUtils:
                 filename_1 = os.path.splitext(listdir_1[i])[0]
                 filename_2 = os.path.splitext(listdir_2[i])[0]
                 
+                # Error during the filenames comparison
                 if filename_1 != filename_2:
                     err = f'Not corresponding files found [{listdir_1[i]} / {listdir_2[i]}]'
                     Logger.pyprint('ERRO', '', err, True)
@@ -81,6 +85,8 @@ class NFTsUtils:
                     return False
                 
             return True
+        
+        # The number of files between NFTs and metadata does not corresponds
         else:
             err = 'Quantity of metadata files does not corresponds with the quantity of NFTs'
             Logger.pyprint('ERRO', '', err, True)
@@ -109,12 +115,14 @@ class NFTsUtils:
                     data = json.load(file)
                     
                     # Modify the 'data' dict here
-                    
-                    
+                    # ---------------------------
+            
+            # Error during the decoding of the file 
             except json.decoder.JSONDecodeError as err:
                 Logger.pyprint('ERRO', '', f'JSON decoding error [{err} - {file.name}]')
             
-            if len(data) != 0: 
+            # If the data are not empty/invalid, save the data
+            if len(data) != 0  and data is not None: 
                 with open(curr_path, 'w') as file:
                     json.dump(data, file, indent=4)
 
@@ -136,6 +144,7 @@ class NFTsUtils:
         nfts_names = os.listdir(nfts_path)
         metadata_names = os.listdir(metadata_path)
         
+        # Verify that the directories are not empty
         if len(nfts_names) == 0:
             Logger.pyprint('ERRO', '', 'The "dist" directory is empty')
             return
@@ -166,19 +175,25 @@ class NFTsUtils:
                 nft_orig_path = os.path.join(nfts_path, nft_name)
                 metadata_orig_path = os.path.join(metadata_path, metadata_name)
                 
-                nft_new_path = os.path.join(nfts_path, f'{i+1}.png')
-                metadata_new_path = os.path.join(metadata_path, f'{i+1}.json')
+                nft_new_path = os.path.join(nfts_path, f'{i}.png')
+                metadata_new_path = os.path.join(metadata_path, f'{i}.json')
                 
                 os.rename(nft_orig_path, nft_new_path)
                 os.rename(metadata_orig_path, metadata_new_path)
-
+                
+                # Success log
                 Logger.pyprint('SUCCESS', '', f'{i+1}/{driver} NFTs renamed', same_line=True)
+        
+        # Wrong comparison between NFts and metadata
         else:
             Logger.pyprint('ERRO', '', 'NFTs could not be mixed, verify your metadata files', True)
 
 
     @staticmethod
-    def mix_nfts(directory_name: str = 'dist', comparison_check: bool = True):
+    def mix_nfts(
+        directory_name: str = 'dist',
+        comparison_check: bool = True
+    ):
         '''This is the main wrapper for the NFT mixing function,
         check the "__mix_nfts()" private function for more info.
 
@@ -198,6 +213,7 @@ class NFTsUtils:
             comparison_check (bool, optional): Verifies the uniqueness of the metadata "attributes".
         '''
         
+        # Main path
         cwd = os.getcwd()
         directory_path = os.path.join(cwd, directory_name)
         
@@ -236,4 +252,66 @@ class NFTsUtils:
             return
         
         NFTsUtils.__mix_nfts(directory_path, comparison_check)
+
+
+    @staticmethod
+    def prepare_nfts_for_opensea(
+        ipfs: str,
+        name: str,
+        include_number_sign_in_number: bool,
+        directory_path: os.path
         
+    ):
+        '''Prepare the NFTs for OpenSea by adding the name/ipfs inside the metadata.
+        
+        Note:
+            If 'name' is an empty string or == None, the NFTs will be named '#01' or '01',
+            if include_number_sign_in_number is set to False.
+            
+        Args:
+            ipfs (str): The IPFS URI of the images.
+            name (str): The name before the number of the NFT (Can be set to '' or None).
+            include_number_sign_in_number (bool): Includes the '#' character before the number.
+            directory_path (os.path): The path to the distribution directory.
+        '''
+        
+        # Main paths
+        nfts_path = os.path.join(directory_path, 'NFTs')
+        metadata_path = os.path.join(directory_path, 'metadata')
+        
+        # Get a list of all the metadata files
+        metadata_names = os.listdir(metadata_path)
+    
+        # Verify that the metadata directory is not empty     
+        if len(metadata_names) == 0:
+            Logger.pyprint('ERRO', '', 'The "dist" directory is empty')
+            return
+
+        # Opening every file and modify them
+        # for i, metadata_name in enumerate(metadata_names):
+        
+        i = 0   
+        metadata_name = metadata_names[i]
+        
+        # Get the whole path to the metadata file
+        metadata_path = os.path.join(metadata_path, metadata_name)
+        
+        if os.path.exists(metadata_path):
+            data = None
+            
+            with open(metadata_path, 'r') as metadata_file:
+                metadata = json.load(metadata_file)
+                
+            if metadata is not None:
+                with open(metadata_path, 'w') as metadata_file:
+                    json.dump(metadata, metadata_file, indent=4)
+                    
+            # Error, empty metadata
+            else:
+                Logger.pyprint('ERRO', '', f'This metadata file cannot be loaded [{metadata_path}]')
+            
+        # Error, file not found
+        else:
+            Logger.pyprint('ERRO', '', f'This metadata file does not exists [{metadata_path}]')
+        
+            

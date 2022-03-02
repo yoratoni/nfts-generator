@@ -105,6 +105,7 @@ class Logger:
             output = f'{name}: {res}{units[i]}'
         
         if print_msg:
+            # Print the time that it took too
             Logger.pyprint('SUCCESS', '', output, True)
         
         return output
