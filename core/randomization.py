@@ -64,7 +64,7 @@ class Randomization:
                 random_accessories.append(accessories[indexes[i]])
             
             # Info log
-            Logger.pyprint('INFO', '', 'Random accessories generated')
+            Logger.pyprint('INFO', 'Random accessories generated')
             
         return random_accessories
 
@@ -154,7 +154,7 @@ class Randomization:
                         character_paths += Randomization.accessories(deep_character_layers[keys[i]], settings)
         
         # Info Log
-        Logger.pyprint('INFO', '', 'Random character generated')
+        Logger.pyprint('INFO', 'Random character generated')
         
         return character_paths
     

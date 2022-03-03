@@ -3,7 +3,7 @@ from core import Generator, NFTsUtils
 
 # The main generator function:
 #   This one will generate NFTs for one character (Check the function docstring for more info)
-# Generator.generate_nfts(5, 'elon')
+Generator.generate_nfts(5, 'elon', 1000)
 
 
 # The main mixing function
@@ -20,4 +20,4 @@ from core import Generator, NFTsUtils
 
 # Finally, this function adds the IPFS URI into the metadata files
 # It also adds the name which is 'NAME #XXXX' (Check the var 'collection_name' inside the main settings)
-NFTsUtils.prepare_nfts_for_opensea()
+# NFTsUtils.prepare_nfts_for_opensea()

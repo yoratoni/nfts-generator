@@ -46,11 +46,11 @@ class NFTsUtils:
                     else:
                         verified = False
                         err = f'Duplicate of an "attributes" dict found [{filename}]'
-                        Logger.pyprint('ERRO', '', err, True)
+                        Logger.pyprint('ERRO', err)
                       
                 # Error during the decoding of the file  
                 except json.decoder.JSONDecodeError as err:
-                    Logger.pyprint('ERRO', '', f'JSON decoding error [{err} - {file.name}]')
+                    Logger.pyprint('ERRO', f'JSON decoding error [{err} - {file.name}]')
                                 
         return verified
 
@@ -80,7 +80,7 @@ class NFTsUtils:
                 # Error during the filenames comparison
                 if filename_1 != filename_2:
                     err = f'Not corresponding files found [{listdir_1[i]} / {listdir_2[i]}]'
-                    Logger.pyprint('ERRO', '', err, True)
+                    Logger.pyprint('ERRO', err)
                     
                     return False
                 
@@ -89,7 +89,7 @@ class NFTsUtils:
         # The number of files between NFTs and metadata does not corresponds
         else:
             err = 'Quantity of metadata files does not corresponds with the quantity of NFTs'
-            Logger.pyprint('ERRO', '', err, True)
+            Logger.pyprint('ERRO', err)
             
         return False
     
@@ -119,7 +119,7 @@ class NFTsUtils:
             
             # Error during the decoding of the file 
             except json.decoder.JSONDecodeError as err:
-                Logger.pyprint('ERRO', '', f'JSON decoding error [{err} - {file.name}]')
+                Logger.pyprint('ERRO', f'JSON decoding error [{err} - {file.name}]')
             
             # If the data are not empty/invalid, save the data
             if len(data) != 0  and data is not None: 
@@ -146,7 +146,7 @@ class NFTsUtils:
         
         # Verify that the directories are not empty
         if len(nfts_names) == 0:
-            Logger.pyprint('ERRO', '', 'The "dist" directory is empty')
+            Logger.pyprint('ERRO', 'The "dist" directory is empty')
             return
         
         # If the arg is set to True,
@@ -182,11 +182,11 @@ class NFTsUtils:
                 os.rename(metadata_orig_path, metadata_new_path)
                 
                 # Success log
-                Logger.pyprint('SUCCESS', '', f'{i+1}/{driver} NFTs renamed', same_line=True)
+                Logger.pyprint('SUCCESS', f'{i+1}/{driver} NFTs renamed', True)
         
         # Wrong comparison between NFts and metadata
         else:
-            Logger.pyprint('ERRO', '', 'NFTs could not be mixed, verify your metadata files', True)
+            Logger.pyprint('ERRO', 'NFTs could not be mixed, verify your metadata files')
 
 
     @staticmethod
@@ -225,7 +225,7 @@ class NFTsUtils:
             
             ERROR: "dist" directory missing.
             ''')
-            Logger.pyprint('ERRO', 'mix_nfts()', err, True)
+            Logger.pyprint('ERRO', err)
             return
         
         # Structure checking
@@ -248,7 +248,7 @@ class NFTsUtils:
             You can copy them from these directories after generating all the characters NFTs.
             ''')
 
-            Logger.pyprint('ERRO', 'mix_nfts()', err, True)
+            Logger.pyprint('ERRO', err)
             return
         
         NFTsUtils.__mix_nfts(directory_path, comparison_check)
@@ -284,7 +284,7 @@ class NFTsUtils:
     
         # Verify that the metadata directory is not empty     
         if len(metadata_names) == 0:
-            Logger.pyprint('ERRO', '', 'The "dist" directory is empty')
+            Logger.pyprint('ERRO', 'The "dist" directory is empty')
             return
 
         # Opening every file and modify them
@@ -308,10 +308,8 @@ class NFTsUtils:
                     
             # Error, empty metadata
             else:
-                Logger.pyprint('ERRO', '', f'This metadata file cannot be loaded [{metadata_path}]')
+                Logger.pyprint('ERRO', f'This metadata file cannot be loaded [{metadata_path}]')
             
         # Error, file not found
         else:
-            Logger.pyprint('ERRO', '', f'This metadata file does not exists [{metadata_path}]')
-        
-            
+            Logger.pyprint('ERRO', f'This metadata file does not exists [{metadata_path}]')

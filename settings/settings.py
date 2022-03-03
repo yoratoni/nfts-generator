@@ -1,3 +1,37 @@
+from colorama import Fore
+
+
+class DebugSettings:
+    # If true, print all the available logs,
+    # Else, just the types defined in 'forced_types'
+    verbose_debugging = True
+    
+    # The section title, to separate the logs
+    section_separators = '-' * 35
+    section_color = Fore.LIGHTBLUE_EX
+    section_title = 'PYPRINT SECTION'
+    
+    # List of debug log types and their colors in a dict
+    all_types = {
+        'INFO': Fore.LIGHTBLUE_EX,
+        'DATA': Fore.CYAN,
+        'WARN': Fore.YELLOW,
+        'ERRO': Fore.LIGHTRED_EX,
+        'SUCCESS': Fore.LIGHTGREEN_EX
+    }
+    
+    # Debug log types that are always printed (even when verbose debugging is turned off)
+    forced_types = ['WARN', 'ERRO', 'SUCCESS']
+    
+    # Debug log types that shows the name of the function that calls pyprint()
+    function_name_types = ['WARN', 'ERRO']
+    
+    # Status codes used for general errors
+    # I usually use modified HTTP Status Codes
+    # Simply use 'log_or_status' with 'ST_' and the code after it (log_or_status = 'ST_42')
+    status_codes = {}
+
+
 class GlobalSettings:
     # Name of the collection (used for the NFTs name -> 'NAME' + ' #0123')
     collection_name = 'ASTRO'
@@ -14,11 +48,6 @@ class GlobalSettings:
     # List of all the available exceptions
     exceptions_list = ['ORDER_CHANGE', 'INCOMPATIBLE', 'DELETE', 'DELETE_ACCESSORY']
     
-    # Debugging
-    dist_mode = False  # If True, remove all the console messages, even forced ones
-    verbose_debugging = True  # Print a lot more data about the NFTs
-    debug_types = ['INFO', 'DATA', 'WARN', 'ERRO', 'SUCCESS']  # List of debug message types
-
     # Exception handling
     order_change_modes = [
         'IMAGE BEFORE IMAGE',

@@ -88,5 +88,5 @@ class MetadataHandling:
             json.dump(metadata, metadata_file, indent=4)
 
         # Success log
-        Logger.pyprint('SUCCESS', '', f'Metadata generated for "{nft_name}"', True)
+        Logger.pyprint('SUCCESS', f'Metadata generated for "{nft_name}"')
         

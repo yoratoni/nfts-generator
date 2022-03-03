@@ -33,7 +33,7 @@ class ExceptionsHandling:
         # Wrong order change arguments
         if order_mode != GlobalSettings.order_change_modes[0] and len(current_exception) > 3:
             err = f'In this mode, "ORDER_CHANGE" only supports two images/layers [{current_exception}]'
-            Logger.pyprint('WARN', '', err, True)
+            Logger.pyprint('WARN', err)
             
         return order_mode
     
@@ -78,7 +78,7 @@ class ExceptionsHandling:
                         
                     # Error during the path order modification
                     except ValueError as err:
-                        Logger.pyprint('ERRO', '', f'Order change path error [{err}]', True)
+                        Logger.pyprint('ERRO', f'Order change path error [{err}]')
                         
         # IMAGE BEFORE LAYER
         elif order_change_mode == GlobalSettings.order_change_modes[2]:
@@ -118,7 +118,7 @@ class ExceptionsHandling:
                         
                     # Error during the path order modification
                     except ValueError as err:
-                        Logger.pyprint('ERRO', '', f'Order change path error [{err}]', True)
+                        Logger.pyprint('ERRO', f'Order change path error [{err}]')
                         
             print(current_exception)
 
@@ -188,7 +188,7 @@ class ExceptionsHandling:
                 paths = PathsHandling.delete_paths_from_layer_name(paths, layers_to_delete[i])
 
             # Info log
-            Logger.pyprint('INFO', '', 'Layer(s) successfully deleted')
+            Logger.pyprint('INFO', 'Layer(s) successfully deleted')
         
         return paths
             
@@ -264,7 +264,7 @@ class ExceptionsHandling:
                 NOTE: THIS EXCEPTION WILL BE IGNORED.
                 ''')
                 
-                Logger.pyprint('WARN', '"ORDER_CHANGE"', err, True)
+                Logger.pyprint('WARN', err)
                 
             else:
                 # Order change exception (Returns the default 'paths' var if unavailable)
@@ -290,6 +290,6 @@ class ExceptionsHandling:
                 
                 # Error, invalid exception name
                 else:
-                    Logger.pyprint('ERRO', '', f'Invalid exception name in {current_exception}', True)
+                    Logger.pyprint('ERRO', f'Invalid exception name in {current_exception}')
         
         return paths
