@@ -9,7 +9,7 @@ class DebugSettings:
     # The section title, to separate the logs
     section_separators = '-' * 35
     section_color = Fore.LIGHTBLUE_EX
-    section_title = 'PYPRINT SECTION'
+    section_title = 'NFTs GENERATOR'
     
     # List of debug log types and their colors in a dict
     all_types = {
