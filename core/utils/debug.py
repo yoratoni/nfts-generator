@@ -141,6 +141,6 @@ class Logger:
             output = f'{name}: {res}{units[i]}'
         
         if print_msg:
-            Logger.pyprint('SUCCESS', output)
+            Logger.pyprint('DATA', output)
         
         return output

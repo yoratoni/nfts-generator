@@ -24,7 +24,7 @@ class DebugSettings:
     forced_types = ['WARN', 'ERRO', 'SUCCESS']
     
     # Debug log types that shows the name of the function that calls pyprint()
-    function_name_types = ['WARN', 'ERRO']
+    show_function_name_types = ['WARN', 'ERRO']
     
     # Status codes used for general errors
     # I usually use modified HTTP Status Codes

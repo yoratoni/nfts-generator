@@ -364,13 +364,14 @@ class Generator:
             return False
         
         if generation_res is not None:
+            print('')
+            
             # Print the total time that it took
             Logger.extime('NFTs generation time', generation_res[1])
 
             # Statistic logs
             generation_complexity = round(((generation_res[0] / iterations) - 1) * 100, 1)
             comparison_haslib_size = sys.getsizeof(Generator.nft_comparator_hashlib)
-            print('')
             Logger.pyprint('DATA', f'Comparison hashlib: {comparison_haslib_size} bytes')
             Logger.pyprint('DATA', f'Total iterations: {generation_res[0]}')
             Logger.pyprint('DATA', f'Additional complexity: {generation_complexity}%')
