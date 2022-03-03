@@ -23,7 +23,8 @@ class Logger:
     def pyprint(
         log_type: str,
         log_or_status: str,
-        same_line: bool = False
+        same_line: bool = False,
+        disable_function_name: bool = False
     ):
         '''Debug Mode formatted print statements.
         
@@ -39,6 +40,8 @@ class Logger:
             log_or_status_code (str): Printed log message or a status code if 'ST_000'
                 where '000' is the status code integer corresponding to the one in the settings.
             same_line (bool, optional): Print on the same line as before.
+            disable_function_name (bool, optional): Allows to specifically disable the printing
+                of the calling function (Cancels the 'show_function_name_types' specifically for a print).
         '''
 
         if (not DebugSettings.verbose_debugging and log_type in DebugSettings.forced_types) or DebugSettings.verbose_debugging:
@@ -57,7 +60,7 @@ class Logger:
             if not log_or_status.startswith('ST_'):
                 
                 # Basic normal output
-                if log_type not in DebugSettings.function_name_types:
+                if (log_type not in DebugSettings.show_function_name_types) or disable_function_name:
                     output = f'[{log_type}] {log_or_status}'
                 else:
                     # Get the function that calls pyprint

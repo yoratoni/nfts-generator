@@ -20,6 +20,7 @@ from pathlib import Path
 from PIL import Image
 
 import contextlib
+import textwrap
 import xxhash
 import time
 import sys
@@ -59,9 +60,16 @@ class Generator:
                 img = Image.alpha_composite(img, layer)
             except ValueError as err:
                 # Error during the superposition of the images
-                Logger.pyprint('ERRO', f'Alpha Composite error: {err}')
-                Logger.pyprint('ERRO', f'Between [{paths[0]}] and [{paths[i]}]')
-        
+                err_format = textwrap.dedent(f'''\
+                Alpha Composite error: {err},
+                Between [{paths[0]}] and [{paths[i]}].
+                Check the documentation: https://github.com/ostra-project/Advanced-NFTs-Generator
+                
+                NOTE: THIS EXCEPTION WILL BE IGNORED.
+                ''')
+
+                Logger.pyprint('ERRO', err_format, disable_function_name=True)
+
         # Info log
         Logger.pyprint('INFO', 'Merged background and character images')
         return img
@@ -127,10 +135,10 @@ class Generator:
                     break
                 
                 # Warning, duplicates found
-                Logger.pyprint('WARN', f'Duplicate of an NFT found [0x{final_hash}]')
+                Logger.pyprint('WARN', f'Duplicate of an NFT found [0x{final_hash}]', disable_function_name=True)
             else:
                 # The character paths will now be regenerated
-                Logger.pyprint('ERRO', f'Invalid character, the NFT will be regenerated..')
+                Logger.pyprint('ERRO', f'Invalid character, the NFT will be regenerated..', disable_function_name=True)
             
             # Measure the number of iterations per NFT
             iterations += 1
@@ -205,7 +213,7 @@ class Generator:
             settings = RichardSettings
         else:
             # The name of the character is not included in the settings
-            Logger.pyprint('ERRO', 'Invalid character name')
+            Logger.pyprint('ERRO', 'Invalid character name', disable_function_name=True)
             sys.exit()
         
         return settings
@@ -299,7 +307,7 @@ class Generator:
             return [final_iterations, timer_start]
         else:
             # One of the path does not exists
-            Logger.pyprint('ERRO', 'Invalid character path/output path')
+            Logger.pyprint('ERRO', 'Invalid character path/output path', disable_function_name=True)
 
     
     @staticmethod
@@ -352,7 +360,7 @@ class Generator:
         # Multiple NFTs generation failed
         except Exception as err:
             err_format = f'Invalid nft generation: {err}'
-            Logger.pyprint('ERRO', err_format)
+            Logger.pyprint('ERRO', err_format, disable_function_name=True)
             return False
         
         if generation_res is not None:

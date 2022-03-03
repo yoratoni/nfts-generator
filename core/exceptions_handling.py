@@ -33,7 +33,7 @@ class ExceptionsHandling:
         # Wrong order change arguments
         if order_mode != GlobalSettings.order_change_modes[0] and len(current_exception) > 3:
             err = f'In this mode, "ORDER_CHANGE" only supports two images/layers [{current_exception}]'
-            Logger.pyprint('WARN', err)
+            Logger.pyprint('WARN', err, disable_function_name=True)
             
         return order_mode
     
@@ -78,7 +78,7 @@ class ExceptionsHandling:
                         
                     # Error during the path order modification
                     except ValueError as err:
-                        Logger.pyprint('ERRO', f'Order change path error [{err}]')
+                        Logger.pyprint('ERRO', f'Order change path error [{err}]', disable_function_name=True)
                         
         # IMAGE BEFORE LAYER
         elif order_change_mode == GlobalSettings.order_change_modes[2]:
@@ -118,7 +118,7 @@ class ExceptionsHandling:
                         
                     # Error during the path order modification
                     except ValueError as err:
-                        Logger.pyprint('ERRO', f'Order change path error [{err}]')
+                        Logger.pyprint('ERRO', f'Order change path error [{err}]', disable_function_name=True)
                         
             print(current_exception)
 
@@ -264,7 +264,7 @@ class ExceptionsHandling:
                 NOTE: THIS EXCEPTION WILL BE IGNORED.
                 ''')
                 
-                Logger.pyprint('WARN', err)
+                Logger.pyprint('WARN', err, disable_function_name=True)
                 
             else:
                 # Order change exception (Returns the default 'paths' var if unavailable)
@@ -290,6 +290,6 @@ class ExceptionsHandling:
                 
                 # Error, invalid exception name
                 else:
-                    Logger.pyprint('ERRO', f'Invalid exception name in {current_exception}')
+                    Logger.pyprint('ERRO', f'Invalid exception name in {current_exception}', disable_function_name=True)
         
         return paths
