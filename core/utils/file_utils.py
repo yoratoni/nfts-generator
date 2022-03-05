@@ -140,7 +140,7 @@ class NFTsUtils:
         nfts_path = os.path.join(directory_path, 'NFTs')
         metadata_path = os.path.join(directory_path, 'metadata')
         
-        # Verify that the metadata corresponds to the NFTs (Names and number)
+        # Get a list of all the NFTs/metadata files
         nfts_names = os.listdir(nfts_path)
         metadata_names = os.listdir(metadata_path)
         
@@ -157,6 +157,7 @@ class NFTsUtils:
             comparison_verified = True
         
         if comparison_verified:
+            # Verify that the metadata corresponds with the NFTs
             listdir_comparison = NFTsUtils.__compare_listdir(nfts_names, metadata_names)
             
             if listdir_comparison:
@@ -166,27 +167,31 @@ class NFTsUtils:
                 nfts_names, metadata_names = zip(*lists_zip)
                 nfts_names, metadata_names = list(nfts_names), list(metadata_names)
 
-            driver = len(nfts_names)
+                driver = len(nfts_names)
 
-            # Renaming (path modification) loop
-            for i, nft_name in enumerate(nfts_names):
-                metadata_name = metadata_names[i]
+                # Renaming (path modification) loop
+                for i, nft_name in enumerate(nfts_names):
+                    metadata_name = metadata_names[i]
 
-                nft_orig_path = os.path.join(nfts_path, nft_name)
-                metadata_orig_path = os.path.join(metadata_path, metadata_name)
-                
-                nft_new_path = os.path.join(nfts_path, f'{i}.png')
-                metadata_new_path = os.path.join(metadata_path, f'{i}.json')
-                
-                os.rename(nft_orig_path, nft_new_path)
-                os.rename(metadata_orig_path, metadata_new_path)
-                
-                # Success log
-                Logger.pyprint('SUCCESS', f'{i+1}/{driver} NFTs renamed', True)
+                    nft_orig_path = os.path.join(nfts_path, nft_name)
+                    metadata_orig_path = os.path.join(metadata_path, metadata_name)
+                    
+                    nft_new_path = os.path.join(nfts_path, f'{i}.png')
+                    metadata_new_path = os.path.join(metadata_path, f'{i}.json')
+                    
+                    os.rename(nft_orig_path, nft_new_path)
+                    os.rename(metadata_orig_path, metadata_new_path)
+                    
+                    # Success log
+                    Logger.pyprint('SUCCESS', f'{i+1}/{driver} NFTs renamed', True)
+            
+            # Invalid comparison between NFTs & metadata
+            else:
+                Logger.pyprint('ERRO', 'NFTs does not corresponds with the metadata')
         
-        # Wrong comparison between NFts and metadata
+        # Wrong comparison between NFTs and metadata
         else:
-            Logger.pyprint('ERRO', 'NFTs could not be mixed, verify your metadata files')
+            Logger.pyprint('ERRO', 'NFTs could not be mixed')
 
 
     @staticmethod
@@ -259,57 +264,89 @@ class NFTsUtils:
         ipfs: str,
         name: str,
         include_number_sign_in_number: bool,
-        directory_path: os.path
-        
+        directory_name: str = 'dist'
     ):
         '''Prepare the NFTs for OpenSea by adding the name/ipfs inside the metadata.
         
         Note:
-            If 'name' is an empty string or == None, the NFTs will be named '#01' or '01',
+            If 'name' is an empty string or == None, the NFTs will be named '#01' or '01'
             if include_number_sign_in_number is set to False.
             
         Args:
-            ipfs (str): The IPFS URI of the images.
+            ipfs (str): IPFS URI of the images (Automatically add the last slash if not already added).
             name (str): The name before the number of the NFT (Can be set to '' or None).
             include_number_sign_in_number (bool): Includes the '#' character before the number.
-            directory_path (os.path): The path to the distribution directory.
+            directory_name (str, optional): The name of the directory where all the final NFTs are.
         '''
         
         # Main paths
+        directory_path = os.path.join(os.getcwd(), directory_name)
         nfts_path = os.path.join(directory_path, 'NFTs')
         metadata_path = os.path.join(directory_path, 'metadata')
         
-        # Get a list of all the metadata files
+        # Get a list of all the NFTs/metadata files
+        nfts_names = os.listdir(nfts_path)
         metadata_names = os.listdir(metadata_path)
     
         # Verify that the metadata directory is not empty     
         if len(metadata_names) == 0:
-            Logger.pyprint('ERRO', 'The "dist" directory is empty')
+            Logger.pyprint('ERRO', 'The "metadata" directory is empty')
             return
 
-        # Opening every file and modify them
-        # for i, metadata_name in enumerate(metadata_names):
-        
-        i = 0   
-        metadata_name = metadata_names[i]
-        
-        # Get the whole path to the metadata file
-        metadata_path = os.path.join(metadata_path, metadata_name)
-        
-        if os.path.exists(metadata_path):
-            data = None
+        # Verify that the metadata corresponds with the NFTs
+        listdir_comparison = NFTsUtils.__compare_listdir(nfts_names, metadata_names)
+
+        if listdir_comparison:
+            # Opening every file and modify them
+            # for i, metadata_name in enumerate(metadata_names):
             
-            with open(metadata_path, 'r') as metadata_file:
-                metadata = json.load(metadata_file)
+            i = 0   
+            metadata_name = metadata_names[i]
+            
+            # Get the whole path to the metadata file
+            metadata_path = os.path.join(metadata_path, metadata_name)
+            
+            if os.path.exists(metadata_path):
+                metadata = None
                 
-            if metadata is not None:
-                with open(metadata_path, 'w') as metadata_file:
-                    json.dump(metadata, metadata_file, indent=4)
+                with open(metadata_path, 'r') as metadata_file:
+                    metadata = json.load(metadata_file)
+                
+                # Removes the extension of the original filename
+                filename = os.path.splitext(metadata_name)[0]
                     
-            # Error, empty metadata
+                # Include the '#' char inside the name key
+                if include_number_sign_in_number:
+                    name_value = f'#{filename}'
+                else:
+                    name_value = filename
+                    
+                # Include the name inside the name key if used
+                if name is not None or name != '':
+                    name_value = f'{name} {name_value}'
+                    
+                # Include the IPFS link to the image key
+                if ipfs.endswith('/'):
+                    ipfs = f'{ipfs}{filename}.png'
+                else:
+                    ipfs = f'{ipfs}/{filename}.png'
+
+                # Apply the modifications to the dict
+                metadata['name'] = name_value
+                metadata['image'] = ipfs
+                
+                # Saves the metadata
+                if metadata is not None:
+                    with open(metadata_path, 'w') as metadata_file:
+                        json.dump(metadata, metadata_file, indent=4)
+                else:
+                    # Error, empty metadata
+                    Logger.pyprint('ERRO', f'This metadata file cannot be loaded [{metadata_path}]')
+                
+            # Error, file not found
             else:
-                Logger.pyprint('ERRO', f'This metadata file cannot be loaded [{metadata_path}]')
-            
-        # Error, file not found
+                Logger.pyprint('ERRO', f'This metadata file does not exists [{metadata_path}]')
+        
+        # Invalid comparison between NFTs & metadata
         else:
-            Logger.pyprint('ERRO', f'This metadata file does not exists [{metadata_path}]')
+            Logger.pyprint('ERRO', 'NFTs does not corresponds with the metadata')

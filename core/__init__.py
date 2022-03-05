@@ -1,5 +1,4 @@
-from core.utils.debug import Logger
-
+from core.utils.lib_logger import Logger
 from core.utils.file_utils import NFTsUtils
 from core.paths_handling import PathsHandling
 from core.randomization import Randomization
