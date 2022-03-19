@@ -1,5 +1,7 @@
 # Advanced NFTs Generator
 
+**NOTE: THE GENERATOR AND THE DOC WILL BE ENTIRELY REWRITTEN AFTER OUR FIRST COLLECTION**
+
 This tool is made by [Yoratoni](https://github.com/yoratoni) for the [AstroDreamerz](https://astrodreamerz.io/) project.
 
 As we wanted our NFTs to show the whole body of every character, some of our NFTs had more than 11 layers so we definitely needed to create our own generator.
