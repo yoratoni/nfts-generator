@@ -4,5 +4,7 @@ archives/
 .env
 libs/demo/
 dist/
+dist_save/
 NFTs/
 brownie/
+archive/
