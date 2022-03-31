@@ -6,7 +6,7 @@ import os
 
 
 class PathsHandling:
-    '''Handles all the path operations for the NFTs.
+    '''Handles all the general path operations.
     '''
     
     @staticmethod
@@ -41,7 +41,7 @@ class PathsHandling:
         '''Converts a list of paths to a list of filenames.
 
         Args:
-            paths (list[Path]): The original list of paths.
+            paths (list[Path]): The main list of paths.
 
         Returns:
             list[str]: The converted list of filenames.
@@ -64,7 +64,7 @@ class PathsHandling:
             [E:\ARCHIVES\FOO.py, E:\ARCHIVES\BAR.txt] -> "FOO, BAR"
 
         Args:
-            paths (list[Path]): The original list of paths.
+            paths (list[Path]): The main list of paths.
 
         Returns:
             Union[str, None]: The formatted string of filenames.
@@ -73,10 +73,10 @@ class PathsHandling:
         filenames = ""
         
         for path in paths:
-            filename = os.path.basename(path)
+            curr_filename = os.path.basename(path)
             
             # Remove any extension
-            (prefix, _, _) = filename.rpartition(".")
+            (prefix, _, _) = curr_filename.rpartition(".")
             
             filenames = f"{prefix}, "
             
@@ -85,25 +85,20 @@ class PathsHandling:
             filenames = filenames[:-2]
             
         return filenames
+
+
+    @staticmethod
+    def get_filename_index_in_paths(paths: list[Path], filename: str) -> Union[int, None]:
+        '''Get the index of a filename inside a list of paths.
+
+        Args:
+            paths (list[Path]): The main list of paths.
+            filename (str): The filename that will be checked inside the list of paths.
+
+        Returns:
+            Union[int, None]: Returns the index of the file inside the list or None if not found.
+        '''
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        for i, path in enumerate(paths):
+            if os.path.basename(path) == filename:
+                return i
