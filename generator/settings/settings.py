@@ -26,6 +26,6 @@ class CharacterSettings:
     
     name = ""               # Name of the character
     description = ""        # Description used for the metadata
-    exceptions = []         # List of layer/image exceptions
+    exceptions = []         # List of layer/trait exceptions
     optional_layers = []    # List of optional layers and their rarity
-    image_chances = []      # Allows to increase one specific image chances
+    trait_chances = []      # Allows to increase one specific trait chances

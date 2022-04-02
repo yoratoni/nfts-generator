@@ -1,5 +1,5 @@
 from pyostra import pyprint, LogTypes
-from core import PathsHandling
+from libs import PathsHandling
 from pathlib import Path
 from typing import Union
 
