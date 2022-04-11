@@ -5,13 +5,13 @@ from typing import Union
 import os
 
 
-class PathsHandling:
-    '''Handles all the general path operations.
-    '''
+class GeneralPaths:
+    """Handles all the general path operations.
+    """
     
     @staticmethod
-    def get_structure(dir_path: Path, return_paths: bool = False) -> Union[list[Path], list[str]]:
-        '''Get the files/sub-dirs structure of a directory.
+    def scan_structure(dir_path: Path, return_paths: bool = False) -> Union[list[Path], list[str]]:
+        """Get the files/sub-dirs structure of a directory.
 
         Args:
             dir_path (Path): Absolute path of the directory that is scanned.
@@ -19,7 +19,7 @@ class PathsHandling:
 
         Returns:
             Union[list[Path], list[str]]: List of paths/names found inside the specified dir.
-        '''
+        """
         
         scan = os.listdir(dir_path)
         structure = []
@@ -32,20 +32,20 @@ class PathsHandling:
                 
             structure.append(file)
         
-        pyprint(LogTypes.DATA, f'Structure scanned [{dir_path}]')
+        pyprint(LogTypes.DATA, f"Structure scanned [{dir_path}]")
         return structure
     
     
     @staticmethod
     def get_filenames_from_paths(paths: list[Path]) -> list[str]:
-        '''Converts a list of paths to a list of filenames.
+        """Converts a list of paths to a list of filenames.
 
         Args:
             paths (list[Path]): The main list of paths.
 
         Returns:
             list[str]: The converted list of filenames.
-        '''
+        """
 
         filenames = []
         
@@ -57,7 +57,7 @@ class PathsHandling:
     
     @staticmethod
     def get_formatted_filenames_from_paths(paths: list[Path]) -> str:
-        '''Works exactly like "get_filenames_from_paths()" but returns a formatted string
+        """Works exactly like "get_filenames_from_paths()" but returns a formatted string
         instead of a list (filenames are separated with a comma and extensions are removed).
         
         Example:
@@ -68,7 +68,7 @@ class PathsHandling:
 
         Returns:
             Union[str, None]: The formatted string of filenames.
-        '''
+        """
             
         filenames = ""
         
@@ -89,7 +89,7 @@ class PathsHandling:
 
     @staticmethod
     def get_filename_index_in_paths(paths: list[Path], filename: str) -> Union[int, None]:
-        '''Get the index of a filename inside a list of paths.
+        """Get the index of a filename inside a list of paths.
 
         Args:
             paths (list[Path]): The main list of paths.
@@ -97,7 +97,7 @@ class PathsHandling:
 
         Returns:
             Union[int, None]: Returns the index of the file inside the list or None if not found.
-        '''
+        """
         
         for i, path in enumerate(paths):
             if os.path.basename(path) == filename:

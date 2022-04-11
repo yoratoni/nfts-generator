@@ -1,4 +1,7 @@
-from libs import PathsHandling
+from core import GeneralPaths
 
+import os
 
-print(PathsHandling.get_structure())
+path = os.path.join(os.getcwd(), "assets", "input", "elon")
+
+print(GeneralPaths.scan_structure(path))

@@ -9,3 +9,5 @@ NFTs/
 brownie/
 archive/
 assets/
+tests/
+generator/Makefile
