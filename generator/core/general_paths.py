@@ -21,16 +21,18 @@ class GeneralPaths:
             Union[list[Path], list[str]]: List of paths/names found inside the specified dir.
         """
         
-        scan = os.listdir(dir_path)
         structure = []
         
-        for element in scan:
-            if return_paths:
-                file = os.path.join(dir_path, element)
-            else:
-                file = element
-                
-            structure.append(file)
+        if os.path.exists(dir_path):
+            scan = os.listdir(dir_path)
+            
+            for element in scan:
+                if return_paths:
+                    file = os.path.join(dir_path, element)
+                else:
+                    file = element
+                    
+                structure.append(file)
         
         pyprint(LogTypes.DATA, f"Structure scanned [{dir_path}]")
         return structure
@@ -38,10 +40,10 @@ class GeneralPaths:
     
     @staticmethod
     def get_filenames_from_paths(paths: list[Path]) -> list[str]:
-        """Converts a list of paths to a list of filenames.
+        """Converts a list of paths to a list of filenames with extensions.
 
         Args:
-            paths (list[Path]): The main list of paths.
+            paths (list[Path]): A list of absolute paths.
 
         Returns:
             list[str]: The converted list of filenames.
@@ -64,7 +66,7 @@ class GeneralPaths:
             [E:\ARCHIVES\FOO.py, E:\ARCHIVES\BAR.txt] -> "FOO, BAR"
 
         Args:
-            paths (list[Path]): The main list of paths.
+            paths (list[Path]): A list of absolute paths.
 
         Returns:
             Union[str, None]: The formatted string of filenames.
@@ -78,7 +80,7 @@ class GeneralPaths:
             # Remove any extension
             (prefix, _, _) = curr_filename.rpartition(".")
             
-            filenames = f"{prefix}, "
+            filenames += f"{prefix}, "
             
         # Removes the extra last comma
         if filenames[-2:] == ", ":
@@ -92,7 +94,7 @@ class GeneralPaths:
         """Get the index of a filename inside a list of paths.
 
         Args:
-            paths (list[Path]): The main list of paths.
+            paths (list[Path]): A list of absolute paths.
             filename (str): The filename that will be checked inside the list of paths.
 
         Returns:

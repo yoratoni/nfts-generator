@@ -40,20 +40,20 @@ class LayerPaths:
             The returned values are just the names of the layers.
 
         Args:
-            paths (list[Path]): The main list of paths.
+            paths (list[Path]): A list of absolute paths.
 
         Returns:
             list[str]: List of all the layers.
         """
         
         layers = []
-        
+
         for path in paths:
             curr_layer = os.path.basename(path.parent)
             
             if curr_layer not in layers:
                 layers.append(curr_layer)
-                
+            
         return layers
     
     
@@ -63,7 +63,7 @@ class LayerPaths:
         by scanning the main paths list.
 
         Args:
-            paths (list[Path]): The main list of paths.
+            paths (list[Path]): A list of absolute paths.
             layer_name (str): The name of the layer.
 
         Returns:
@@ -86,17 +86,18 @@ class LayerPaths:
         """Deletes all the paths of a specific layer inside the paths list/
 
         Args:
-            paths (list[Path]): The main list of paths.
+            paths (list[Path]): A list of absolute paths.
             layer_name (str): The name of the layer.
 
         Returns:
             list[Path]: Original paths list without all the paths of the specific layer.
         """
-    
-        layer_paths = LayerPaths.get_paths_from_layer_name(paths, layer_name)
-        
-        for layer_path in layer_paths:
-            if layer_path in paths:
-                paths.pop(paths.index(layer_path))
+
+        if len(paths) > 0:    
+            layer_paths = LayerPaths.get_paths_from_layer_name(paths, layer_name)
+
+            for layer_path in layer_paths:
+                if layer_path in paths:
+                    paths.pop(paths.index(layer_path))
                 
         return paths

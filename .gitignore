@@ -11,3 +11,4 @@ archive/
 assets/
 tests/
 generator/Makefile
+generator/.vscode/settings.json

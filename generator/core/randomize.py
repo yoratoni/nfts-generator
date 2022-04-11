@@ -19,7 +19,7 @@ class Randomize:
         with the "LayerPaths.scan_character_layers()" function.
 
         Args:
-            character_layers (dict): Dictionary of paths where the keys are the layer names.
+            character_layers (dict): Dictionary of paths (obtained from "LayerPaths.scan_layers()").
             layer_name (str): The name of the layer used to get a random path.
 
         Returns:
