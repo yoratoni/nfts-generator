@@ -6,7 +6,7 @@ class GlobalSettings:
     characters = []
     
     # NFT name format
-    # "_X_": Collection name (Uppercased), "_N_": NFT ID
+    # "_X_": Collection name (Uppercase), "_N_": NFT ID
     name_format = "_X_ #_N_"
     
     # If filled, applied as description for every NFT (Overwritten by character class descriptions)
